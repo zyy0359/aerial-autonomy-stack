@@ -110,11 +110,10 @@ jobs:
           auto-activate: true
           use-only-tar-bz2: true 
 
-      - name: Disable GPU requirements
+      - name: Remove GPU requests
         run: |
-          echo "Patching aas_env.py to remove GPU request and device binds..."
-          sed -i "s/capabilities=\[\['gpu'\]\]/capabilities=[]/" ./aas-gym/src/aas_gym/aas_env.py
-          # sed -i "s|device_binds = \['/dev/dri:/dev/dri:rwm'\]|device_binds = []|" ./aas-gym/src/aas_gym/aas_env.py
+          sed -i 's/devices=device_binds,/devices=[],/' ./aas-gym/src/aas_gym/aas_env.py          
+          sed -i 's/device_requests=gpu_requests,/device_requests=[],/' ./aas-gym/src/aas_gym/aas_env.py
 
       - name: Install aas-gym package
         run: |
