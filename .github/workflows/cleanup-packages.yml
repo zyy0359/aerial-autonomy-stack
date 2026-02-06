@@ -21,6 +21,6 @@ jobs:
             simulation-image
           cut-off: 10d
           image-tags: "!latest"
-          keep-n-most-recent:: 1
+          keep-n-most-recent: 1
           account: user
           token: ${{ secrets.GITHUB_TOKEN }}
