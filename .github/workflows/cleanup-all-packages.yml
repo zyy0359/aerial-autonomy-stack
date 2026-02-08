@@ -1,8 +1,6 @@
-name: cleanup packages
+name: cleanup all packages
 
 on:
-  schedule:
-    - cron: '0 3 * * 0'
   workflow_dispatch: {}
 
 jobs:
@@ -12,14 +10,14 @@ jobs:
       packages: write
 
     steps:
-      - name: Prune images older than 10 days (except latest)
+      - name: Prune all images (except latest)
         uses: snok/container-retention-policy@v3.0.0
         with:
           image-names: |
             aircraft-image
             ground-image
             simulation-image
-          cut-off: 10d
+          cut-off: 1s
           image-tags: "!latest"
           keep-n-most-recent: 1
           account: user

@@ -118,14 +118,16 @@ jobs:
           auto-activate: true
           use-only-tar-bz2: true 
 
-      - name: Remove GPU requests
+      - name: Remove GPU requests and env vars
         run: |
           sed -i 's/devices=device_binds,/devices=[],/' ./aas-gym/src/aas_gym/aas_env.py          
-          sed -i 's/device_requests=gpu_requests,/device_requests=[],/' ./aas-gym/src/aas_gym/aas_env.py
+          sed -i 's/device_requests=gpu_requests,/device_requests=[],/' ./aas-gym/src/aas_gym/aas_env.py          
+          sed -i '/"__NV_PRIME_RENDER_OFFLOAD": "1",/d' ./aas-gym/src/aas_gym/aas_env.py
+          sed -i '/"__GLX_VENDOR_LIBRARY_NAME": "nvidia",/d' ./aas-gym/src/aas_gym/aas_env.py
 
       - name: Install aas-gym package
         run: |
-          cd ./aas-gym/          
+          cd ./aas-gym/
           pip install -e .
 
       - name: Run aas-gym test 1
