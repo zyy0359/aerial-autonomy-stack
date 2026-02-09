@@ -172,14 +172,14 @@ void ArdupilotGuided::ground_tracks_callback(const ground_system_msgs::msg::Swar
         return;
     }
     // Predict position
-    const double prediction_time_sec = 1.0;
+    const double prediction_time_sec = 0.0; // TODO: enable prediction
     double target_ground_speed = std::sqrt(label48_vn * label48_vn + label48_ve * label48_ve);
     double target_course_rad = std::atan2(label48_ve, label48_vn); // Azimuth from North
     double target_course_deg = target_course_rad * 180.0 / M_PI;
     double distance_traveled = target_ground_speed * prediction_time_sec;
     double future_lat, future_lon;
     geod.Direct(label48_lat, label48_lon, target_course_deg, distance_traveled, future_lat, future_lon);
-    double future_alt = label48_alt - (label48_vd * prediction_time_sec);
+    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 10.0; // HARDCODED: 10m above the target to avoid collisions
     // Compute bearing and elevation
     double fw_azi, bw_azi; // forward azimuth (in degrees, clockwise from North)
     geod.Inverse(own_lat, own_lon, future_lat, future_lon, closing_distance_, fw_azi, bw_azi);        
@@ -279,12 +279,12 @@ void ArdupilotGuided::offboard_loop_callback()
         auto vel_msg = geometry_msgs::msg::TwistStamped(); // https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html
         vel_msg.header.stamp = this->get_clock()->now();
         vel_msg.header.frame_id = "map"; // World frame, without automatic yaw alignment
-        vel_msg.twist.linear.x = 5.0; // m/s East
-        vel_msg.twist.linear.y = 0.0; // m/s North
+        vel_msg.twist.linear.x = 0.0; // m/s East
+        vel_msg.twist.linear.y = 5.0; // m/s North
         vel_msg.twist.linear.z = 0.0; // m/s Up
         double distance_fraction = (closing_distance_ - 5.0) / (50.0 - 5.0);
         distance_fraction = std::clamp(distance_fraction, 0.0, 1.0);
-        double desired_speed = 8.0 + distance_fraction * (12.0); // m/s
+        double desired_speed = 2.0 + distance_fraction * (3.0); // m/s
         if (!std::isnan(desired_bearing_rad) && !std::isnan(desired_elevation_rad_)) {
             double horizontal_speed = desired_speed * std::cos(desired_elevation_rad_);
             double vertical_speed = desired_speed * std::sin(desired_elevation_rad_);
@@ -302,8 +302,8 @@ void ArdupilotGuided::offboard_loop_callback()
         auto accel_msg = geometry_msgs::msg::Vector3Stamped(); // https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Vector3.html
         accel_msg.header.stamp = this->get_clock()->now();
         accel_msg.header.frame_id = "map"; // World frame, with automatic yaw alignment
-        accel_msg.vector.x = 1.5; // m/s^2 East
-        accel_msg.vector.y = 0.0; // m/s^2 North
+        accel_msg.vector.x = 0.0; // m/s^2 East
+        accel_msg.vector.y = 1.5; // m/s^2 North
         accel_msg.vector.z = 0.0; // m/s^2 Up
         setpoint_accel_pub_->publish(accel_msg);
     } else {

@@ -56,7 +56,7 @@ For even more resources, check out [`aerial_robotic_landscape`](https://github.c
 > Advanced localization and mapping baselines and capabilities
 
 - [x] [KISS-ICP](https://github.com/PRBonn/kiss-icp) LiDAR odometry baseline
-- [ ] Add  LIO baselines (e.g., [SuperOdom](https://github.com/superxslam/SuperOdom),[SPARK-FAST-LIO](https://github.com/MIT-SPARK/spark-fast-lio))
+- [ ] Add  LIO baselines (e.g., [SuperOdom](https://github.com/superxslam/SuperOdom), [SPARK-FAST-LIO](https://github.com/MIT-SPARK/spark-fast-lio))
 - [ ] (optional) visual-inertial baseline (e.g., [open_vins](https://github.com/rpng/open_vins), [VINS-Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono))
 - [ ] Create an indoor (maze-like) 3D world.sdf for LIO-based navigation and mapping
 - [ ] Create an outdoor 3D world.sdf for LIO-based navigation and mapping

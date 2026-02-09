@@ -119,6 +119,7 @@ private:
     // Constants - Orbit
     static constexpr int ORBIT_MIN_POINTS = 8; // Minimum number of points in a orbit
     static constexpr double ORBIT_POINT_SPACING = 15.0; // Target spacing (m) between points in a orbit
+    // Quad tangential speed is determinted by WPNAV_SPEED 500 (in cm/s) in iris_with_ardupilot/ardupilot-4.6.params
     // Constants - Takeoff
     static constexpr double MC_TAKEOFF_COMPLETED_RATIO = 0.9; // Percentage of the target altitude, for a multicopter, to consider the takeoff action complete
     static constexpr double VTOL_TAKEOFF_ALT_THRESH = 2.0; // Altitude (m) to switch to state VTOL_TAKEOFF_HEADING (Unused)

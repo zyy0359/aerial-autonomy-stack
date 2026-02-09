@@ -178,17 +178,17 @@ void PX4Offboard::ground_tracks_callback(const ground_system_msgs::msg::SwarmObs
         return;
     }
     // Predict position
-    const double prediction_time_sec = 1.0;
+    const double prediction_time_sec = 0.0; // TODO: enable prediction
     double target_ground_speed = std::sqrt(label48_vn * label48_vn + label48_ve * label48_ve);
     double target_course_rad = std::atan2(label48_ve, label48_vn); // Azimuth from North
     double target_course_deg = target_course_rad * 180.0 / M_PI;
     double distance_traveled = target_ground_speed * prediction_time_sec;
     double future_lat, future_lon;
     geod.Direct(label48_lat, label48_lon, target_course_deg, distance_traveled, future_lat, future_lon);
-    double future_alt = label48_alt - (label48_vd * prediction_time_sec);
+    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 10.0; // HARDCODED: 10m above the target to avoid collisions
     // Compute NED position of label48
     const GeographicLib::LocalCartesian proj(reference_lat, reference_lon, reference_alt);
-    proj.Forward(label48_lat, label48_lon, label48_alt, traj_ref_east, traj_ref_north, traj_ref_up);
+    proj.Forward(future_lat, future_lon, future_alt, traj_ref_east, traj_ref_north, traj_ref_up);
 }
 
 void PX4Offboard::yolo_detections_callback(const vision_msgs::msg::Detection2DArray::SharedPtr msg)

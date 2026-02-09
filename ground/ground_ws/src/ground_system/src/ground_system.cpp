@@ -143,12 +143,13 @@ void GroundSystem::publish_swarm_obs()
         drone_msg.id = id;
         drone_msg.label = (id == 2) ? 48 : 0; // HARDCODED: example where drone 2 is given label 48, the talking dead
 
-        drone_msg.latitude_deg = add_noise(track.lat, POS_STD_DEV_DEG);
-        drone_msg.longitude_deg = add_noise(track.lon, POS_STD_DEV_DEG);
-        drone_msg.altitude_m = add_noise(track.alt, ALT_STD_DEV_M);
-        drone_msg.velocity_n_m_s = add_noise(track.vx, VEL_STD_DEV_MS);
-        drone_msg.velocity_e_m_s = add_noise(track.vy, VEL_STD_DEV_MS);
-        drone_msg.velocity_d_m_s = add_noise(track.vz, VEL_STD_DEV_MS);
+        // Default: no noise.
+        drone_msg.latitude_deg = track.lat; // drone_msg.latitude_deg = add_noise(track.lat, POS_STD_DEV_DEG);
+        drone_msg.longitude_deg = track.lon; // drone_msg.longitude_deg = add_noise(track.lon, POS_STD_DEV_DEG);
+        drone_msg.altitude_m = track.alt; // drone_msg.altitude_m = add_noise(track.alt, ALT_STD_DEV_M);
+        drone_msg.velocity_n_m_s = track.vx; // drone_msg.velocity_n_m_s = add_noise(track.vx, VEL_STD_DEV_MS);
+        drone_msg.velocity_e_m_s = track.vy; // drone_msg.velocity_e_m_s = add_noise(track.vy, VEL_STD_DEV_MS);
+        drone_msg.velocity_d_m_s = track.vz; // drone_msg.velocity_d_m_s = add_noise(track.vz, VEL_STD_DEV_MS);
 
         swarm_msg.tracks.push_back(drone_msg);
     }
