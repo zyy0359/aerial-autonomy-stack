@@ -217,11 +217,11 @@ cd aerial-autonomy-stack/scripts/
 ```sh
 # 1. Start AAS
 cd aerial-autonomy-stack/scripts
-AUTOPILOT=px4 NUM_QUADS=1 NUM_VTOLS=1 WORLD=swiss_town RTF=3.0 ./sim_run.sh                   # Start a simulation, check the script for more options (note: ArduPilot SITL checks take ~40s before being ready to arm)
+AUTOPILOT=px4 NUM_QUADS=1 NUM_VTOLS=1 WORLD=swiss_town HEADLESS=false RTF=3.0 ./sim_run.sh    # Start a simulation, check the script for more options (note: ArduPilot SITL checks take ~40s before being ready to arm)
 
-# Options:
+# Simulation options:
 # AUTOPILOT=px4, ardupilot
-# CAMERA/LIDAR/HEADLESS=true, false
+# HEADLESS/CAMERA/LIDAR=true, false
 # NUM_QUADS/NUM_VTOLS=0, 1, ...
 # WORLD=impalpable_greyness, apple_orchard, shibuya_crossing, swiss_town
 # RTF=1.0, 2.0, ... (real-time-factor, use 0.0 for "as fast as possible)
@@ -395,8 +395,7 @@ python3 gym_run.py --mode vectorenv-speedup           # Vectorized speed-up test
 ```
 
 <!--
-
-TODO:
+WIP:
 python3 gym_run.py --mode learn                       # Train and test a PPO agent
 
 Debug with:
@@ -405,7 +404,6 @@ docker exec -it aircraft-container-inst0_1 tmux attach
 
 Clean up with:
 docker stop $(docker ps -q) && docker container prune -f && docker network prune -f
-
 -->
 
 ## 4. Jetson Deployment
@@ -416,7 +414,7 @@ sudo apt update && sudo apt install -y git git-lfs
 git clone https://github.com/JacopoPan/aerial-autonomy-stack.git
 cd aerial-autonomy-stack/scripts/
 
-./deploy_build.sh                                     # Build for arm64, on Jetson Orin NX the first build takes ~1h, mostly to build onnxruntime-gpu with TensorRT support from source
+./deploy_build.sh                                     # Build for arm64, on Jetson Orin NX the first build takes ~50', including building onnxruntime-gpu with TensorRT support from source
 ```
 
 <div align="right">
@@ -434,8 +432,14 @@ Start the `aircraft-image` on Jetson Orin NX:
 
 ```sh
 cd aerial-autonomy-stack/scripts/
-DRONE_TYPE=quad AUTOPILOT=px4 DRONE_ID=1 CAMERA=true LIDAR=false HEADLESS=true ./deploy_run.sh
+AUTOPILOT=px4 DRONE_ID=1 CAMERA=true LIDAR=false HEADLESS=true ./deploy_run.sh
 # The 1st run of `./deploy_run.sh` requires ~10' to build the FP16 TensorRT cache
+
+# Deployment options:
+# DRONE_TYPE=quad, vtol
+# AUTOPILOT=px4, ardupilot
+# DRONE_ID=1, 2, ... (ROS_DOMAIN_ID of the drone, matching the MAV_SYS_ID/SYSID_THISMAV of the autpilot)
+# HEADLESS/CAMERA/LIDAR=true, false
 ```
 
 <details>
@@ -478,7 +482,7 @@ Finally, start QGC and the Zenoh bridge:
 HITL=true GROUND=true HEADLESS=false NUM_QUADS=2 SIM_SUBNET=172.30 AIR_SUBNET=10.223 ./deploy_run.sh
 ```
 
-> **Note:** running only the first 3 commands with `GND_CONTAINER=false` puts the Zenoh bridge to the `SIM_SUBNET`, removing the need for the optional `AIR_SUBNET` and the computer with IP ending in `90.101`
+> **Note:** running only the first 3 commands with `GND_CONTAINER=false` puts the Zenoh bridge on the `SIM_SUBNET`, removing the need for the optional `AIR_SUBNET` and the computer with IP ending in `90.101`
 
 Once done, detach Tmux (and remove the containers) with `Ctrl + b`, then `d`
 
