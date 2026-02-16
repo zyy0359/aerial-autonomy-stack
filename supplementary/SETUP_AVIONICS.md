@@ -239,3 +239,33 @@ SERIAL2_PROTOCOL MAVLink2
 - [MAVROS connection](https://github.com/mavlink/mavros/blob/ros2/mavros/README.md)
 - [Requesting MAVLink data from ArduPilot](https://ardupilot.org/dev/docs/mavlink-requesting-data.html)
 -->
+
+## Setup TELEM1 for the Radio Telemetry Link with the Ground Station
+
+TELEM1 is the [bottom-right 6-pin port on the Jetson Baseboard](https://docs.holybro.com/autopilot/pixhawk-baseboards/pixhawk-jetson-baseboard/ports-pinout#tel1-tel3-ports)
+
+To use it to connect a ground station (e.g. QGC) with a telemetry radio (e.g. [Holybro 1W SiK telemetry](https://holybro.com/collections/telemetry-radios/products/sik-telemetry-radio-1w)), use the following parameters
+
+### PX4 Configuration
+
+```sh
+MAV_0_CONFIG        TELEM 1
+MAV_0_FLOW_CTRL     Auto-detected
+MAV_0_FORWARD       Enabled
+MAV_0_RADIO_CTL     Normal
+MAV_0_RATE          1200B/s
+
+SER_TEL1_BAUD       57600 8N1
+# All these are default values and tested with "Holybro SiK Telemetry Radio - Long Range; SKU: 17031"
+```
+
+### ArduPilot Configuration
+
+```sh
+BRD_SER1_RTSCTS     Auto
+
+SERIAL1_BAUD        57600
+SERIAL1_OPTIONS     0
+SERIAL1_PROTOCOL    MAVLink2
+# All these (except SERIAL1_PROTOCOL) are default values and tested with "Holybro SiK Telemetry Radio - Long Range; SKU: 17031"
+```
