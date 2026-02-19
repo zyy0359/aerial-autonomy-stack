@@ -181,7 +181,7 @@ param set-default NAV_RCL_ACT 1 # RC loss failsafe mode: hold mode
 param set-default COM_RC_OVERRIDE 1 # Enable RC stick override of auto (0) and/or offboard modes (1)
 
 # Increase the transition throttle
-param set-default VT_F_TRANS_THR 0.75 # The default value was decreased to 0.3 in v1.16.0
+param set-default VT_F_TRANS_THR 1
 
 # Increase max and cruise airspeed
 param set-default FW_AIRSPD_MAX 25.0

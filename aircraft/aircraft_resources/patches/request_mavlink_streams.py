@@ -40,7 +40,7 @@ def main():
             1  # 1 = start, 0 = stop
         )
     # See also: https://github.com/ArduPilot/pymavlink/blob/master/tests/snapshottests/resources/common.xml
-    # And: https://ardupilot.org/copter/docs/parameters-Copter-stable-V4.6.2.html#sr2-parameters
+    # And: https://ardupilot.org/copter/docs/parameters-Copter-stable-V4.6.3.html#sr2-parameters
     print("Data streams requested")
 
 if __name__ == "__main__":
