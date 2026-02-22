@@ -22,14 +22,14 @@ index 17ef44521b..ccf6907a1b 100644
  mavlink start -x -u $udp_onboard_payload_port_local -r 4000 -f -m onboard -o $udp_onboard_payload_port_remote
  
 diff --git a/ROMFS/px4fmu_common/init.d-posix/rcS b/ROMFS/px4fmu_common/init.d-posix/rcS
-index ddb9703828..59be1ee21e 100644
+index fed292b9d1..c73ecd55f3 100644
 --- a/ROMFS/px4fmu_common/init.d-posix/rcS
 +++ b/ROMFS/px4fmu_common/init.d-posix/rcS
-@@ -314,7 +314,7 @@ then
+@@ -317,7 +317,7 @@ then
  	uxrce_dds_port="$PX4_UXRCE_DDS_PORT"
  fi
  
--uxrce_dds_client start -t udp -h 127.0.0.1 -p $uxrce_dds_port $uxrce_dds_ns
+-uxrce_dds_client start -t udp -p $uxrce_dds_port $uxrce_dds_ns
 +uxrce_dds_client start -t udp -h "${PX4_UXRCE_DDS_AG_IP:-127.0.0.1}" -p $uxrce_dds_port $uxrce_dds_ns
  
  if param greater -s MNT_MODE_IN -1
