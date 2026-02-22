@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Adjust the configuratoin below as needed, then run with:
+# $ conda activate aas
+# $ ./performance.sh
+
 if [[ "$CONDA_DEFAULT_ENV" != "aas" ]]; then
     echo "Error: The 'aas' conda environment is not active."
     echo "Please activate it with: conda activate aas"
