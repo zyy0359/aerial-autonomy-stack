@@ -31,12 +31,24 @@ windows:
           echo "Port = <%= 16540 + sitl_instance %>" >> /aas/ground_resources/comms/mavlink_router_main.conf &&
           <% end %>
           <% else %>
-          echo "[UartEndpoint hardware]" >> /aas/ground_resources/comms/mavlink_router_main.conf &&
-          echo "Device = /dev/ttyUSB0" >> /aas/ground_resources/comms/mavlink_router_main.conf &&
-          echo "Baud = 57600" >> /aas/ground_resources/comms/mavlink_router_main.conf &&
-          <%
-            # Optionally, support muliple point-to-point radios
-          %>
+          (
+            radio_endpoint_idx=1 && processed_devs="" &&
+            for dev in /dev/ttyUSB* /dev/ttyACM*; do
+              [ -e "$dev" ] || continue
+              real_dev=$(readlink -f "$dev")
+              echo "$processed_devs" | grep -q "$real_dev" && continue
+              processed_devs="$processed_devs $real_dev"
+              vid=$(udevadm info -q property -n "$real_dev" 2>/dev/null | grep "^ID_VENDOR_ID=" | cut -d= -f2)
+              # Telemetry radios like Microhard and SiK generally use FTDI (0403) or Silicon Labs (10c4) USB-to-serial chips
+              if [ "$vid" = "0403" ] || [ "$vid" = "10c4" ]; then
+                echo "    Adding telemetry radio found at: $real_dev (VID: $vid)"
+                echo "[UartEndpoint radio${radio_endpoint_idx}]" >> /aas/ground_resources/comms/mavlink_router_main.conf
+                echo "Device = $real_dev" >> /aas/ground_resources/comms/mavlink_router_main.conf
+                echo "Baud = 57600" >> /aas/ground_resources/comms/mavlink_router_main.conf
+                radio_endpoint_idx=$((radio_endpoint_idx + 1))
+              fi
+            done
+          ) &&
           <% end %>
           mavlink-routerd -c /aas/ground_resources/comms/mavlink_router_main.conf
 
