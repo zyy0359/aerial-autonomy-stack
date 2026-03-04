@@ -185,7 +185,7 @@ void PX4Offboard::ground_tracks_callback(const ground_system_msgs::msg::SwarmObs
     double distance_traveled = target_ground_speed * prediction_time_sec;
     double future_lat, future_lon;
     geod.Direct(label48_lat, label48_lon, target_course_deg, distance_traveled, future_lat, future_lon);
-    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 3.0; // HARDCODED: track from above the target to avoid collisions
+    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 2.0; // HARDCODED: track from above the target to avoid collisions
     // Compute NED position of label48
     const GeographicLib::LocalCartesian proj(reference_lat, reference_lon, reference_alt);
     proj.Forward(future_lat, future_lon, future_alt, traj_ref_east, traj_ref_north, traj_ref_up);

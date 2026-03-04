@@ -115,6 +115,7 @@ int main(int argc, char **argv) {
     appsrc = gst_bin_get_by_name(GST_BIN(pipeline), "gz_source");
     g_object_set(appsrc, "format", GST_FORMAT_TIME, NULL);
     g_object_set(appsrc, "is-live", TRUE, NULL);
+    g_object_set(appsrc, "do-timestamp", TRUE, NULL);
     g_object_set(appsrc, "leaky-type", 2, NULL); // Drop old frames
     g_object_set(appsrc, "max-bytes", 0, NULL);
     g_object_set(appsrc, "max-buffers", 2, NULL); 

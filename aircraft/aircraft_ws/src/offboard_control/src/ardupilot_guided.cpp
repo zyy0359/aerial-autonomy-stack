@@ -179,7 +179,7 @@ void ArdupilotGuided::ground_tracks_callback(const ground_system_msgs::msg::Swar
     double distance_traveled = target_ground_speed * prediction_time_sec;
     double future_lat, future_lon;
     geod.Direct(label48_lat, label48_lon, target_course_deg, distance_traveled, future_lat, future_lon);
-    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 3.0; // HARDCODED: track from above the target to avoid collisions
+    double future_alt = label48_alt - (label48_vd * prediction_time_sec) + 2.0; // HARDCODED: track from above the target to avoid collisions
     // Compute bearing and elevation
     double fw_azi, bw_azi; // forward azimuth (in degrees, clockwise from North)
     geod.Inverse(own_lat, own_lon, future_lat, future_lon, closing_distance_, fw_azi, bw_azi);        
@@ -282,9 +282,9 @@ void ArdupilotGuided::offboard_loop_callback()
         vel_msg.twist.linear.x = 0.0; // m/s East
         vel_msg.twist.linear.y = 5.0; // m/s North
         vel_msg.twist.linear.z = 0.0; // m/s Up
-        double distance_fraction = (closing_distance_ - 2.0) / (50.0 - 2.0); // Factor to add speed if further than 2m
+        double distance_fraction = (closing_distance_ - 1.0) / (50.0 - 1.0); // Factor to add speed if further than 1m
         distance_fraction = std::clamp(distance_fraction, 0.0, 1.0);
-        double desired_speed = 3.0 + distance_fraction * (3.0); // m/s base speed of 3.0 m/s, increasing to 6.0 m/s when far (50m or more) from the target
+        double desired_speed = 3.0 + distance_fraction * (5.0); // m/s base speed of 3.0 m/s, increasing to 8.0 m/s when far (50m or more) from the target
         if (!std::isnan(desired_bearing_rad) && !std::isnan(desired_elevation_rad_)) {
             double horizontal_speed = desired_speed * std::cos(desired_elevation_rad_);
             double vertical_speed = desired_speed * std::sin(desired_elevation_rad_);
