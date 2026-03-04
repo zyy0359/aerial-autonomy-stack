@@ -473,6 +473,27 @@
         <static>true</static>
       </include>
 
+      <include>
+        <uri>model://person_standing</uri>
+        <name>person_1</name>
+        <pose degrees="true">10 -3 -0.35 0 0 210</pose>
+        <static>true</static>
+      </include>
+
+      <include>
+        <uri>model://person_standing</uri>
+        <name>person_2</name>
+        <pose degrees="true">12 -1 -0.35 0 0 180</pose>
+        <static>true</static>
+      </include>
+
+      <include>
+        <uri>model://person_standing</uri>
+        <name>person_3</name>
+        <pose degrees="true">-5 -0.5 -0.1 0 0 180</pose>
+        <static>true</static>
+      </include>
+
       <!-- <include>
         <uri>model://skibidi</uri>
         <pose degrees="true">-50 250 -3 0 0 80</pose>
