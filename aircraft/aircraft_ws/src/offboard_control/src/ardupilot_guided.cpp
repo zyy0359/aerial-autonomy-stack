@@ -282,9 +282,9 @@ void ArdupilotGuided::offboard_loop_callback()
         vel_msg.twist.linear.x = 0.0; // m/s East
         vel_msg.twist.linear.y = 5.0; // m/s North
         vel_msg.twist.linear.z = 0.0; // m/s Up
-        double distance_fraction = (closing_distance_ - 5.0) / (50.0 - 5.0);
+        double distance_fraction = (closing_distance_ - 2.0) / (50.0 - 2.0); // Factor to add speed if further than 2m
         distance_fraction = std::clamp(distance_fraction, 0.0, 1.0);
-        double desired_speed = 2.0 + distance_fraction * (3.0); // m/s
+        double desired_speed = 3.0 + distance_fraction * (3.0); // m/s base speed of 3.0 m/s, increasing to 6.0 m/s when far (50m or more) from the target
         if (!std::isnan(desired_bearing_rad) && !std::isnan(desired_elevation_rad_)) {
             double horizontal_speed = desired_speed * std::cos(desired_elevation_rad_);
             double vertical_speed = desired_speed * std::sin(desired_elevation_rad_);
