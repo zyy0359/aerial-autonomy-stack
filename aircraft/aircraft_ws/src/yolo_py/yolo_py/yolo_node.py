@@ -180,6 +180,23 @@ class YoloInferenceNode(Node):
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
+            # Only on Jetson, stream to the ground station via UDP using GStreamer
+            # Open with: gst-launch-1.0 -v udpsrc port=5001 ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink sync=false
+            if self.architecture == 'aarch64':
+                if not hasattr(self, 'gnd_stream_writer'):
+                    h, w = frame.shape[:2]
+                    gnd_ip = os.getenv('AIR_SUBNET', '10.22') + '.90.' + os.getenv('GROUND_ID', '101')
+                    port = 5000 + int(os.getenv('DRONE_ID', '0'))
+                    gst_out = ( # Grabs BGR from OpenCV -> converts to NVMM memory -> hardware encodes to H264 -> sends via UDP
+                        "appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! "
+                        "video/x-raw, format=BGRx ! nvvidconv ! nvv4l2h264enc insert-sps-pps=true idrinterval=30 ! "
+                        f"h264parse ! rtph264pay pt=96 ! udpsink host={gnd_ip} port={port} sync=false"
+                    )
+                    self.gnd_stream_writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, 30.0, (w, h))
+                    self.get_logger().info(f"Started UDP stream to {gnd_ip}:{port}")
+                if self.gnd_stream_writer.isOpened():
+                    self.gnd_stream_writer.write(frame)
+
         # Cleanup
         is_running.clear()
         frame_thread.join()
@@ -320,25 +337,6 @@ class YoloInferenceNode(Node):
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
             cv2.putText(frame, f"{class_name} {conf:.2f}", (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 1)
         cv2.imshow(self.WINDOW_NAME, frame)
-
-        if self.architecture == 'aarch64':
-            # TODO: decouple from visualization/HEADLESS=false?
-            # TODO: option in deploy_run.sh
-            # TODO: reconstruct gnd_ip from env vars
-            # Stream the frames to the ground station via UDP using GStreamer
-            # Open with: gst-launch-1.0 -v udpsrc port=5000 ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink sync=false
-            if not hasattr(self, 'gnd_stream_writer'):
-                h, w = frame.shape[:2]
-                gnd_ip = "172.30.90.101"
-                gst_out = ( # Grabs BGR from OpenCV -> converts to NVMM memory -> hardware encodes to H264 -> sends via UDP
-                    "appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! "
-                    "video/x-raw, format=BGRx ! nvvidconv ! nvv4l2h264enc insert-sps-pps=true ! "
-                    f"h264parse ! rtph264pay pt=96 ! udpsink host={gnd_ip} port=5000 sync=false"
-                )
-                self.gnd_stream_writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, 30.0, (w, h))
-                self.get_logger().info(f"Started UDP stream to {gnd_ip}:5000")
-            if self.gnd_stream_writer.isOpened():
-                self.gnd_stream_writer.write(frame)
 
 class Profiler:
     __slots__ = ('name', 'interval', 'start')

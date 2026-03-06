@@ -77,3 +77,12 @@ windows:
             done
           )
         <% end %>
+
+  <% unless headless %>
+  - video_streams:
+      layout: tiled
+      panes:
+        <% (1..(num_quads + num_vtols)).each do |drone_id| %>
+        - gst-launch-1.0 -v udpsrc port=<%= 5000 + drone_id %> ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink sync=false
+        <% end %>
+  <% end %>
