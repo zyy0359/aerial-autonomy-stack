@@ -84,6 +84,6 @@ windows:
       layout: tiled
       panes:
         <% (1..(num_quads + num_vtols)).each do |drone_id| %>
-        - python3 /aas/ground_resources/comms/udp_gst_receiver.py --port <%= 5000 + drone_id %> --name "Aircraft_<%= drone_id %>"
+        - python3 /aas/ground_resources/comms/udp_gst_receiver.py --port <%= 5000 + drone_id %> --name "Aircraft <%= drone_id %>"
         <% end %>
   <% end %>

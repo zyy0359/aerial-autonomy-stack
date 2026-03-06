@@ -5,7 +5,7 @@ import sys
 def main():
     parser = argparse.ArgumentParser(description="Receive UDP GStreamer video and display it.")
     parser.add_argument('--port', type=int, required=True, help="UDP port to listen on.")
-    parser.add_argument('--name', type=str, required=True, help="Window name for the display.")
+    parser.add_argument('--name', type=str, required=True, help="Window name to display.")
     args = parser.parse_args()
 
     port = args.port
@@ -25,7 +25,7 @@ def main():
         sys.exit(1)
 
     cv2.namedWindow(name, cv2.WINDOW_NORMAL)
-    print(f"[{name}] Listening for H.265 stream on UDP port {port}...")
+    print(f"[{name}] Listening for stream on UDP port {port}...")
 
     while True:
         ret, frame = cap.read()
