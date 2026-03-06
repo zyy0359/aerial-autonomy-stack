@@ -187,13 +187,14 @@ class YoloInferenceNode(Node):
                     gnd_ip = os.getenv('AIR_SUBNET', '10.22') + '.90.' + os.getenv('GROUND_ID', '101')
                     port = 5000 + int(os.getenv('DRONE_ID', '0'))
                     gst_out = (
-                        "appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! videorate drop-only=true ! "
+                        "appsrc do-timestamp=true ! video/x-raw, format=BGR ! queue max-size-buffers=2 leaky=downstream ! "
+                        "videoconvert ! videorate drop-only=true ! "
                         "video/x-raw, format=BGRx, max-framerate=15/1 ! nvvidconv ! "
                         "nvv4l2h265enc maxperf-enable=1 preset-level=1 insert-sps-pps=true idrinterval=30 ! "
                         f"h265parse ! rtph265pay pt=96 config-interval=1 mtu=1400 ! udpsink host={gnd_ip} port={port} sync=false async=false"
                     )
                     # Add "control-rate=2 bitrate=2000000 peak-bitrate=3000000" in nvv4l2h265enc's line to cap a variable bitrate
-                    self.gnd_stream_writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, 30.0, (w, h))
+                    self.gnd_stream_writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, 60.0, (w, h)) # Framerate upper limit of 60FPS
                     self.get_logger().info(f"Started UDP stream to {gnd_ip}:{port}")
                 if self.gnd_stream_writer.isOpened():
                     self.gnd_stream_writer.write(frame)
