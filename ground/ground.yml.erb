@@ -84,6 +84,17 @@ windows:
       layout: tiled
       panes:
         <% (1..(num_quads + num_vtols)).each do |drone_id| %>
-        - bash -c "exec -a 'Drone_<%= drone_id %>' gst-launch-1.0 -v udpsrc port=<%= 5000 + drone_id %> ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtpjitterbuffer latency=50 drop-on-latency=true ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink sync=false"
+        - |
+          gst-launch-1.0 -v udpsrc port=<%= 5000 + drone_id %> ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H265,payload=96 ! rtpjitterbuffer latency=50 drop-on-latency=true ! rtph265depay ! h265parse ! avdec_h265 ! videoconvert ! autovideosink sync=false &
+          GST_PID=$!
+          for i in {1..15}; do
+            WID=$(wmctrl -l -p | awk -v pid=$GST_PID '$3 == pid {print $1}' | head -n 1)
+            if [ -n "$WID" ]; then
+              wmctrl -i -r "$WID" -T "Drone_<%= drone_id %>"
+              break
+            fi
+            sleep 2
+          done
+          wait $GST_PID
         <% end %>
   <% end %>
