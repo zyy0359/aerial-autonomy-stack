@@ -142,7 +142,7 @@ class YoloInferenceNode(Node):
         print(f"Pipeline FPS: {cap.get(cv2.CAP_PROP_FPS)}")
 
         if not self.headless:
-            drone_id = os.getenv('DRONE_ID', '0')
+            drone_id = os.getenv('DRONE_ID', '1')
             self.WINDOW_NAME = f"YOLO (Aircraft {drone_id})"
             cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
             cv2.moveWindow(self.WINDOW_NAME, 800+(int(drone_id)-1)*25, 5+(int(drone_id)-1)*200)
@@ -180,12 +180,12 @@ class YoloInferenceNode(Node):
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
-            # Only on Jetson, stream to the ground station via UDP using GStreamer
+            # Only on Jetson, stream to the ground station via UDP using GStreamer on ports 5001, 5002, ..., based on DRONE_ID
             if self.architecture == 'aarch64':
                 if not hasattr(self, 'gnd_stream_writer'):
                     h, w = frame.shape[:2]
                     gnd_ip = os.getenv('AIR_SUBNET', '10.22') + '.90.' + os.getenv('GROUND_ID', '101')
-                    port = 5000 + int(os.getenv('DRONE_ID', '0'))
+                    port = 5000 + int(os.getenv('DRONE_ID', '1'))
                     gst_out = (
                         "appsrc do-timestamp=true ! video/x-raw, format=BGR ! queue max-size-buffers=2 leaky=downstream ! "
                         "videoconvert ! videorate drop-only=true ! "
@@ -193,7 +193,8 @@ class YoloInferenceNode(Node):
                         "nvv4l2h265enc maxperf-enable=1 preset-level=1 insert-sps-pps=true idrinterval=30 ! "
                         f"h265parse ! rtph265pay pt=96 config-interval=1 mtu=1400 ! udpsink host={gnd_ip} port={port} sync=false async=false"
                     )
-                    # Add "control-rate=2 bitrate=2000000 peak-bitrate=3000000" in nvv4l2h265enc's line to cap a variable bitrate
+                    # Cap the framerate to 15FPS and use h265 to reduce bandwidith
+                    # Optionally, add "control-rate=2 bitrate=2000000 peak-bitrate=3000000" in nvv4l2h265enc's line to cap (variable) bitrate
                     self.gnd_stream_writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, 60.0, (w, h)) # Framerate upper limit of 60FPS
                     self.get_logger().info(f"Started UDP stream to {gnd_ip}:{port}")
                 if self.gnd_stream_writer.isOpened():

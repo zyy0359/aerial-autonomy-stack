@@ -18,6 +18,8 @@ def main():
         "rtph265depay ! h265parse ! avdec_h265 ! videoconvert ! "
         "video/x-raw,format=BGR ! appsink max-buffers=1 drop=true sync=false"
     )
+    # CPU h265 decoding, consider GPU decoding for many-drones scenarios
+    # Tune latency (ms) if/as necessary
     cap = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
     
     if not cap.isOpened():
@@ -31,7 +33,6 @@ def main():
         ret, frame = cap.read()
         if ret:
             cv2.imshow(name, frame)
-            
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
