@@ -25,6 +25,60 @@
 >
 > **LiDAR sensor, optional for a camera-only solution
 
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace'}}}%%
+flowchart TB
+    Batt[6S Battery]
+    PDB[Holybro X650 Power Distribution Board]
+    Matek[Matek Power Module]
+
+    subgraph Jetson_Baseboard ["Jetson Baseboard"]
+        direction TB
+        6X[6X Autopilot]
+        Orin[NVIDIA Jetson Orin]
+    end
+
+    Telem[Telemetry Radio]
+
+    subgraph Doodle_Lab_Radio ["Doodle Lab Radio"]
+        direction TB
+        EvalKit[Evaluation Kit]
+        RadioMod[Radio Module]
+    end
+
+    GPS[GPS Module]
+    RC_Rx[R81 Receiver]
+    Lidar[Livox 360]
+    Camera[CSI ArduCam]
+    RC[RadioMaster Boxer RC]
+
+    %%%%%%%%%%
+    Batt -- "24V" --> PDB
+    PDB -- "24V" --> Matek
+    PDB -- "24V" --> Telem
+    Matek -- "12V" --> Jetson_Baseboard
+    Doodle_Lab_Radio ~~~ Telem
+    Jetson_Baseboard <-->|"TELEM1"| Telem
+    GPS -- "GPS1" --> Jetson_Baseboard
+    Jetson_Baseboard <-->|"RC IN"| RC_Rx
+    Jetson_Baseboard ~~~ Lidar
+    Lidar -- "ETH" --> Jetson_Baseboard
+    Lidar ~~~ GPS
+    %%Matek -- "12V" --> Lidar
+    Jetson_Baseboard ~~~ Camera
+    Camera -- "CSI" --> Jetson_Baseboard
+    Orin <-->|"TELEM2 / ETH"| 6X
+    EvalKit <-->|" "| RadioMod
+    RC_Rx <-->|"bind"| RC
+    Matek -- "5V" --> Doodle_Lab_Radio
+    Jetson_Baseboard <-->|"USB 2.0 ETH Adapter"| Doodle_Lab_Radio
+
+    %%%%%%%%%%
+    linkStyle 0,1,2,3,16 stroke:red,stroke-width:4px;    
+    linkStyle 5,6,7,9,12,14,17 stroke:blue,stroke-width:3px;
+    linkStyle 15 stroke:teal,stroke-width:3px,stroke-dasharray: 8 4;
+```
+
 [kit]:https://holybro.com/collections/x650-kits/products/x650-kits?variant=43994378240189
 [gps]:https://holybro.com/collections/standard-h-rtk-series/products/h-rtk-f9p-ultralight?variant=45785783009469
 [mount]:https://holybro.com/collections/gps-accessories/products/fixed-carbon-fiber-gps-mount?variant=42749655449789
