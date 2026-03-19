@@ -209,6 +209,8 @@ cd aerial-autonomy-stack/scripts/
 > On Ubuntu, read [`REQUIREMENTS_UBUNTU.md`](/supplementary/REQUIREMENTS_UBUNTU.md) to setup the requirements (Docker Engine, `nvidia-ctk`)
 >
 > On Windows 11, read [`REQUIREMENTS_WSL.md`](/supplementary/REQUIREMENTS_WSL.md) to setup the requirements (WSL, etc.)
+>
+> Edit [`sensor_config.yaml`](simulation/simulation_resources/aircraft_models/sensor_config.yaml) before running `sim_build.sh` to customize sensor parameters
 
 ## 2. Simulation
 
