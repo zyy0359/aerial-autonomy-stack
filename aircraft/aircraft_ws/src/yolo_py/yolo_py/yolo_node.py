@@ -36,35 +36,10 @@ class YoloInferenceNode(Node):
         colors_rgba = plt.cm.hsv(np.linspace(0, 1, len(self.classes)))
         self.colors = (colors_rgba[:, [2, 1, 0]] * 255).astype(np.uint8) # From RGBA (0-1 float) to BGR (0-255 int)
 
-        # Load model and runtime
-        # Options, from fastest to most accurate, <10MB to >100MB: yolo26n, yolo26s, yolo26m, yolo26l, yolo26x, export in Dockerfile.aircraft
-        if self.architecture == 'x86_64':
-            model_path = "/aas/yolo/yolo26n_320.onnx" # Simulated camera in sensor_camera/model.sdf is 320x240
-            self.input_size = 320 # YOLO input size
-            print("Loading CUDAExecutionProvider on AMD64 (x86) architecture.")
-            self.session = ort.InferenceSession(model_path, providers=["CUDAExecutionProvider"]) # For simulation
-        elif self.architecture == 'aarch64':
-            model_path = "/aas/yolo/yolo26n_640.onnx" # Real CSI camera IMX219-200 is 1280x720, we resize to 640x640 for YOLO (this is slightly wasteful when self.hitl = True)
-            self.input_size = 640 # YOLO input size
-            print("Loading (with cache) TensorrtExecutionProvider on ARM64 architecture (Jetson).") # The first cache built takes ~10'
-            cache_path = "/tensorrt_cache" # Mounted as volume by main_deploy.sh
-            os.makedirs(cache_path, exist_ok=True)
-            provider_options = {
-                'trt_engine_cache_enable': True,
-                'trt_engine_cache_path': cache_path,
-                'trt_fp16_enable': True, # Optional: enable FP16 for Jetson speedup (from 22 to 12ms on YOLOn, longer cache build time, 10 vs 3')
-            }
-            self.session = ort.InferenceSession(
-                model_path,
-                providers=[('TensorrtExecutionProvider', provider_options)] # For deployment on Jetson Orin, 60Hz inference on the IMX219-200
-            )
-        else:
-            print(f"Loading CPUExecutionProvider on an unknown architecture: {self.architecture}")
-            self.session = ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]) # Backup, not recommended
-        self.input_name = self.session.get_inputs()[0].name
-        
-        # Confirm execution providers
-        self.get_logger().info(f"Execution providers in use: {self.session.get_providers()}")
+        # Defer model loading until the video stream is opened in run_inference_loop
+        self.input_size = None
+        self.session = None
+        self.input_name = None
         
         # Create publishers
         self.detection_publisher = self.create_publisher(Detection2DArray, 'detections', 10)
@@ -141,6 +116,46 @@ class YoloInferenceNode(Node):
         # cap = cv2.VideoCapture("/sample.mp4") # Load sample video for testing
         assert cap.isOpened(), "Failed to open video stream"
         print(f"Pipeline FPS: {cap.get(cv2.CAP_PROP_FPS)}")
+        stream_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        stream_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        print(f"Stream Resolution: {stream_width}x{stream_height}")
+
+        # Load YOLO model and runtime
+        # Options, from fastest to most accurate, <10MB to >100MB: yolo26n, yolo26s, yolo26m, yolo26l, yolo26x, export in Dockerfile.aircraft
+        if self.architecture == 'x86_64':
+            max_dim = max(stream_width, stream_height)
+            if max_dim <= 320:
+                print("Stream resolution is <=320. Selecting 320 model.")
+                model_path = "/aas/yolo/yolo26n_320.onnx"
+                self.input_size = 320 # YOLO input size
+            else:
+                print("Stream resolution is >320. Selecting 640 model.")
+                model_path = "/aas/yolo/yolo26n_640.onnx"
+                self.input_size = 640 # YOLO input size
+            print("Loading CUDAExecutionProvider on AMD64 (x86) architecture.")
+            self.session = ort.InferenceSession(model_path, providers=["CUDAExecutionProvider"]) # For simulation
+        elif self.architecture == 'aarch64':
+            model_path = "/aas/yolo/yolo26n_640.onnx" # Real CSI camera IMX219-200 is 1280x720, we resize to 640x640 for YOLO (this is slightly wasteful when self.hitl = True)
+            self.input_size = 640 # YOLO input size
+            print("Loading (with cache) TensorrtExecutionProvider on ARM64 architecture (Jetson).") # The first cache built takes ~10'
+            cache_path = "/tensorrt_cache" # Mounted as volume by main_deploy.sh
+            os.makedirs(cache_path, exist_ok=True)
+            provider_options = {
+                'trt_engine_cache_enable': True,
+                'trt_engine_cache_path': cache_path,
+                'trt_fp16_enable': True, # Optional: enable FP16 for Jetson speedup (from 22 to 12ms on YOLOn, longer cache build time, 10 vs 3')
+            }
+            self.session = ort.InferenceSession(
+                model_path,
+                providers=[('TensorrtExecutionProvider', provider_options)] # For deployment on Jetson Orin, 60Hz inference on the IMX219-200
+            )
+        else:
+            print(f"Loading CPUExecutionProvider on an unknown architecture: {self.architecture}")
+            self.session = ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]) # Backup, not recommended
+        self.input_name = self.session.get_inputs()[0].name
+
+        # Confirm execution providers
+        self.get_logger().info(f"Execution providers in use: {self.session.get_providers()}")
 
         if not self.headless:
             drone_id = os.getenv('DRONE_ID', '1')
