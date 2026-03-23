@@ -211,14 +211,10 @@ done
   </a>
 </div>
 
-> [!TIP]
+> [!NOTE]
 > AAS is tested on Ubuntu 22.04/24.04 with `nvidia-driver-580` using an i7-11 with 16GB RAM and RTX 3060
 >
-> On Ubuntu, read [`REQUIREMENTS_UBUNTU.md`](/supplementary/REQUIREMENTS_UBUNTU.md) to setup the requirements (Docker Engine, `nvidia-ctk`)
->
-> On Windows 11, read [`REQUIREMENTS_WSL.md`](/supplementary/REQUIREMENTS_WSL.md) to setup the requirements (WSL, etc.)
->
-> Edit [`sensor_config.yaml`](simulation/simulation_resources/aircraft_models/sensor_config.yaml) before running `sim_build.sh` to customize sensor parameters
+> Read [`REQUIREMENTS_UBUNTU.md`](/supplementary/REQUIREMENTS_UBUNTU.md) (or [`REQUIREMENTS_WSL.md`](/supplementary/REQUIREMENTS_WSL.md) for Windows 11) to install the requirements
 
 ## 2. Simulation
 
@@ -249,23 +245,19 @@ for i in {1..2}; do \
 "; done
 ```
 
-In the `Simulation`'s Xterm terminal:
-```sh
-# 3. Analyze
-/aas/simulation_resources/scripts/plot_logs.sh                                                # Analyze the flight logs at http://10.42.90.100:5006/browse or in MAVExplorer
-```
-<details>
-<summary>Add or disable <b>wind effects</b>, in the <kbd>Simulation</kbd>'s Xterm terminal <i>(click to expand)</i></summary>
-
-```sh
-python3 /aas/simulation_resources/scripts/gz_wind.py --from_west 0.0 --from_south 3.0
-python3 /aas/simulation_resources/scripts/gz_wind.py --stop_wind
-```
-</details>
-
 > [!TIP]
+> Edit [`sensor_config.yaml`](simulation/simulation_resources/aircraft_models/sensor_config.yaml) before running `sim_build.sh` to customize the sensor parameters
+>
 > <details>
-> <summary>Tip 1: use <b>ROS2 drone motion primitives</b> from CLI <i>(click to expand)</i></summary>
+> <summary>Add or disable <b>wind effects</b>, in the <kbd>Simulation</kbd>'s Xterm terminal <i>(click to expand)</i></summary>
+> 
+> ```sh
+> python3 /aas/simulation_resources/scripts/gz_wind.py --from_west 0.0 --from_south 3.0
+> python3 /aas/simulation_resources/scripts/gz_wind.py --stop_wind
+> ```
+> </details>
+> <details>
+> <summary>Use <b>ROS2 drone motion primitives</b> from CLI <i>(click to expand)</i></summary>
 >
 > ```sh
 > # Takeoff action (quads and VTOLs)
@@ -286,31 +278,15 @@ python3 /aas/simulation_resources/scripts/gz_wind.py --stop_wind
 > # SetSpeed service (always limited by the autopilot params, for quads applies from the next command, not effective on ArduPilot VTOLs) 
 > ros2 service call /Drone${DRONE_ID}/set_speed autopilot_interface_msgs/srv/SetSpeed '{speed: 3.0}'
 > ```
+> To analyze the flight logs in the `Simulation`'s Xterm terminal:
+> ```sh
+> /aas/simulation_resources/scripts/plot_logs.sh                                                # Analyze the flight logs at http://10.42.90.100:5006/browse or in MAVExplorer
+> ```
+>
 > To create a new mission, re-implement [`test_mission.yaml`](/aircraft/aircraft_resources/missions/test_mission.yaml)
 > </details>
 > <details>
-> <summary>Tip 2: use <b>Tmux shortcuts</b> to navigate windows and panes in Xterm <i>(click to expand)</i></summary>
->
-> ```sh
-> Ctrl + b, then n, p                   # Move between Tmux windows 
-> Ctrl + b, then [arrow keys]           # Move between Tmux panes in a window (or use the mouse)
-> Ctrl + [, then [arrow keys]           # Enter copy mode (to scroll back in a pane, or simply select-and-drag with the mouse to copy)
-> Space                                 # Start selecting when in copy mode (move with arrow keys)
-> y                                     # Yank/copy the selection to clipboard (paste with Ctrl + v or Ctrl + Shit + v)
-> q                                     # Exit copy mode
-> Ctrl + b, then "                      # Split a Tmux window horizontally
-> Ctrl + b, then %                      # Split a Tmux window vertically
-> Ctrl + b, then d                      # Detach Tmux
-> ```
-> ```sh
-> tmux list-sessions                    # List all sessions
-> tmux attach-session -t [session_name] # Reattach a session
-> tmux kill-session -t [session_name]   # Kill a session
-> tmux kill-server                      # Kill all sessions
-> ```
-> </details>
-> <details>
-> <summary>Tip 3: <b>develop within running containers</b> <i>(click to expand)</i></summary>
+> <summary><b>Develop within running containers</b> <i>(click to expand)</i></summary>
 > 
 > Launching the `sim_run.sh` script with `DEV=true`, does **not** start the simulation and mounts folders `[aircraft|ground|simulation]_resources`, `[aircraft|ground]_ws/src` as volumes to more easily track, commit, push changes while building and testing them within the containers:
 > 
@@ -344,8 +320,30 @@ python3 /aas/simulation_resources/scripts/gz_wind.py --stop_wind
 > 
 > To end the simulation, in each terminal detach Tmux with `Ctrl + b`, then `d`; kill all lingering processes with `tmux kill-server && pkill -f gz`
 > </details>
+<!-- 
 > <details>
-> <summary>Tip 4: periodically run <b>Docker cleanups</b> <i>(click to expand)</i></summary>
+> <summary>Use <b>Tmux shortcuts</b> to navigate windows and panes in Xterm <i>(click to expand)</i></summary>
+>
+> ```sh
+> Ctrl + b, then n, p                   # Move between Tmux windows 
+> Ctrl + b, then [arrow keys]           # Move between Tmux panes in a window (or use the mouse)
+> Ctrl + [, then [arrow keys]           # Enter copy mode (to scroll back in a pane, or simply select-and-drag with the mouse to copy)
+> Space                                 # Start selecting when in copy mode (move with arrow keys)
+> y                                     # Yank/copy the selection to clipboard (paste with Ctrl + v or Ctrl + Shit + v)
+> q                                     # Exit copy mode
+> Ctrl + b, then "                      # Split a Tmux window horizontally
+> Ctrl + b, then %                      # Split a Tmux window vertically
+> Ctrl + b, then d                      # Detach Tmux
+> ```
+> ```sh
+> tmux list-sessions                    # List all sessions
+> tmux attach-session -t [session_name] # Reattach a session
+> tmux kill-session -t [session_name]   # Kill a session
+> tmux kill-server                      # Kill all sessions
+> ```
+> </details>
+> <details>
+> <summary>Periodically run <b>Docker cleanups</b> <i>(click to expand)</i></summary>
 >
 > ```sh
 > docker ps -a                          # List containers
@@ -366,6 +364,7 @@ python3 /aas/simulation_resources/scripts/gz_wind.py --stop_wind
 > docker builder prune                  # Clear all dangling cache
 > ```
 > </details>
+-->
 
 ![worlds](https://github.com/user-attachments/assets/b9f7635a-0b1f-4698-ba6a-70ab1b412aef)
 
@@ -438,7 +437,7 @@ cd aerial-autonomy-stack/scripts/
   </a>
 </div>
 
->[!TIP]
+>[!NOTE]
 > AAS is tested on a [Holybro Jetson Baseboard](https://holybro.com/products/pixhawk-jetson-baseboard) with Pixhawk 6X and NVIDIA Orin NX 16GB on an [X650](/supplementary/BOM.md)
 >
 > Read [`SETUP_AVIONICS.md`](/supplementary/SETUP_AVIONICS.md) to setup the requirements on the Jetson and configure the Pixhawk
