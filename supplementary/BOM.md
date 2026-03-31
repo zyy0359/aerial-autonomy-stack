@@ -128,11 +128,11 @@ SERVOx_MIN          1000            # For SERVO9 to 12
 SERVOx_MAX          2000            # For SERVO9 to 12
 SERVOx_TRIM         1000            # For SERVO9 to 12
 # If needed to configure the ESCs, remove the propellers and set BRD_SAFETY_DEFLT to 0 (Disabled) or make sure BRD_SAFETY_MASK ignores channels 9 to 12
-# Check the CW and CCW spin direction of all motors; reverse with SERVO_BLH_RVMASK, if necessary
+# In QGC -> Vehicle Configuration -> Motors, use the sliders to verify motor numbering and spin direction; reverse with SERVO_BLH_RVMASK, if necessary
 
 # Motor thrust curve exponent (T-Motor MN4014 KV330s with Gemfan 1555 propellers)
 MOT_THST_EXPO       0.71            # For 15in props, 0.0 is linear, 1.0 is second order curve
-# Optionally, lower MOT_SPIN_ARM and MOT_SPIN_MIN from the 0.1 and 0.15 defaults to 0.05, 0.1
+# (optional) lower MOT_SPIN_ARM and MOT_SPIN_MIN from the 0.1 and 0.15 defaults to 0.05, 0.1
 
 # Limit RPY acceleration (in centidegrees per square second)
 ATC_ACCEL_P_MAX     52000           # Between slow and very slow
@@ -151,7 +151,7 @@ ATC_RAT_PIT_FLTD    10              # Pitch axis rate controller derivative freq
 ATC_RAT_RLL_FLTD    10              # Roll axis rate controller derivative frequency in Hz, default is 20
 # Check INS_GYRO_FILTER, the gyro filter cutoff frequency is 20
 
-# (optional) vibration reduction with bidirectional DShot telemetry (requires to flash target Pixhawk6X-bdshot)
+# (optional) filter vibration with BDShot telemetry (requires target Pixhawk6X-bdshot)
 SERVO_BLH_BDMASK    3840            # Bitmask to activate bidirectional DShot ESC telemetry on channels 9 to 12
 SERVO_BLH_POLES     24              # Default is 14, T-Motor MN4014 KV330s are 18N24P
 INS_HNTCH_ENABLE    1               # Enable harmonic notch filter (reboot to set the other parameters)
@@ -161,6 +161,8 @@ INS_HNTCH_FREQ      40              # Base frequency lower than the default 80 f
 INS_HNTCH_BW        20              # Half of INS_HNTCH_FREQ
 INS_HNTCH_OPTS      2               # Bitmask, multi-source is the second bit
 
+# In QGC -> Vehicle Configuration -> Radio, calibrate the Radiomaster Boxer RC
 # In QGC -> Vehicle Configuration -> Flight Modes, set one switch for Stabilized/AltHold/Loiter, one for RTL
 # In QGC -> Vehicle Configuration -> Safety, set battery and general failsafes, RTL settings
+# In QGC -> Vehicle Configuration -> Sensors, calibrate accelerometer, horizon level, and compass (outdoors)
 ```
