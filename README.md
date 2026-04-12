@@ -484,9 +484,23 @@ Once done, detach Tmux (and remove the containers) with `Ctrl + b`, then `d`
 <summary>Using a Python <kbd>venv</kbd> or a <a href="https://docs.conda.io/projects/conda/en/stable/user-guide/install/linux.html"><kbd>conda</kbd></a> environment is optional but recommended <i>(click to expand)</i></summary>
 
 ```sh
-wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh # Or a newer version in https://repo.anaconda.com/archive/
-bash Anaconda3-2025.06-0-Linux-x86_64.sh
-conda create -n aas python=3.13
+wget https://repo.anaconda.com/archive/Anaconda3-2025.12-2-Linux-x86_64.sh # Or a newer version in https://repo.anaconda.com/archive/
+bash Anaconda3-2025.12-2-Linux-x86_64.sh              # Install; start a new terminal
+conda config --set auto_activate_base false           # Turn off auto initialization of (base); start a new terminal
+conda update --all -n base -c defaults                # Update to the latest conda version
+conda create -n aas python=3.12                       # Latest Python version beyond "bugfix" status https://devguide.python.org/versions/
+```
+
+**Optionally**, force CPU/GPU performance modes
+```sh
+sudo cpupower frequency-set -g performance            # Force CPU performance mode
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor # Check (does NOT persist across reboots)
+
+sudo prime-select nvidia                              # Force GPU use instead of on-demand
+prime-select query                                    # Check (persists across reboots)
+
+sudo nvidia-smi -pm 1                                 # Prevent NVIDIA driver from going idle
+nvidia-smi --query-gpu=persistence_mode --format=csv,noheader # Check (does NOT persist across reboots)
 ```
 </details>
 

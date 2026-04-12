@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aas-gym"
-version = "1.0.0"
+version = "1.2.0"
 description = "Gymnasium wrapper for the aerial-autonomy-stack"
 authors = ["Jacopo Panerati <jacopo.panerati@gmail.com>"]
 license = "MIT"
@@ -8,12 +8,12 @@ readme = "../README.md"
 repository = "https://github.com/JacopoPan/aerial-autonomy-stack"
 
 [tool.poetry.dependencies]
-python = "^3.13"
-numpy = "^2.3"
-scipy = "^1.16"
+python = "^3.12"
+numpy = "^2.4"
+scipy = "^1.17"
 matplotlib = "^3.10"
 gymnasium = "^1.2"
-stable-baselines3 = "^2.7.0"
+stable-baselines3 = "^2.8"
 docker = "^7.1"
 pyzmq = "^27.1"
 

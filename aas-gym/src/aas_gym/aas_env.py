@@ -264,7 +264,7 @@ class AASEnv(gym.Env):
         # ZeroMQ setup
         self.zmq_context = zmq.Context()
         self.socket = self.zmq_context.socket(zmq.REQ)
-        self.ZMQ_TRANSPORT = "tcp" # "tcp" or "ipc", also uncomment the corresponding block in zero_bridge.cpp
+        self.ZMQ_TRANSPORT = "ipc" # "tcp" or "ipc", also uncomment the corresponding block in zeromq_bridge.cpp
         if self.ZMQ_TRANSPORT == "tcp":
             self.ZMQ_PORT = 5555
             self.ZMQ_IP = f"{self.SIM_SUBNET}.90.{self.SIM_ID}"

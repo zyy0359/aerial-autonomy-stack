@@ -11,10 +11,10 @@ if [[ "$CONDA_DEFAULT_ENV" != "aas" ]]; then
 fi
 
 # Configuration
-MODES=("speedup") # MODES=("speedup" "vectorenv-speedup")
-AUTOPILOTS=("px4") # AUTOPILOTS=("px4" "ardupilot")
-SENSOR_SCENARIOS=("both") # SENSOR_SCENARIOS=("both" "no_camera" "no_lidar" "none")
-REPETITIONS=2
+MODES=("speedup" "vectorenv-speedup")
+AUTOPILOTS=("px4" "ardupilot")
+SENSOR_SCENARIOS=("both" "no_camera" "no_lidar" "none")
+REPETITIONS=1
 MAX_RETRIES=3
 
 # Docker clean-up helper function
