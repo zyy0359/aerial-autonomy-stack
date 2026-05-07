@@ -31,8 +31,22 @@ def dqn_path(world: str, model_path: str, cell_size: float) -> list[tuple[int, i
 def compress_path(path: list[tuple[int, int]], max_waypoints: int) -> list[tuple[int, int]]:
     if len(path) <= max_waypoints:
         return path
-    stride = max(1, len(path) // max_waypoints)
-    compressed = path[::stride]
+    if max_waypoints < 2:
+        raise ValueError("max_waypoints must be at least 2 to preserve start and end points.")
+    last_index = len(path) - 1
+    indexes = [
+        round(i * last_index / (max_waypoints - 1))
+        for i in range(max_waypoints)
+    ]
+    compressed: list[tuple[int, int]] = []
+    seen_indexes: set[int] = set()
+    for index in indexes:
+        if index in seen_indexes:
+            continue
+        compressed.append(path[index])
+        seen_indexes.add(index)
+    if compressed[0] != path[0]:
+        compressed.insert(0, path[0])
     if compressed[-1] != path[-1]:
         compressed.append(path[-1])
     return compressed[:max_waypoints]

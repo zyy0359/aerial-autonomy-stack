@@ -334,14 +334,6 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 45.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
     east: 50.000
     north: 135.000
     altitude: 22.000
@@ -648,6 +640,14 @@ steps:
   params:
     east: 60.000
     north: -45.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 60.000
+    north: -50.000
     altitude: 22.000
 - action: wait
   params:
