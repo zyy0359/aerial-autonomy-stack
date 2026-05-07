@@ -2,6 +2,7 @@
 /aircraft/aircraft_ws/src/ground_system_msgs/
 /aircraft/aircraft_resources/comms/zenoh_config_air.json5
 /aas-gym/ppo_agent.zip
+/experiments/spray_dqn/outputs/
 
 # GitHub clones of 3rd party repositories
 /github_clones/

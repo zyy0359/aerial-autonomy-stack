@@ -1,2 +1,10 @@
 Dockerfile.* linguist-language=Dockerfile
 *.erb linguist-language=Ruby
+
+.gitattributes text eol=lf
+.gitignore text eol=lf
+*.sh text eol=lf
+scripts/gym_run.py text eol=lf
+scripts/docker/Dockerfile.* text eol=lf
+experiments/spray_dqn/** text eol=lf
+aircraft/aircraft_resources/missions/spray_dqn.yaml text eol=lf
