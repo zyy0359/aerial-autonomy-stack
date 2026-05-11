@@ -3,19 +3,35 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from orchard_world import DEFAULT_WORLD, OrchardWorldGrid, default_output_dir, evaluate_path, orchard_row_path
+from orchard_world import (
+    DEFAULT_WORLD,
+    OrchardWorldGrid,
+    default_output_dir,
+    evaluate_path,
+    nearest_target_path,
+    orchard_row_path,
+)
 
 
-def get_path(policy: str, grid: OrchardWorldGrid, world: str, model_path: str, cell_size: float) -> list[tuple[int, int]]:
+def get_path(
+    policy: str,
+    grid: OrchardWorldGrid,
+    world: str,
+    model_path: str,
+    cell_size: float,
+    goal_coverage: float,
+) -> list[tuple[int, int]]:
     if policy == "orchard-row":
         return orchard_row_path(grid)
+    if policy == "nearest-target":
+        return nearest_target_path(grid)
     if policy == "dqn":
         try:
             from stable_baselines3 import DQN
         except ImportError as exc:
             raise SystemExit("stable-baselines3 is required for --policy dqn.") from exc
         from orchard_dqn_env import OrchardDQNEnv
-        env = OrchardDQNEnv(world_path=world, cell_size_m=cell_size)
+        env = OrchardDQNEnv(world_path=world, cell_size_m=cell_size, goal_coverage=goal_coverage)
         model = DQN.load(model_path, env=env)
         obs, _ = env.reset()
         terminated = False
@@ -31,8 +47,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Plot a spray path over entities parsed from apple_orchard.sdf.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
-    parser.add_argument("--policy", choices=["orchard-row", "dqn"], default="orchard-row")
+    parser.add_argument("--policy", choices=["orchard-row", "nearest-target", "dqn"], default="orchard-row")
     parser.add_argument("--model", default=str(default_output_dir() / "models" / "dqn_apple_orchard.zip"))
+    parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--output", default=None)
     args = parser.parse_args()
 
@@ -44,7 +61,7 @@ def main() -> None:
         raise SystemExit("matplotlib is required for plotting.") from exc
 
     grid = OrchardWorldGrid(world_path=args.world, cell_size_m=args.cell_size)
-    path = get_path(args.policy, grid, args.world, args.model, args.cell_size)
+    path = get_path(args.policy, grid, args.world, args.model, args.cell_size, args.goal_coverage)
     sprayed: set[tuple[int, int]] = set()
     for cell in path:
         for spray_cell in grid.spray_cells(cell):

@@ -8,3 +8,4 @@ scripts/gym_run.py text eol=lf
 scripts/docker/Dockerfile.* text eol=lf
 experiments/spray_dqn/** text eol=lf
 aircraft/aircraft_resources/missions/spray_dqn.yaml text eol=lf
+aircraft/aircraft_resources/missions/spray_rainbow_dqn.yaml text eol=lf

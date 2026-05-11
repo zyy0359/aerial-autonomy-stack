@@ -13,6 +13,7 @@ DEFAULT_MODEL = default_output_dir() / "models" / "dqn_apple_orchard.zip"
 DEFAULT_MISSION = REPO_ROOT / "aircraft" / "aircraft_resources" / "missions" / "spray_dqn.yaml"
 DEFAULT_EVAL = default_output_dir() / "metrics" / "evaluation.json"
 DEFAULT_PLOT = default_output_dir() / "plots" / "dqn_coverage.png"
+DEFAULT_COMPARE_DIR = default_output_dir() / "comparison"
 
 
 def run(cmd: list[str]) -> None:
@@ -28,10 +29,12 @@ def main() -> None:
     parser.add_argument("--cell-size", type=float, default=5.0)
     parser.add_argument("--timesteps", type=int, default=20000)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--model", default=str(DEFAULT_MODEL))
     parser.add_argument("--mission-out", default=str(DEFAULT_MISSION))
     parser.add_argument("--eval-out", default=str(DEFAULT_EVAL))
     parser.add_argument("--plot-out", default=str(DEFAULT_PLOT))
+    parser.add_argument("--compare-dir", default=str(DEFAULT_COMPARE_DIR))
     parser.add_argument("--skip-train", action="store_true")
     args = parser.parse_args()
 
@@ -50,6 +53,8 @@ def main() -> None:
                 str(args.timesteps),
                 "--device",
                 args.device,
+                "--goal-coverage",
+                str(args.goal_coverage),
                 "--model-out",
                 model_for_train,
                 "--summary-out",
@@ -70,6 +75,8 @@ def main() -> None:
             str(args.cell_size),
             "--model",
             str(model),
+            "--goal-coverage",
+            str(args.goal_coverage),
             "--output",
             args.eval_out,
         ]
@@ -86,6 +93,8 @@ def main() -> None:
             "dqn",
             "--model",
             str(model),
+            "--goal-coverage",
+            str(args.goal_coverage),
             "--output",
             args.mission_out,
         ]
@@ -102,12 +111,29 @@ def main() -> None:
             "dqn",
             "--model",
             str(model),
+            "--goal-coverage",
+            str(args.goal_coverage),
             "--output",
             args.plot_out,
+        ]
+    )
+    run(
+        [
+            sys.executable,
+            "experiments/spray_dqn/compare_algorithms.py",
+            "--world",
+            args.world,
+            "--cell-size",
+            str(args.cell_size),
+            "--model",
+            str(model),
+            "--goal-coverage",
+            str(args.goal_coverage),
+            "--output-dir",
+            args.compare_dir,
         ]
     )
 
 
 if __name__ == "__main__":
     main()
-

@@ -15,6 +15,7 @@ def main() -> None:
     parser.add_argument("--timesteps", type=int, default=50000)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "dqn_apple_orchard"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "train_summary.json"))
     args = parser.parse_args()
@@ -25,7 +26,7 @@ def main() -> None:
     except ImportError as exc:
         raise SystemExit("stable-baselines3 is required for DQN training.") from exc
 
-    env = Monitor(OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size))
+    env = Monitor(OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size, goal_coverage=args.goal_coverage))
     model = DQN(
         "MlpPolicy",
         env,
@@ -48,7 +49,7 @@ def main() -> None:
     model_out.parent.mkdir(parents=True, exist_ok=True)
     model.save(model_out)
 
-    eval_env = OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size)
+    eval_env = OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size, goal_coverage=args.goal_coverage)
     obs, _ = eval_env.reset(seed=args.seed)
     terminated = False
     truncated = False
@@ -57,10 +58,14 @@ def main() -> None:
         obs, _, terminated, truncated, info = eval_env.step(int(action))
 
     summary = {
+        "algorithm": "dqn",
+        "family": "sb3",
+        "implementation": "Stable-Baselines3 DQN on the discrete orchard grid.",
         "world": args.world,
         "model": str(model_out.with_suffix(".zip")),
         "timesteps": args.timesteps,
         "seed": args.seed,
+        "goal_coverage": args.goal_coverage,
         "grid": eval_env.grid.active_target_summary(),
         "final_metrics": info,
         "path": eval_env.path,

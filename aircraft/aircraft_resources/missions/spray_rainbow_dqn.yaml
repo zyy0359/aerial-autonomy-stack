@@ -110,447 +110,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 50.000
-    north: 20.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 25.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 30.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 35.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 40.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 45.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 50.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 55.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 60.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 65.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 70.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 75.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 80.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 85.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 90.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 90.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 95.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 100.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 105.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 110.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 40.000
-    north: 110.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 40.000
-    north: 115.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 40.000
-    north: 120.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 40.000
-    north: 125.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 35.000
-    north: 125.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 35.000
-    north: 130.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 35.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 40.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 45.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 50.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
     east: 55.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 135.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 130.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 125.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 120.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 115.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 110.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 105.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 100.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 95.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 90.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 85.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 80.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 75.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 70.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 65.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 60.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 55.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 50.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 45.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 40.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 35.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 30.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 25.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
-    north: 20.000
-    altitude: 22.000
-- action: wait
-  params:
-    duration: 1.000
-- action: reposition
-  params:
-    east: 60.000
     north: 15.000
     altitude: 22.000
 - action: wait
@@ -558,7 +118,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: 10.000
     altitude: 22.000
 - action: wait
@@ -566,7 +126,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: 5.000
     altitude: 22.000
 - action: wait
@@ -574,7 +134,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: 0.000
     altitude: 22.000
 - action: wait
@@ -582,7 +142,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: -5.000
     altitude: 22.000
 - action: wait
@@ -590,7 +150,7 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: -10.000
     altitude: 22.000
 - action: wait
@@ -598,8 +158,16 @@ steps:
     duration: 1.000
 - action: reposition
   params:
-    east: 60.000
+    east: 55.000
     north: -15.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -20.000
     altitude: 22.000
 - action: wait
   params:
@@ -662,6 +230,22 @@ steps:
     duration: 1.000
 - action: reposition
   params:
+    east: 65.000
+    north: -50.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -55.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
     east: 60.000
     north: -55.000
     altitude: 22.000
@@ -671,7 +255,343 @@ steps:
 - action: reposition
   params:
     east: 60.000
-    north: -60.000
+    north: -50.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -50.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -45.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -40.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -35.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -30.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -25.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -20.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -15.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -10.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: -5.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 0.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 5.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 10.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 15.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 20.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 25.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 30.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 35.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 40.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 45.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 50.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 55.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 55.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 60.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 65.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 70.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 75.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 80.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 80.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 85.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 90.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 95.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 100.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 105.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 110.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 110.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 115.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 120.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 125.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 130.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 135.000
+    altitude: 22.000
+- action: wait
+  params:
+    duration: 1.000
+- action: reposition
+  params:
+    east: 40.000
+    north: 140.000
     altitude: 22.000
 - action: wait
   params:

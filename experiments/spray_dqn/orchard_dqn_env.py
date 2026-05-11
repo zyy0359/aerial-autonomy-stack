@@ -96,6 +96,18 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
             truncated = True
         return self._obs(), reward, terminated, truncated, self._info()
 
+    def action_masks(self) -> np.ndarray:
+        row, col = self.pos
+        masks = []
+        for row_delta, col_delta in ACTION_DELTAS.values():
+            candidate = (row + row_delta, col + col_delta)
+            valid = self.grid.in_bounds(candidate) and not self.obstacle_mask[candidate]
+            masks.append(valid)
+        return np.array(masks, dtype=bool)
+
+    def valid_action_mask(self) -> np.ndarray:
+        return self.action_masks()
+
     @property
     def coverage(self) -> float:
         target_count = int(self.target_mask.sum())

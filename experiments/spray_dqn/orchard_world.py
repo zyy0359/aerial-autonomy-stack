@@ -300,6 +300,30 @@ def orchard_row_path(grid: OrchardWorldGrid) -> list[tuple[int, int]]:
     return path
 
 
+def nearest_target_path(grid: OrchardWorldGrid) -> list[tuple[int, int]]:
+    path = [grid.start]
+    current = grid.start
+    sprayed: set[tuple[int, int]] = set()
+    for spray_cell in grid.spray_cells(current):
+        if spray_cell in grid.target_cells:
+            sprayed.add(spray_cell)
+
+    while len(sprayed) < len(grid.target_cells):
+        remaining = grid.target_cells - sprayed
+        candidates = []
+        for target in remaining:
+            route = shortest_grid_path(grid, current, target)
+            candidates.append((len(route), abs(target[0] - current[0]) + abs(target[1] - current[1]), target, route))
+        _, _, _, best_route = min(candidates, key=lambda item: item[:3])
+        for cell in best_route[1:]:
+            path.append(cell)
+            current = cell
+            for spray_cell in grid.spray_cells(cell):
+                if spray_cell in grid.target_cells:
+                    sprayed.add(spray_cell)
+    return path
+
+
 def shortest_grid_path(grid: OrchardWorldGrid, start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
     if start == goal:
         return [start]

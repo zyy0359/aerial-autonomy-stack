@@ -3,7 +3,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from orchard_world import DEFAULT_WORLD, OrchardWorldGrid, default_output_dir, evaluate_path, orchard_row_path
+from orchard_world import (
+    DEFAULT_WORLD,
+    OrchardWorldGrid,
+    default_output_dir,
+    evaluate_path,
+    nearest_target_path,
+    orchard_row_path,
+)
 
 
 DEFAULT_MISSION_OUT = (
@@ -11,13 +18,13 @@ DEFAULT_MISSION_OUT = (
 )
 
 
-def dqn_path(world: str, model_path: str, cell_size: float) -> list[tuple[int, int]]:
+def dqn_path(world: str, model_path: str, cell_size: float, goal_coverage: float) -> list[tuple[int, int]]:
     try:
         from stable_baselines3 import DQN
     except ImportError as exc:
         raise SystemExit("stable-baselines3 is required for --policy dqn.") from exc
     from orchard_dqn_env import OrchardDQNEnv
-    env = OrchardDQNEnv(world_path=world, cell_size_m=cell_size)
+    env = OrchardDQNEnv(world_path=world, cell_size_m=cell_size, goal_coverage=goal_coverage)
     model = DQN.load(model_path, env=env)
     obs, _ = env.reset()
     terminated = False
@@ -118,31 +125,38 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate AAS mission YAML using the original apple_orchard world.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
-    parser.add_argument("--policy", choices=["orchard-row", "dqn"], default="orchard-row")
+    parser.add_argument("--policy", choices=["orchard-row", "nearest-target", "dqn"], default="orchard-row")
     parser.add_argument("--model", default=str(default_output_dir() / "models" / "dqn_apple_orchard.zip"))
+    parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--output", default=str(DEFAULT_MISSION_OUT))
     parser.add_argument("--speed", type=float, default=5.0)
     parser.add_argument("--takeoff-altitude", type=float, default=22.0)
     parser.add_argument("--landing-altitude", type=float, default=18.0)
     parser.add_argument("--waypoint-wait", type=float, default=1.0)
-    parser.add_argument("--max-waypoints", type=int, default=80)
+    parser.add_argument("--max-waypoints", type=int, default=120)
     args = parser.parse_args()
 
     grid = OrchardWorldGrid(world_path=args.world, cell_size_m=args.cell_size, altitude_m=args.takeoff_altitude)
-    path = orchard_row_path(grid) if args.policy == "orchard-row" else dqn_path(args.world, args.model, args.cell_size)
+    if args.policy == "orchard-row":
+        path = orchard_row_path(grid)
+    elif args.policy == "nearest-target":
+        path = nearest_target_path(grid)
+    else:
+        path = dqn_path(args.world, args.model, args.cell_size, args.goal_coverage)
+    mission_path = compress_path(path, max_waypoints=args.max_waypoints)
     mission = mission_from_path(
         grid,
-        path,
+        mission_path,
         speed_m_s=args.speed,
         takeoff_altitude_m=args.takeoff_altitude,
         landing_altitude_m=args.landing_altitude,
         waypoint_wait_s=args.waypoint_wait,
-        max_waypoints=args.max_waypoints,
+        max_waypoints=len(mission_path),
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     write_mission_yaml(mission, output)
-    metrics = evaluate_path(grid, path)
+    metrics = evaluate_path(grid, mission_path)
     print(f"Wrote {output}")
     print(grid.active_target_summary())
     print(
