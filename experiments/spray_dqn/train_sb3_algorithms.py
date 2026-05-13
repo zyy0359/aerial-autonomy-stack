@@ -23,17 +23,33 @@ def make_env(
     world: str,
     cell_size: float,
     goal_coverage: float,
+    args=None,
 ):
+    extras = {}
+    if args is not None:
+        extras = {
+            "dynamic_obstacle_count": args.dynamic_obstacles,
+            "dynamic_obstacle_span": args.dynamic_obstacle_span,
+            "dynamic_safety_radius_cells": args.dynamic_safety_radius,
+            "dynamic_obstacle_seed": args.seed,
+            "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+            "intelligent_irrigation": args.intelligent_irrigation,
+            "irrigation_seed": args.seed,
+            "goal_metric": args.goal_metric,
+            "spray_control": args.spray_control,
+        }
     if algorithm in CONTINUOUS_ALGORITHMS:
         return OrchardContinuousActionEnv(
             world_path=world,
             cell_size_m=cell_size,
             goal_coverage=goal_coverage,
+            **extras,
         )
     return OrchardDQNEnv(
         world_path=world,
         cell_size_m=cell_size,
         goal_coverage=goal_coverage,
+        **extras,
     )
 
 
@@ -147,19 +163,22 @@ def make_model(
     raise ValueError(f"Unknown SB3 algorithm: {algorithm}")
 
 
-def evaluate_model(model, algorithm: str, world: str, cell_size: float, goal_coverage: float, seed: int) -> dict[str, Any]:
-    env = make_env(algorithm, world, cell_size, goal_coverage)
+def evaluate_model(model, algorithm: str, world: str, cell_size: float, goal_coverage: float, seed: int, args=None) -> dict[str, Any]:
+    env = make_env(algorithm, world, cell_size, goal_coverage, args=args)
     obs, _ = env.reset(seed=seed)
     terminated = False
     truncated = False
+    info: dict[str, Any] = {}
     while not (terminated or truncated):
         if algorithm == "maskable-ppo":
             action, _ = model.predict(obs, deterministic=True, action_masks=env.action_masks())
         else:
             action, _ = model.predict(obs, deterministic=True)
-        obs, _, terminated, truncated, _ = env.step(action)
+        obs, _, terminated, truncated, info = env.step(action)
+    metrics = evaluate_path(env.grid, env.path)
+    metrics.update(info)
     return {
-        "metrics": evaluate_path(env.grid, env.path),
+        "metrics": metrics,
         "path": env.path,
     }
 
@@ -186,12 +205,12 @@ def train_one(args, algorithm: str) -> dict[str, Any]:
     summary_path = metrics_dir / f"{algorithm}_summary.json"
 
     try:
-        env = Monitor(make_env(algorithm, args.world, args.cell_size, args.goal_coverage))
+        env = Monitor(make_env(algorithm, args.world, args.cell_size, args.goal_coverage, args=args))
         model = make_model(algorithm, env, args.seed, args.device)
         model.learn(total_timesteps=args.timesteps)
         model_dir.mkdir(parents=True, exist_ok=True)
         model.save(model_path)
-        eval_result = evaluate_model(model, algorithm, args.world, args.cell_size, args.goal_coverage, args.seed)
+        eval_result = evaluate_model(model, algorithm, args.world, args.cell_size, args.goal_coverage, args.seed, args=args)
         summary = {
             "algorithm": algorithm,
             "family": "sb3",
@@ -201,6 +220,11 @@ def train_one(args, algorithm: str) -> dict[str, Any]:
             "timesteps": args.timesteps,
             "seed": args.seed,
             "goal_coverage": args.goal_coverage,
+            "goal_metric": args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+            "dynamic_obstacles": args.dynamic_obstacles,
+            "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+            "intelligent_irrigation": args.intelligent_irrigation,
+            "spray_control": args.spray_control,
             "model": str(model_path.with_suffix(".zip")),
             "final_metrics": eval_result["metrics"],
             "path": eval_result["path"],
@@ -238,6 +262,13 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--algorithms", default="ppo,a2c,sac,td3,maskable-ppo")
+    parser.add_argument("--goal-metric", choices=["coverage", "demand"], default=None)
+    parser.add_argument("--dynamic-obstacles", type=int, default=0)
+    parser.add_argument("--dynamic-obstacle-span", type=int, default=4)
+    parser.add_argument("--dynamic-safety-radius", type=int, default=3)
+    parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
+    parser.add_argument("--intelligent-irrigation", action="store_true")
+    parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     args = parser.parse_args()

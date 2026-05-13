@@ -1,0 +1,367 @@
+\documentclass[UTF8]{ctexart}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{a4paper, margin=2.5cm}
+
+\title{基于深度强化学习的果园无人机喷洒路径规划方法研究}
+\author{Zheng Yayu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+面向精准农业中的果园无人机喷洒任务，路径规划算法需要在保证作业覆盖率和飞行安全的同时，尽可能缩短飞行距离并降低重复喷洒。针对传统规则遍历方法在复杂果园结构下路径冗余较大的问题，本文基于 Aerial Autonomy Stack（AAS）原有 Gazebo 果园仿真环境，构建了一套面向无人机喷洒路径规划的强化学习实验框架。实验并未重新手工搭建果园地图，而是直接解析 AAS 中的 \texttt{apple\_orchard.sdf} 文件，自动提取当前启用的目标树木和静态障碍物，并将其转换为网格化路径规划环境。当前场景包含 21 个喷洒目标和 8 个静态障碍物。
+
+本文将喷洒路径规划建模为马尔可夫决策过程，设计了包含无人机当前位置、最近未覆盖目标、当前覆盖率以及局部障碍状态的紧凑状态表示；动作空间定义为上下左右四方向移动；奖励函数综合考虑新增目标覆盖、重复喷洒惩罚、接近目标奖励、越界或碰撞惩罚以及完成任务奖励。为验证算法有效性，本文对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite 和 PPO 五类强化学习算法进行了多随机种子对比实验，并以果园行遍历和最近目标贪心策略作为传统基线。
+
+三随机种子实验结果表明，Dueling DQN、Double DQN、DQN 和 Rainbow DQN lite 的任务成功率均为 66.7\%，PPO 的成功率为 33.3\%。综合成功率、平均覆盖率和路径稳定性，Dueling DQN 在当前果园喷洒路径规划任务中表现最稳定，其平均覆盖率为 $92.1\%\pm13.7\%$，成功回合中的平均路径长度为 $390.0\pm42.4$ m。实验结果表明，深度强化学习方法能够有效完成果园喷洒路径规划和静态障碍避让任务，并且相比传统规则遍历方法具有更短路径和更高决策灵活性。
+
+\textbf{关键词：} 深度强化学习；DQN；Dueling DQN；无人机喷洒；路径规划；精准农业；Gazebo 仿真
+\end{abstract}
+
+\section{引言}
+
+精准农业要求农业机械能够根据作物分布、地块结构和作业需求进行精细化执行。无人机因具有部署灵活、成本较低、适合中小尺度地块作业等优点，已广泛应用于农药喷洒、巡检、作物长势监测和变量作业等任务。在果园场景中，无人机需要在树行、车辆、人员、建筑物等复杂环境要素之间飞行，并完成对目标树木的有效覆盖。因此，路径规划算法不仅需要保证覆盖率，还需要考虑障碍物安全距离、重复喷洒、路径长度和任务执行效率。
+
+传统喷洒路径通常采用规则行遍历或最近目标贪心等启发式方法。这类方法实现简单，在规则农田或果园环境中具有一定可用性，但当目标分布、障碍物位置和起点条件发生变化时，往往会产生路径冗余和重复喷洒。相比之下，强化学习能够通过与环境交互学习路径规划策略，将覆盖、避障和路径长度等多目标统一纳入奖励函数中，因此适合用于无人机喷洒路径规划问题。
+
+本文提出一种基于深度强化学习的果园无人机喷洒路径规划方法。与仅在抽象网格地图中验证算法不同，本文直接复用 AAS 原有 Gazebo 果园环境，解析仿真世界文件中的目标树木和静态障碍物，并在此基础上构建强化学习训练环境。训练完成后，算法输出的路径可进一步转换为 AAS mission YAML 文件，用于 Gazebo 中的无人机任务执行。
+
+本文主要贡献如下：
+\begin{itemize}
+  \item 构建了一套基于 AAS 原有 \texttt{apple\_orchard.sdf} 的无人机喷洒路径规划实验框架，避免了与仿真系统脱节的手工地图。
+  \item 将果园喷洒路径规划建模为强化学习任务，设计了面向目标覆盖、重复喷洒抑制和静态避障的状态空间、动作空间和奖励函数。
+  \item 对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite 和 PPO 进行多随机种子对比实验，并从成功率、覆盖率、路径长度、重复喷洒率和碰撞次数等指标进行评价。
+  \item 将最优路径结果转换为 AAS mission 文件，为后续 Gazebo 三维飞行验证提供接口。
+\end{itemize}
+
+\section{相关工作}
+
+\subsection{无人机农业作业路径规划}
+
+农业无人机路径规划通常需要解决覆盖完整性、飞行安全和作业效率之间的权衡。在规则农田中，行遍历、往复式扫描和最近邻贪心等方法常被用于覆盖规划。这类方法不需要训练，计算成本较低，但对于存在障碍物、目标分布不均匀或起点约束的果园环境，路径往往较长，重复覆盖较多。
+
+图搜索和优化类方法，例如 A*、Dijkstra、人工势场和蚁群算法等，可以在已知地图中搜索可行路径，并通过代价函数考虑路径距离和障碍物风险。然而，这类方法通常依赖显式地图和人工设计的代价函数，在复杂任务约束下调参成本较高。对于喷洒任务而言，路径规划还需要同时考虑覆盖率和重复喷洒率，仅优化距离并不能完全反映喷洒质量。
+
+\subsection{强化学习路径规划}
+
+强化学习通过智能体与环境交互学习策略，适合处理路径规划中的序列决策问题。Q-learning 和 DQN 通过学习状态--动作价值函数实现离散动作选择，已被广泛用于栅格地图导航和避障任务。Double DQN 通过分离动作选择和目标价值估计缓解 Q 值过估计问题；Dueling DQN 将状态价值函数和动作优势函数分离，有助于在多个相似动作之间进行稳定评估；Rainbow DQN 则进一步融合多种 DQN 改进机制。
+
+PPO 属于策略梯度类算法，通过限制策略更新幅度提高训练稳定性。与 DQN 系列不同，PPO 直接优化策略函数，既可用于离散动作任务，也可扩展到连续动作任务。本文将 PPO 与多种 DQN 变体在同一果园喷洒路径规划环境中进行对比，以分析不同强化学习算法在覆盖率、路径长度和训练稳定性方面的差异。
+
+\subsection{本文工作定位}
+
+已有强化学习无人机导航研究多集中于抽象二维环境、室内避障或目标跟踪任务，而较少直接复用真实仿真系统中的农业场景模型。本文重点关注果园喷洒任务中的高层路径规划问题：在已知静态果园环境中，通过强化学习学习覆盖目标树木并避开静态障碍物的路径策略。当前研究尚未处理实时视觉避障、动态障碍预测和真实药液物理扩散，这些内容作为后续工作展开。
+
+\section{问题建模与方法}
+
+\subsection{环境建模}
+
+本文使用 AAS 工程中的 \texttt{apple\_orchard.sdf} 作为仿真环境来源。程序解析 SDF 中当前启用的 \texttt{include} 模型，并进一步解析嵌套模型文件，例如 \texttt{birch\_row}、\texttt{apple\_grid}、\texttt{apple} 和 \texttt{birch}。当前实验中，\texttt{birch\_row\_1} 为启用状态，\texttt{apple\_grid\_1/2/3} 仍处于注释状态，因此当前目标为已启用树行中的 21 个树木目标。
+
+环境统计如表 \ref{tab:env} 所示。
+
+\begin{table}[H]
+\centering
+\caption{当前果园仿真环境统计}
+\label{tab:env}
+\begin{tabular}{lr}
+\toprule
+项目 & 数值 \\
+\midrule
+目标树木数量 & 21 \\
+静态障碍物数量 & 8 \\
+网格分辨率 & 5 m \\
+起始网格位置 & $(29, 7)$ \\
+当前最佳任务航点数 & 73 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+规划层将果园环境离散化为网格地图。目标树木所在网格被标记为喷洒目标，障碍物周围一定半径内的网格被标记为不可通行区域。无人机在目标附近喷洒半径内经过时，视为完成对应目标喷洒。
+
+\subsection{马尔可夫决策过程建模}
+
+无人机喷洒路径规划可建模为马尔可夫决策过程：
+\begin{equation}
+M = (S, A, P, R, \gamma),
+\end{equation}
+其中 $S$ 为状态空间，$A$ 为动作空间，$P$ 为状态转移函数，$R$ 为奖励函数，$\gamma$ 为折扣因子。
+
+\subsection{状态空间}
+
+为降低训练难度，本文采用 11 维紧凑状态向量，而非直接输入完整地图矩阵：
+\begin{equation}
+s_t = [r_t, c_t, r_g, c_g, \Delta r, \Delta c, C_t, b_u, b_d, b_l, b_r].
+\end{equation}
+其中，$r_t,c_t$ 表示无人机当前位置的归一化网格坐标；$r_g,c_g$ 表示最近未覆盖目标的归一化位置；$\Delta r,\Delta c$ 表示无人机与最近目标的相对位置；$C_t$ 表示当前覆盖率；$b_u,b_d,b_l,b_r$ 表示上下左右四个方向是否被障碍物或边界阻挡。
+
+\subsection{动作空间}
+
+对于 DQN、Double DQN、Dueling DQN、Rainbow DQN lite 和 PPO，动作空间定义为四个离散移动动作：
+\begin{equation}
+A = \{\mathrm{up}, \mathrm{down}, \mathrm{left}, \mathrm{right}\}.
+\end{equation}
+每次动作使无人机在网格中移动一个单元。若动作导致越界或进入障碍物区域，则位置不更新，并记录一次规划层碰撞惩罚。
+
+\subsection{奖励函数}
+
+奖励函数综合考虑路径长度、目标覆盖、重复喷洒和障碍物风险：
+\begin{equation}
+R_t = r_{\mathrm{step}} + r_{\mathrm{new}} + r_{\mathrm{repeat}} + r_{\mathrm{progress}} + r_{\mathrm{collision}} + r_{\mathrm{finish}}.
+\end{equation}
+当前实验中主要奖励项设置如下：
+\begin{align}
+r_{\mathrm{step}} &= -0.01, \\
+r_{\mathrm{new}} &= 5.0 \times N_{\mathrm{new}}, \\
+r_{\mathrm{repeat}} &= -0.15 \times N_{\mathrm{repeat}}, \\
+r_{\mathrm{collision}} &= -2.0, \\
+r_{\mathrm{finish}} &= 50.0.
+\end{align}
+其中 $N_{\mathrm{new}}$ 表示当前步新增喷洒目标数量，$N_{\mathrm{repeat}}$ 表示重复喷洒目标数量。当覆盖率达到 100\% 时，当前回合结束。
+
+\section{实验设置}
+
+\subsection{对比算法}
+
+本文对比以下五种强化学习算法：
+\begin{itemize}
+  \item \textbf{DQN：} 基础深度 Q 网络，使用经验回放和目标网络。
+  \item \textbf{Double DQN：} 使用在线网络选择动作，目标网络估计目标价值，降低过估计。
+  \item \textbf{Dueling DQN：} 将状态价值和动作优势分离，提高相似动作下的价值估计能力。
+  \item \textbf{Rainbow DQN lite：} 融合 Double DQN、Dueling Network 和 Prioritized Replay 的简化 Rainbow 版本。该版本尚未包含 C51 分布式价值学习和 NoisyNet。
+  \item \textbf{PPO：} 基于策略梯度的近端策略优化算法，通过裁剪目标函数限制策略更新幅度。
+\end{itemize}
+
+此外，本文还保留果园行遍历和最近目标贪心策略作为传统启发式基线，但多随机种子统计主要针对上述五种强化学习算法。
+
+\subsection{评价指标}
+
+本文使用以下指标评价算法性能：
+\begin{itemize}
+  \item \textbf{成功率：} 多随机种子实验中达到 100\% 覆盖且碰撞次数为 0 的比例。
+  \item \textbf{覆盖率：} 已喷洒目标数占全部目标数的比例。
+  \item \textbf{路径长度：} 路径中相邻航点之间欧氏距离的累计值。
+  \item \textbf{重复喷洒率：} 重复喷洒次数占总喷洒次数的比例。
+  \item \textbf{碰撞次数：} 进入障碍物或非法区域的次数。
+  \item \textbf{航点数：} 生成路径中包含的网格航点数量。
+\end{itemize}
+
+覆盖率定义为：
+\begin{equation}
+C = \frac{|T_{\mathrm{sprayed}}|}{|T|} \times 100\%.
+\end{equation}
+重复喷洒率定义为：
+\begin{equation}
+R_{\mathrm{repeat}} = \frac{N_{\mathrm{repeat}}}{N_{\mathrm{new}} + N_{\mathrm{repeat}}} \times 100\%.
+\end{equation}
+
+\subsection{训练设置}
+
+每个算法训练步数为 20000 步，随机种子设置为 7、11 和 19。训练完成后，对每个模型在同一果园环境中进行确定性评估，并统计覆盖率、路径长度、重复喷洒率、碰撞次数和航点数量。实验结果使用均值和标准差表示。
+
+\subsection{三级实验设计}
+
+为避免一次性叠加过多任务难点导致实验结果难以解释，本文将实验划分为三个递进层级，如表 \ref{tab:three_stage} 所示。第一级验证基础路径规划能力，第二级单独验证变量需求和喷洒控制，第三级再加入动态障碍与 $S_v$ 安全约束，用于评估完整系统的扩展能力。
+
+\begin{table}[H]
+\centering
+\caption{三级实验结构}
+\label{tab:three_stage}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llll}
+\toprule
+实验层级 & 开启模块 & 主要评价指标 & 实验目的 \\
+\midrule
+静态果园覆盖实验 & 静态障碍、目标覆盖 & 成功率、覆盖率、路径长度、重复喷洒率、碰撞次数 & 验证基础路径规划与静态避障能力 \\
+智能灌溉需求实验 & 变量需求图、喷洒开关 & 需求满足率、剂量RMSE、过喷率、重复喷洒率 & 验证喷洒控制与变量需求匹配能力 \\
+完整增强实验 & 动态障碍、$S_v$、变量需求、DRQN & 需求满足率、动态碰撞、最小 $S_v$、路径长度 & 验证动态风险下的完整系统能力与局限 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\section{实验结果与分析}
+
+\subsection{多随机种子整体结果}
+
+表 \ref{tab:multiseed} 给出了三随机种子下五种强化学习算法的平均结果。表中 ``$\pm$'' 后为标准差。
+
+\begin{table}[H]
+\centering
+\caption{五种强化学习算法多随机种子结果}
+\label{tab:multiseed}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrr}
+\toprule
+算法 & 成功率(\%) & 覆盖率(\%) & 路径长度(m) & 重复喷洒率(\%) & 碰撞次数 \\
+\midrule
+Dueling DQN & 66.7 & $92.1 \pm 13.7$ & $1093.3 \pm 1218.6$ & $62.4 \pm 28.4$ & $0.0 \pm 0.0$ \\
+Double DQN & 66.7 & $92.1 \pm 13.7$ & $1110.0 \pm 1203.8$ & $65.9 \pm 27.0$ & $0.0 \pm 0.0$ \\
+DQN & 66.7 & $84.1 \pm 27.5$ & $1106.7 \pm 1206.7$ & $62.6 \pm 28.8$ & $0.0 \pm 0.0$ \\
+Rainbow DQN lite & 66.7 & $81.0 \pm 33.0$ & $1090.0 \pm 1221.4$ & $69.8 \pm 25.2$ & $0.0 \pm 0.0$ \\
+PPO & 33.3 & $54.0 \pm 39.9$ & $1793.3 \pm 1224.0$ & $73.8 \pm 21.9$ & $0.0 \pm 0.0$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{outputs/multiseed_20260513_top5/summary/multiseed_summary.png}
+\caption{五种强化学习算法在三个随机种子下的均值与标准差对比}
+\label{fig:multiseed}
+\end{figure}
+
+从表 \ref{tab:multiseed} 和图 \ref{fig:multiseed} 可以看出，Dueling DQN、Double DQN、DQN 和 Rainbow DQN lite 的成功率均为 66.7\%，PPO 成功率为 33.3\%。所有算法在规划层碰撞次数上均为 0，说明当前奖励函数和障碍物网格约束能够有效避免静态障碍物碰撞。
+
+需要注意的是，平均路径长度的标准差较大。这是因为部分随机种子下算法未能达到 100\% 覆盖，回合持续到最大步数限制，导致路径长度达到 2500 m。因此，仅看总体平均路径长度不能完全反映成功策略的路径质量，还需要分析成功回合下的表现。
+
+\subsection{成功回合结果}
+
+表 \ref{tab:successonly} 仅统计达到 100\% 覆盖且碰撞次数为 0 的成功回合。
+
+\begin{table}[H]
+\centering
+\caption{成功回合中的路径质量对比}
+\label{tab:successonly}
+\begin{tabular}{lrrrr}
+\toprule
+算法 & 成功次数 & 路径长度(m) & 重复喷洒率(\%) & 航点数 \\
+\midrule
+Dueling DQN & 2/3 & $390.0 \pm 42.4$ & $46.8 \pm 12.1$ & $79.0 \pm 8.5$ \\
+Double DQN & 2/3 & $415.0 \pm 7.1$ & $51.9 \pm 16.8$ & $84.0 \pm 1.4$ \\
+DQN & 2/3 & $410.0 \pm 0.0$ & $46.0 \pm 3.9$ & $83.0 \pm 0.0$ \\
+Rainbow DQN lite & 2/3 & $385.0 \pm 35.4$ & $55.6 \pm 7.9$ & $78.0 \pm 7.1$ \\
+PPO & 1/3 & $380.0 \pm 0.0$ & $70.4 \pm 0.0$ & $77.0 \pm 0.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+从成功回合结果看，PPO 在唯一成功回合中路径长度最短，为 380 m，但其成功率仅为 33.3\%，稳定性不足。Rainbow DQN lite 在成功回合中的平均路径长度为 $385.0\pm35.4$ m，路径质量较好，但同样存在训练波动。Dueling DQN 成功率为 66.7\%，成功回合平均路径长度为 $390.0\pm42.4$ m，重复喷洒率为 $46.8\pm12.1\%$，在成功率和路径质量之间取得了较好平衡。
+
+DQN 的成功回合路径长度稳定为 410 m，重复喷洒率为 $46.0\pm3.9\%$，说明基础 DQN 在成功时具有较稳定的路径形态和较低的重复喷洒率，但其平均覆盖率低于 Dueling DQN 和 Double DQN。Double DQN 虽然平均覆盖率与 Dueling DQN 相同，但成功回合路径长度略长，重复喷洒率也略高。
+
+\subsection{单随机种子结果与多随机种子结果差异}
+
+在单次实验中，Rainbow DQN lite 曾取得 100\% 覆盖、0 碰撞和 360 m 路径长度的结果，表现最优。然而，多随机种子实验显示其成功率仅为 66.7\%，且不同随机种子之间波动较大。这说明单次实验结果不能充分代表算法稳定性。相比之下，Dueling DQN 在多个随机种子下表现更均衡，既能保持较高成功率，又能在成功回合中获得较短路径。因此，本文最终更倾向于选择 Dueling DQN 作为当前系统的主算法。
+
+\subsection{智能灌溉需求实验：变量需求与喷洒开关}
+
+在第二级实验中，本文在静态果园环境基础上加入变量喷洒需求图，并开启喷洒开关控制。与基础实验中“经过目标附近即自动喷洒”的设定不同，智能体在该实验中需要同时决定移动方向和是否喷洒，动作空间扩展为 8 个离散动作，即四个移动方向与喷洒开/关的组合。该实验关闭动态障碍，重点考察算法是否能够在不增加动态风险的条件下学习需求匹配策略。
+
+该实验可通过如下配置运行：
+\begin{verbatim}
+--goal-metric demand --intelligent-irrigation --spray-control
+\end{verbatim}
+其成功判据为需求满足率达到 97\% 且碰撞次数为 0。相比静态覆盖实验，该实验更关注剂量质量，因此除覆盖率和路径长度外，还需要报告需求满足率、剂量 RMSE、过喷率与重复喷洒率。该层级的意义在于将“喷洒控制是否有效”与“动态避障是否有效”分离，避免在完整增强实验中无法判断性能下降究竟来自变量喷洒还是动态障碍。
+
+\subsection{完整增强实验：动态障碍与智能灌溉}
+
+为进一步贴近原始研究设想，本文在原有果园环境基础上加入了动态障碍、变量喷洒需求图和移动障碍安全值 $S_v$。该增强环境仍然复用 AAS 原有 \texttt{apple\_orchard.sdf}，不额外新建果园地图。与静态覆盖实验相比，增强实验主要增加以下机制：
+\begin{itemize}
+  \item \textbf{动态障碍：} 在可通行网格中生成 2 个周期性移动障碍，其未来一步位置被用于动作屏蔽和碰撞判定。
+  \item \textbf{智能灌溉/变量喷洒需求：} 对目标树木生成 $[0.5,2.0]$ 范围内的需求量，目标由单纯覆盖率扩展为需求满足率。
+  \item \textbf{安全值 $S_v$：} 根据无人机与最近动态障碍的曼哈顿距离计算 $S_v\in[0,1]$，数值越大表示越安全。
+  \item \textbf{DRQN：} 新增基于 GRU 的循环 DQN，用于在部分可观条件下利用历史观测推断动态障碍趋势。
+\end{itemize}
+
+增强实验采用 5 个随机种子（7、11、19、23、31），每个算法训练 30000 步。成功判据定义为需求满足率达到 97\% 且碰撞次数为 0。实验结果见表 \ref{tab:enhanced} 和图 \ref{fig:enhanced}。
+
+\begin{table}[H]
+\centering
+\caption{动态障碍与智能灌溉增强实验结果（5 个随机种子）}
+\label{tab:enhanced}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrr}
+\toprule
+算法 & 成功率(\%) & 需求满足率(\%) & 覆盖率(\%) & 路径长度(m) & 重复喷洒率(\%) & 动态碰撞 & 最小 $S_v$ & 剂量RMSE \\
+\midrule
+Rainbow DQN lite & 20.0 & $56.9 \pm 35.4$ & $59.0 \pm 34.9$ & $2094.0 \pm 907.8$ & $57.3 \pm 13.7$ & $0.0 \pm 0.0$ & $1.00 \pm 0.00$ & $1.68 \pm 0.53$ \\
+DRQN & 20.0 & $49.4 \pm 47.3$ & $50.5 \pm 48.2$ & $2096.0 \pm 903.4$ & $39.6 \pm 36.3$ & $0.0 \pm 0.0$ & $0.87 \pm 0.30$ & $1.84 \pm 0.68$ \\
+Dueling DQN & 0.0 & $40.6 \pm 29.0$ & $43.8 \pm 30.4$ & $2500.0 \pm 0.0$ & $52.4 \pm 34.9$ & $0.0 \pm 0.0$ & $1.00 \pm 0.00$ & $20.77 \pm 43.36$ \\
+DQN & 0.0 & $36.5 \pm 19.9$ & $39.0 \pm 21.4$ & $2500.0 \pm 0.0$ & $59.9 \pm 9.7$ & $0.0 \pm 0.0$ & $1.00 \pm 0.00$ & $1.65 \pm 0.62$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{outputs/enhanced_dynamic_irrigation_5seeds/summary/multiseed_summary.png}
+\caption{动态障碍与智能灌溉增强实验的 5 随机种子统计结果}
+\label{fig:enhanced}
+\end{figure}
+
+从表 \ref{tab:enhanced} 可以看出，增强任务明显比静态覆盖任务更困难。Rainbow DQN lite 和 DRQN 均仅在 1 个随机种子中达到 97\% 需求满足率，对应成功率为 20.0\%；DQN 和 Dueling DQN 在 30000 步训练下尚未达到成功阈值。所有算法的静态碰撞和动态碰撞均为 0，说明动作屏蔽和 $S_v$ 风险约束能够有效避免碰撞，但覆盖效率和需求满足率仍然不足。
+
+成功回合均出现在随机种子 31。Rainbow DQN lite 在该回合中达到 100.0\% 覆盖率和 97.9\% 需求满足率，路径长度为 470 m，重复喷洒率为 63.2\%；DRQN 同样达到 100.0\% 覆盖率和 97.9\% 需求满足率，路径长度为 480 m，重复喷洒率为 70.0\%。图 \ref{fig:enhanced_path} 给出了成功回合中 Rainbow DQN lite 的路径、需求热力图以及动态障碍轨迹。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{outputs/enhanced_dynamic_irrigation_5seeds/summary/rainbow_seed31_path.png}
+\caption{Rainbow DQN lite 在增强任务成功回合中的路径、需求分布与动态障碍轨迹}
+\label{fig:enhanced_path}
+\end{figure}
+
+上述结果说明，当前代码已经实现了动态障碍、变量喷洒需求、$S_v$ 安全值和 DRQN 训练流程，并且在部分随机种子下能够达到 97\% 需求满足率。但从论文表述角度看，目前不能宣称“稳定达到 97\%”，更准确的结论应为：在增强任务下，Rainbow DQN lite 与 DRQN 已经具备达到 97\% 需求满足率的能力，但 30000 步训练下多随机种子稳定性仍不足，后续需要增加训练步数、改进奖励函数或采用课程学习以提高成功率。
+
+\subsection{优化增强配置尝试与失败诊断}
+
+在前述增强实验基础上，本文进一步尝试了更严格且更接近真实喷洒决策的优化配置：训练步数增加至 100000 步，动态障碍采用果园走廊模式，并加入喷洒开关控制。该配置使动作空间由 4 个移动动作扩展为 8 个“移动 + 喷洒开关”动作，同时动态障碍更接近可行通道，因而对策略探索提出了更高要求。实验仍采用 5 个随机种子和 97\% 需求满足率作为成功阈值。
+
+\begin{table}[H]
+\centering
+\caption{优化增强配置实验结果（5 个随机种子，100000 步）}
+\label{tab:enhanced_optimized}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrr}
+\toprule
+算法 & 成功率(\%) & 需求满足率(\%) & 覆盖率(\%) & 路径长度(m) & 重复喷洒率(\%) & 动态碰撞 & 最小 $S_v$ & 航点数 \\
+\midrule
+DRQN & 0.0 & $41.7 \pm 35.4$ & $44.8 \pm 37.1$ & $2500.0 \pm 0.0$ & $47.3 \pm 26.6$ & $0.0 \pm 0.0$ & $0.47 \pm 0.30$ & $501.0 \pm 0.0$ \\
+Rainbow DQN lite & 0.0 & $10.1 \pm 14.9$ & $11.4 \pm 15.6$ & $2500.0 \pm 0.0$ & $13.0 \pm 29.2$ & $0.0 \pm 0.0$ & $0.60 \pm 0.37$ & $501.0 \pm 0.0$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{outputs/enhanced_optimized_5seeds/summary/multiseed_summary.png}
+\caption{优化增强配置下 DRQN 与 Rainbow DQN lite 的 5 随机种子统计结果}
+\label{fig:enhanced_optimized}
+\end{figure}
+
+表 \ref{tab:enhanced_optimized} 表明，简单增加训练步数并加入喷洒开关并未改善结果，反而使两个算法均未达到 97\% 成功阈值。DRQN 的平均需求满足率为 $41.7\%\pm35.4\%$，明显高于 Rainbow DQN lite，但仍不足以完成完整增强任务；Rainbow DQN lite 在喷洒开关动作空间下出现探索不足，平均需求满足率仅为 $10.1\%\pm14.9\%$。所有回合路径长度均达到 2500 m，说明策略未能在最大步数内完成任务。
+
+该结果说明，完整增强任务的主要瓶颈不是碰撞安全，而是高维动作空间与稀疏任务奖励下的探索效率。后续改进应优先采用课程学习：先在静态覆盖任务中训练路径策略，再在变量需求任务中训练喷洒开关，最后加入动态障碍和 $S_v$ 约束；或者将喷洒开关设计为规则控制器，将强化学习策略集中于路径与避障决策。
+
+\section{Gazebo 任务生成}
+
+训练完成后，算法输出的网格路径可转换为 AAS mission YAML 文件。当前系统已生成普通 DQN 和 Rainbow DQN lite 的任务文件：
+\begin{itemize}
+  \item \texttt{aircraft/aircraft\_resources/missions/spray\_dqn.yaml}
+  \item \texttt{aircraft/aircraft\_resources/missions/spray\_rainbow\_dqn.yaml}
+\end{itemize}
+
+对于最终选定的算法，也可以通过结果 summary 文件重新生成 mission。生成的 mission 文件包含起飞、等待、速度设置、航点 reposition 和降落步骤，可由 AAS mission node 在 Gazebo 中执行。实际三维飞行画面可在 Gazebo Sim 窗口中观察，轨迹和遥测状态可在 QGroundControl 中查看。
+
+\section{结论与展望}
+
+本文基于 AAS 原有 Gazebo 果园仿真环境，构建了无人机喷洒路径规划强化学习实验框架，并对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO 和 DRQN 进行了对比。静态覆盖实验表明，Dueling DQN 在三随机种子实验中表现最稳定，具有较高成功率、较高平均覆盖率和较短成功路径，更适合作为基础静态果园喷洒路径规划系统的主算法。进一步的动态障碍与智能灌溉增强实验表明，Rainbow DQN lite 和 DRQN 在部分随机种子下能够达到 97\% 需求满足率和 0 碰撞，但 5 随机种子成功率均为 20.0\%。在加入喷洒开关和走廊动态障碍后，100000 步训练仍未稳定收敛，说明当前增强任务已经实现，但完整任务仍需要更强的训练策略和分阶段实验设计。
+
+当前研究仍存在一定局限。首先，动态障碍和智能灌溉目前实现于 Python 高层规划环境中，Gazebo 内尚未生成真实移动行人或车辆，也尚未模拟真实药液雾化、风场漂移和沉积分布。其次，增强实验的 97\% 需求满足目标仅在部分随机种子下达到，喷洒开关虽然提高了任务真实性，但显著扩大了探索空间。后续应采用课程学习、分层策略或规则喷洒控制器，以提升多随机种子稳定性。再次，当前 Rainbow DQN lite 尚未包含 C51 分布式价值学习和 NoisyNet 探索，后续可补充完整 Rainbow 结构，并进一步验证其在动态喷洒任务中的泛化能力。
+
+\end{document}

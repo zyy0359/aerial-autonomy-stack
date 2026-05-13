@@ -50,6 +50,23 @@ VARIANTS = {
 }
 
 
+def env_kwargs(args) -> dict[str, Any]:
+    return {
+        "world_path": args.world,
+        "cell_size_m": args.cell_size,
+        "goal_coverage": args.goal_coverage,
+        "dynamic_obstacle_count": args.dynamic_obstacles,
+        "dynamic_obstacle_span": args.dynamic_obstacle_span,
+        "dynamic_safety_radius_cells": args.dynamic_safety_radius,
+        "dynamic_obstacle_seed": args.seed,
+        "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+        "intelligent_irrigation": args.intelligent_irrigation,
+        "irrigation_seed": args.seed,
+        "goal_metric": args.goal_metric,
+        "spray_control": args.spray_control,
+    }
+
+
 class QNetwork:
     def __init__(self, obs_dim: int, action_dim: int, dueling: bool, device: str):
         import torch
@@ -155,13 +172,19 @@ def evaluate_policy(q_net: QNetwork, env: OrchardDQNEnv, seed: int) -> dict[str,
     obs, _ = env.reset(seed=seed)
     terminated = False
     truncated = False
+    info: dict[str, Any] = {}
     while not (terminated or truncated):
         with torch.no_grad():
             tensor_obs = torch.as_tensor(obs, dtype=torch.float32, device=q_net.device).unsqueeze(0)
-            action = int(q_net(tensor_obs).argmax(dim=1).item())
-        obs, _, terminated, truncated, _ = env.step(action)
+            q_values = q_net(tensor_obs).squeeze(0)
+            mask = torch.as_tensor(env.action_masks(), dtype=torch.bool, device=q_net.device)
+            q_values = q_values.masked_fill(~mask, -1e9)
+            action = int(q_values.argmax(dim=0).item())
+        obs, _, terminated, truncated, info = env.step(action)
+    metrics = evaluate_path(env.grid, env.path)
+    metrics.update(info)
     return {
-        "metrics": evaluate_path(env.grid, env.path),
+        "metrics": metrics,
         "path": env.path,
     }
 
@@ -176,11 +199,7 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
     torch.manual_seed(args.seed)
 
     device = torch.device(args.device)
-    env = OrchardDQNEnv(
-        world_path=args.world,
-        cell_size_m=args.cell_size,
-        goal_coverage=args.goal_coverage,
-    )
+    env = OrchardDQNEnv(**env_kwargs(args))
     obs_dim = int(env.observation_space.shape[0])
     action_dim = int(env.action_space.n)
     q_net = QNetwork(obs_dim, action_dim, dueling=config.dueling, device=str(device))
@@ -200,11 +219,15 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
             step / max(1, int(args.timesteps * args.exploration_fraction)),
         )
         if random.random() < epsilon:
-            action = int(env.action_space.sample())
+            valid_actions = np.flatnonzero(env.action_masks())
+            action = int(np.random.choice(valid_actions)) if valid_actions.size else int(env.action_space.sample())
         else:
             with torch.no_grad():
                 tensor_obs = torch.as_tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)
-                action = int(q_net(tensor_obs).argmax(dim=1).item())
+                q_values = q_net(tensor_obs).squeeze(0)
+                mask = torch.as_tensor(env.action_masks(), dtype=torch.bool, device=device)
+                q_values = q_values.masked_fill(~mask, -1e9)
+                action = int(q_values.argmax(dim=0).item())
 
         next_obs, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
@@ -249,11 +272,7 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         if step % args.target_update_interval == 0:
             target_net.load_state_dict(q_net.state_dict())
 
-    eval_env = OrchardDQNEnv(
-        world_path=args.world,
-        cell_size_m=args.cell_size,
-        goal_coverage=args.goal_coverage,
-    )
+    eval_env = OrchardDQNEnv(**env_kwargs(args))
     eval_result = evaluate_policy(q_net, eval_env, args.seed)
     model_dir = Path(args.model_dir)
     model_dir.mkdir(parents=True, exist_ok=True)
@@ -278,6 +297,11 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         "timesteps": args.timesteps,
         "seed": args.seed,
         "goal_coverage": args.goal_coverage,
+        "goal_metric": args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+        "dynamic_obstacles": args.dynamic_obstacles,
+        "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+        "intelligent_irrigation": args.intelligent_irrigation,
+        "spray_control": args.spray_control,
         "model": str(model_path),
         "final_metrics": eval_result["metrics"],
         "path": eval_result["path"],
@@ -300,6 +324,13 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--algorithms", default="double-dqn,dueling-dqn,rainbow-dqn-lite")
+    parser.add_argument("--goal-metric", choices=["coverage", "demand"], default=None)
+    parser.add_argument("--dynamic-obstacles", type=int, default=0)
+    parser.add_argument("--dynamic-obstacle-span", type=int, default=4)
+    parser.add_argument("--dynamic-safety-radius", type=int, default=3)
+    parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
+    parser.add_argument("--intelligent-irrigation", action="store_true")
+    parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     parser.add_argument("--learning-rate", type=float, default=1e-3)

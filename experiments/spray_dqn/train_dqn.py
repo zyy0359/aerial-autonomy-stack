@@ -8,6 +8,23 @@ from orchard_dqn_env import OrchardDQNEnv
 from orchard_world import DEFAULT_WORLD, default_output_dir
 
 
+def env_kwargs(args) -> dict:
+    return {
+        "world_path": args.world,
+        "cell_size_m": args.cell_size,
+        "goal_coverage": args.goal_coverage,
+        "dynamic_obstacle_count": args.dynamic_obstacles,
+        "dynamic_obstacle_span": args.dynamic_obstacle_span,
+        "dynamic_safety_radius_cells": args.dynamic_safety_radius,
+        "dynamic_obstacle_seed": args.seed,
+        "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+        "intelligent_irrigation": args.intelligent_irrigation,
+        "irrigation_seed": args.seed,
+        "goal_metric": args.goal_metric,
+        "spray_control": args.spray_control,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train DQN on a map derived from the existing apple_orchard SDF.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
@@ -16,6 +33,13 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--goal-coverage", type=float, default=1.0)
+    parser.add_argument("--goal-metric", choices=["coverage", "demand"], default=None)
+    parser.add_argument("--dynamic-obstacles", type=int, default=0)
+    parser.add_argument("--dynamic-obstacle-span", type=int, default=4)
+    parser.add_argument("--dynamic-safety-radius", type=int, default=3)
+    parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
+    parser.add_argument("--intelligent-irrigation", action="store_true")
+    parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "dqn_apple_orchard"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "train_summary.json"))
     args = parser.parse_args()
@@ -26,7 +50,7 @@ def main() -> None:
     except ImportError as exc:
         raise SystemExit("stable-baselines3 is required for DQN training.") from exc
 
-    env = Monitor(OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size, goal_coverage=args.goal_coverage))
+    env = Monitor(OrchardDQNEnv(**env_kwargs(args)))
     model = DQN(
         "MlpPolicy",
         env,
@@ -49,7 +73,7 @@ def main() -> None:
     model_out.parent.mkdir(parents=True, exist_ok=True)
     model.save(model_out)
 
-    eval_env = OrchardDQNEnv(world_path=args.world, cell_size_m=args.cell_size, goal_coverage=args.goal_coverage)
+    eval_env = OrchardDQNEnv(**env_kwargs(args))
     obs, _ = eval_env.reset(seed=args.seed)
     terminated = False
     truncated = False
@@ -66,6 +90,11 @@ def main() -> None:
         "timesteps": args.timesteps,
         "seed": args.seed,
         "goal_coverage": args.goal_coverage,
+        "goal_metric": args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+        "dynamic_obstacles": args.dynamic_obstacles,
+        "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
+        "intelligent_irrigation": args.intelligent_irrigation,
+        "spray_control": args.spray_control,
         "grid": eval_env.grid.active_target_summary(),
         "final_metrics": info,
         "path": eval_env.path,

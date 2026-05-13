@@ -9,6 +9,29 @@ The scripts parse:
 
 Only active SDF `<include>` entries are used. In the current world, `birch_row_1` is active and `apple_grid_1/2/3` are commented out, so generated missions currently cover the active birch row. If the apple grids are enabled in the SDF later, the same parser will include those trees too.
 
+## Implemented System
+
+The current code implements a high-level orchard UAV spray planning system with:
+
+- SDF parsing from the original AAS `apple_orchard.sdf`; no separate hand-built orchard map is required.
+- A grid-based UAV planning environment with static obstacle avoidance and target-tree spray coverage accounting.
+- DQN, Double DQN, Dueling DQN, Rainbow DQN lite, PPO, DRQN, and selected SB3 baselines.
+- Optional intelligent irrigation / variable spray demand maps.
+- Optional spray on/off control through `--spray-control`, expanding actions to movement plus spray decisions.
+- Optional moving grid obstacles, including `--dynamic-obstacle-mode corridor` to place obstacles near orchard corridors.
+- Dynamic safety scoring with `S_v`, plus dynamic collision and safety-violation metrics.
+- Multi-seed experiment aggregation with mean/std tables and summary plots.
+- Offline path visualizations for coverage, demand heatmaps, dynamic obstacle routes, and UAV paths.
+- Mission YAML generation for replaying selected paths in AAS/Gazebo.
+
+## Recommended Experiment Structure
+
+Use three progressive experiment levels in the paper:
+
+1. Static orchard coverage: static targets and static obstacles only. This is the clean baseline and currently supports choosing Dueling DQN as the main static planner.
+2. Intelligent irrigation demand: enable variable demand and spray control, but keep dynamic obstacles off. This isolates whether the algorithm can match spray dose instead of only reaching trees.
+3. Full enhanced task: enable dynamic obstacles, `S_v`, intelligent irrigation, spray control, and DRQN/Rainbow DQN lite. This tests system extensibility and exposes current stability limits.
+
 ## Commands
 
 ## Local Planning Pipeline
@@ -43,6 +66,75 @@ Train additional RL baselines for paper comparison:
 .venv/bin/python experiments/spray_dqn/train_sb3_algorithms.py --algorithms ppo,a2c,sac,td3,maskable-ppo --timesteps 20000
 .venv/bin/python experiments/spray_dqn/train_dqn_variants.py --algorithms double-dqn,dueling-dqn,rainbow-dqn-lite --timesteps 20000
 ```
+
+Run the enhanced paper setting with dynamic obstacles, demand-aware intelligent irrigation, the `S_v` safety value, and a 97% goal threshold:
+
+```bash
+.venv/bin/python experiments/spray_dqn/run_top5_multiseed.py \
+  --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn \
+  --seeds 7,11,19,23,31 \
+  --timesteps 30000 \
+  --goal-coverage 0.97 \
+  --goal-metric demand \
+  --dynamic-obstacles 2 \
+  --intelligent-irrigation \
+  --output-dir experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds
+```
+
+From PowerShell, run the same command through WSL:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7,11,19,23,31 --timesteps 30000 --goal-coverage 0.97 --goal-metric demand --dynamic-obstacles 2 --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds"
+```
+
+The enhanced table adds goal progress, demand satisfaction, dynamic collisions, minimum `S_v`, dose RMSE, and over-spray metrics. `train_drqn.py` is the recurrent DQN baseline; it uses a GRU memory layer so the policy can infer obstacle motion from recent observations. The current 5-seed enhanced run writes:
+
+- `experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/summary/multiseed_summary.md`
+- `experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/summary/multiseed_summary.png`
+- `experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/summary/rainbow_seed31_path.png`
+- `experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/summary/drqn_seed31_path.png`
+
+To regenerate an enhanced result visualization from any saved algorithm summary:
+
+```bash
+.venv/bin/python experiments/spray_dqn/plot_enhanced_result.py \
+  --summary experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/seed_31/metrics/rainbow-dqn-lite_summary.json \
+  --output experiments/spray_dqn/outputs/enhanced_dynamic_irrigation_5seeds/summary/rainbow_seed31_path.png
+```
+
+If your WSL session has a display server, add `--show` to open a live matplotlib window. Otherwise, use the saved PNG. During offline training, the terminal shows training logs rather than a live moving UAV; the 3D UAV flight view is available in Gazebo after converting a saved path to an AAS mission YAML.
+
+Recommended next optimized enhanced run:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms rainbow-dqn-lite,drqn --seeds 7,11,19,23,31 --timesteps 100000 --goal-coverage 0.97 --goal-metric demand --dynamic-obstacles 2 --dynamic-obstacle-mode corridor --spray-control --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/enhanced_optimized_5seeds"
+```
+
+This optimized setting keeps the same 97% demand goal but gives the policy an explicit spray on/off choice and places moving obstacles near orchard corridors, making both over-spray control and `S_v` evaluation more meaningful. It is a better paper experiment than simply making the old 30k-step run longer.
+
+Current optimized 5-seed result:
+
+| Algorithm | Success rate | Demand satisfaction | Coverage | Dynamic collisions | Min `S_v` |
+|---|---:|---:|---:|---:|---:|
+| DRQN | 0.0% | 41.7 +/- 35.4% | 44.8 +/- 37.1% | 0.0 +/- 0.0 | 0.47 +/- 0.30 |
+| Rainbow DQN lite | 0.0% | 10.1 +/- 14.9% | 11.4 +/- 15.6% | 0.0 +/- 0.0 | 0.60 +/- 0.37 |
+
+This result is a useful failure diagnosis: simply increasing training steps to 100k while adding spray on/off control makes exploration harder. For the paper, report this as a limitation and use staged experiments rather than claiming the full enhanced task is solved.
+
+Run only the middle intelligent-irrigation demand experiment:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7,11,19,23,31 --timesteps 60000 --goal-coverage 0.97 --goal-metric demand --dynamic-obstacles 0 --spray-control --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/irrigation_demand_5seeds"
+```
+
+Key outputs for each multi-seed run are:
+
+- `<output-dir>/summary/multiseed_summary.md`
+- `<output-dir>/summary/multiseed_summary.csv`
+- `<output-dir>/summary/multiseed_summary.json`
+- `<output-dir>/summary/multiseed_summary.png`
+
+The terminal log is useful for training progress, but the paper-ready numbers come from the summary directory.
 
 Build the paper-ready RL comparison table and plots:
 

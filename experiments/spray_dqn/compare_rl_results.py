@@ -29,6 +29,7 @@ LABELS = {
     "double-dqn": "Double DQN",
     "dueling-dqn": "Dueling DQN",
     "rainbow-dqn-lite": "Rainbow DQN lite",
+    "drqn": "DRQN",
 }
 
 COLORS = {
@@ -43,6 +44,7 @@ COLORS = {
     "double-dqn": "#1864ab",
     "dueling-dqn": "#2b8a3e",
     "rainbow-dqn-lite": "#e67700",
+    "drqn": "#087f5b",
 }
 
 
@@ -94,6 +96,7 @@ def load_summaries(metrics_dir: Path, results: dict[str, Any], grid: OrchardWorl
             continue
         typed_path = [tuple(cell) for cell in payload["path"]]
         metrics = evaluate_path(grid, typed_path)
+        metrics.update(payload.get("final_metrics", {}))
         add_result(results, algorithm, metrics, typed_path, str(path))
     return skipped
 

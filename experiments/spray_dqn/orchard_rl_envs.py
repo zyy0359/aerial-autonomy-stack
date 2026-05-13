@@ -33,6 +33,15 @@ class OrchardContinuousActionEnv(gym.Env if gym is not None else object):
         max_steps: int = 500,
         goal_coverage: float = 1.0,
         render_mode: str | None = None,
+        dynamic_obstacle_count: int = 0,
+        dynamic_obstacle_span: int = 4,
+        dynamic_safety_radius_cells: int = 3,
+        dynamic_obstacle_seed: int = 0,
+        dynamic_obstacle_mode: str = "random",
+        intelligent_irrigation: bool = False,
+        irrigation_seed: int = 0,
+        goal_metric: str | None = None,
+        spray_control: bool = False,
     ):
         if gym is None or spaces is None:
             raise ImportError("gymnasium is required for OrchardContinuousActionEnv.")
@@ -43,6 +52,15 @@ class OrchardContinuousActionEnv(gym.Env if gym is not None else object):
             max_steps=max_steps,
             goal_coverage=goal_coverage,
             render_mode=render_mode,
+            dynamic_obstacle_count=dynamic_obstacle_count,
+            dynamic_obstacle_span=dynamic_obstacle_span,
+            dynamic_safety_radius_cells=dynamic_safety_radius_cells,
+            dynamic_obstacle_seed=dynamic_obstacle_seed,
+            dynamic_obstacle_mode=dynamic_obstacle_mode,
+            intelligent_irrigation=intelligent_irrigation,
+            irrigation_seed=irrigation_seed,
+            goal_metric=goal_metric,
+            spray_control=spray_control,
         )
         self.observation_space = self.base_env.observation_space
         self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32)
@@ -58,6 +76,9 @@ class OrchardContinuousActionEnv(gym.Env if gym is not None else object):
     @property
     def coverage(self):
         return self.base_env.coverage
+
+    def action_masks(self):
+        return self.base_env.action_masks()
 
     def reset(self, seed: int | None = None, options: dict[str, Any] | None = None):
         return self.base_env.reset(seed=seed, options=options)
