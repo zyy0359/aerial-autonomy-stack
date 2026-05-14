@@ -18,6 +18,8 @@ The current code implements a high-level orchard UAV spray planning system with:
 - DQN, Double DQN, Dueling DQN, Rainbow DQN lite, PPO, DRQN, and selected SB3 baselines.
 - Optional intelligent irrigation / variable spray demand maps.
 - Optional spray on/off control through `--spray-control`, expanding actions to movement plus spray decisions.
+- Optional hierarchical spray control through `--auto-spray-control`, where RL learns movement while a rule layer handles demand-aware spraying.
+- Optional safety override through `--safety-controller`, where unsafe next moves can be replaced by a locally safer movement action.
 - Optional moving grid obstacles, including `--dynamic-obstacle-mode corridor` to place obstacles near orchard corridors.
 - Dynamic safety scoring with `S_v`, plus dynamic collision and safety-violation metrics.
 - Multi-seed experiment aggregation with mean/std tables and summary plots.
@@ -120,6 +122,25 @@ Current optimized 5-seed result:
 | Rainbow DQN lite | 0.0% | 10.1 +/- 14.9% | 11.4 +/- 15.6% | 0.0 +/- 0.0 | 0.60 +/- 0.37 |
 
 This result is a useful failure diagnosis: simply increasing training steps to 100k while adding spray on/off control makes exploration harder. For the paper, report this as a limitation and use staged experiments rather than claiming the full enhanced task is solved.
+
+Run the hierarchical enhanced setting. This is the recommended "plan A" refinement after the failed 8-action spray-control run: RL keeps the 4 movement actions, the spray layer automatically sprays only when the local target still has unmet demand, and the safety layer overrides immediately unsafe moves.
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,ppo,double-dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7,11,19 --timesteps 15000 --goal-coverage 0.90 --goal-metric demand --dynamic-obstacles 2 --dynamic-obstacle-mode corridor --auto-spray-control --safety-controller --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/hierarchical_autospray_3seeds_15k --force"
+```
+
+Current hierarchical 3-seed, 15k-step screening result:
+
+| Algorithm | Success rate | Demand satisfaction | Coverage | Successful path length | Repeat spray | Dynamic collisions |
+|---|---:|---:|---:|---:|---:|---:|
+| DRQN | 66.7% | 82.7 +/- 15.7% | 85.7 +/- 16.5% | 450.0 +/- 56.6 m | 57.9 +/- 6.2% | 0.0 +/- 0.0 |
+| DQN | 66.7% | 69.3 +/- 37.2% | 73.0 +/- 38.5% | 460.0 +/- 42.4 m | 53.4 +/- 3.1% | 0.0 +/- 0.0 |
+| Double DQN | 33.3% | 32.9 +/- 52.5% | 33.3 +/- 53.7% | 460.0 m | 61.5% | 0.0 +/- 0.0 |
+| Dueling DQN | 33.3% | 30.1 +/- 52.1% | 31.7 +/- 55.0% | 460.0 m | 55.6% | 0.0 +/- 0.0 |
+| Rainbow DQN lite | 0.0% | 49.2 +/- 21.6% | 52.4 +/- 20.8% | - | - | 0.0 +/- 0.0 |
+| PPO | 0.0% | 8.4 +/- 1.1% | 9.5 +/- 0.0% | - | - | 0.0 +/- 0.0 |
+
+This short run supports the staged-control argument: compared with the 100k-step 8-action setting, hierarchical control recovers 2/3 success for DQN and DRQN with far fewer training steps. DRQN is currently the stronger candidate for the enhanced dynamic-demand task, while Dueling DQN remains the cleaner choice for the static coverage task.
 
 Run only the middle intelligent-irrigation demand experiment:
 

@@ -42,6 +42,8 @@ class OrchardContinuousActionEnv(gym.Env if gym is not None else object):
         irrigation_seed: int = 0,
         goal_metric: str | None = None,
         spray_control: bool = False,
+        auto_spray_control: bool = False,
+        safety_controller: bool = False,
     ):
         if gym is None or spaces is None:
             raise ImportError("gymnasium is required for OrchardContinuousActionEnv.")
@@ -61,6 +63,8 @@ class OrchardContinuousActionEnv(gym.Env if gym is not None else object):
             irrigation_seed=irrigation_seed,
             goal_metric=goal_metric,
             spray_control=spray_control,
+            auto_spray_control=auto_spray_control,
+            safety_controller=safety_controller,
         )
         self.observation_space = self.base_env.observation_space
         self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32)

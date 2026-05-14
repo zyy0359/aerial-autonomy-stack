@@ -51,6 +51,8 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         irrigation_seed: int = 0,
         goal_metric: str | None = None,
         spray_control: bool = False,
+        auto_spray_control: bool = False,
+        safety_controller: bool = False,
     ):
         if gym is None or spaces is None:
             raise ImportError("gymnasium is required for OrchardDQNEnv.")
@@ -74,6 +76,10 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
             raise ValueError("dynamic_obstacle_mode must be 'random' or 'corridor'.")
         self.intelligent_irrigation = bool(intelligent_irrigation)
         self.spray_control = bool(spray_control)
+        self.auto_spray_control = bool(auto_spray_control)
+        self.safety_controller = bool(safety_controller)
+        if self.spray_control and self.auto_spray_control:
+            raise ValueError("Use either spray_control or auto_spray_control, not both.")
         self.goal_metric = goal_metric or ("demand" if self.intelligent_irrigation else "coverage")
         if self.goal_metric not in {"coverage", "demand"}:
             raise ValueError("goal_metric must be 'coverage' or 'demand'.")
@@ -110,6 +116,7 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         self.repeat_spray_count = 0
         self.spray_action_count = 0
         self.no_spray_action_count = 0
+        self.safety_override_count = 0
         self.over_spray_amount = 0.0
         self.total_dose_progress = 0.0
         self._spray(self.pos)
@@ -118,7 +125,6 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
     def step(self, action: int):
         action = int(action)
         move_action = action % 4
-        spray_on = (not self.spray_control) or action < 4
         row_delta, col_delta = ACTION_DELTAS[move_action]
         next_pos = (self.pos[0] + row_delta, self.pos[1] + col_delta)
         previous_distance = self._nearest_uncovered_distance()
@@ -132,6 +138,18 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         dynamic_collision = self.dynamic_obstacle_count > 0 and (
             next_pos in current_dynamic or next_pos in next_dynamic
         )
+        unsafe_move = (not self.grid.in_bounds(next_pos)) or self.obstacle_mask[next_pos] or dynamic_collision
+        if unsafe_move and self.safety_controller:
+            override_action = self._select_safe_move_action(move_action, current_dynamic, next_dynamic)
+            if override_action != move_action:
+                self.safety_override_count += 1
+                move_action = override_action
+                row_delta, col_delta = ACTION_DELTAS[move_action]
+                next_pos = (self.pos[0] + row_delta, self.pos[1] + col_delta)
+                dynamic_collision = self.dynamic_obstacle_count > 0 and (
+                    next_pos in current_dynamic or next_pos in next_dynamic
+                )
+        spray_on = self._spray_enabled(action, next_pos)
         if not self.grid.in_bounds(next_pos) or self.obstacle_mask[next_pos]:
             self.collision_count += 1
             reward -= 2.0
@@ -272,6 +290,54 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         self.total_dose_progress += dose_progress
         self.over_spray_amount += over_spray
         return new_cells, repeat_cells, dose_progress, over_spray
+
+    def _spray_enabled(self, action: int, cell: tuple[int, int]) -> bool:
+        if self.spray_control:
+            return action < 4
+        if self.auto_spray_control:
+            return self._should_auto_spray(cell)
+        return True
+
+    def _should_auto_spray(self, cell: tuple[int, int]) -> bool:
+        if not self.grid.in_bounds(cell):
+            return False
+        if not self.intelligent_irrigation:
+            return any(
+                spray_cell in self.grid.target_cells and not self.sprayed[spray_cell]
+                for spray_cell in self.grid.spray_cells(cell)
+            )
+        for spray_cell in self.grid.spray_cells(cell):
+            if not self.target_mask[spray_cell]:
+                continue
+            if self.delivered_dose[spray_cell] + 1e-6 < self.demand_map[spray_cell]:
+                return True
+        return False
+
+    def _select_safe_move_action(
+        self,
+        preferred_action: int,
+        current_dynamic: set[tuple[int, int]],
+        next_dynamic: set[tuple[int, int]],
+    ) -> int:
+        row, col = self.pos
+        nearest = self._nearest_uncovered_cell()
+        candidates = []
+        for action, (row_delta, col_delta) in ACTION_DELTAS.items():
+            candidate = (row + row_delta, col + col_delta)
+            if not self.grid.in_bounds(candidate) or self.obstacle_mask[candidate]:
+                continue
+            if self.dynamic_obstacle_count and (candidate in current_dynamic or candidate in next_dynamic):
+                continue
+            distance_score = 0.0
+            if nearest is not None:
+                distance_score = -0.1 * (abs(candidate[0] - nearest[0]) + abs(candidate[1] - nearest[1]))
+            spray_score = 0.5 if self._should_auto_spray(candidate) else 0.0
+            safety_score = self.dynamic_safety_value(candidate, time_step=self.step_count)
+            preference = 0.05 if action == preferred_action else 0.0
+            candidates.append((safety_score + distance_score + spray_score + preference, action))
+        if not candidates:
+            return preferred_action
+        return max(candidates, key=lambda item: item[0])[1]
 
     def _nearest_uncovered_distance(self) -> float:
         nearest = self._nearest_uncovered_cell()
@@ -476,6 +542,7 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
             "mean_safety_value": mean_safety,
             "min_safety_value": min_safety,
             "safety_violation_count": self.safety_violation_count,
+            "safety_overrides": self.safety_override_count,
             "new_spray_cells": self.new_spray_count,
             "repeat_spray_cells": self.repeat_spray_count,
             "spray_actions": self.spray_action_count,

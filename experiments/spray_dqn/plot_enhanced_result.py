@@ -31,6 +31,8 @@ def plot_result(summary: dict[str, Any], output: Path, show: bool = False) -> No
         irrigation_seed=int(summary.get("seed", 0)),
         goal_metric=summary.get("goal_metric"),
         spray_control=bool(summary.get("spray_control", False)),
+        auto_spray_control=bool(summary.get("auto_spray_control", False)),
+        safety_controller=bool(summary.get("safety_controller", False)),
     )
     path = [tuple(cell) for cell in summary["path"]]
     rows = [cell[0] for cell in path]

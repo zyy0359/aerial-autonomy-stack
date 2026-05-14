@@ -64,6 +64,8 @@ def env_kwargs(args) -> dict[str, Any]:
         "irrigation_seed": args.seed,
         "goal_metric": args.goal_metric,
         "spray_control": args.spray_control,
+        "auto_spray_control": args.auto_spray_control,
+        "safety_controller": args.safety_controller,
     }
 
 
@@ -302,6 +304,8 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
         "intelligent_irrigation": args.intelligent_irrigation,
         "spray_control": args.spray_control,
+        "auto_spray_control": args.auto_spray_control,
+        "safety_controller": args.safety_controller,
         "model": str(model_path),
         "final_metrics": eval_result["metrics"],
         "path": eval_result["path"],
@@ -331,6 +335,8 @@ def main() -> None:
     parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
     parser.add_argument("--intelligent-irrigation", action="store_true")
     parser.add_argument("--spray-control", action="store_true")
+    parser.add_argument("--auto-spray-control", action="store_true")
+    parser.add_argument("--safety-controller", action="store_true")
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     parser.add_argument("--learning-rate", type=float, default=1e-3)

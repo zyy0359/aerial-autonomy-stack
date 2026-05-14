@@ -56,6 +56,10 @@ def enhanced_flags(args) -> list[str]:
         flags.append("--intelligent-irrigation")
     if args.spray_control:
         flags.append("--spray-control")
+    if args.auto_spray_control:
+        flags.append("--auto-spray-control")
+    if args.safety_controller:
+        flags.append("--safety-controller")
     return flags
 
 
@@ -236,6 +240,7 @@ def load_seed_rows(
                     "collisions": float(metrics.get("collisions", 0.0)),
                     "dynamic_collisions": float(metrics.get("dynamic_collisions", 0.0)),
                     "min_safety_value": float(metrics.get("min_safety_value", 1.0)),
+                    "safety_overrides": float(metrics.get("safety_overrides", 0.0)),
                     "dose_rmse": float(metrics.get("dose_rmse", 0.0)),
                     "over_spray_percent": float(metrics.get("over_spray_ratio", 0.0)) * 100.0,
                     "waypoint_count": float(metrics.get("waypoint_count", len(path))),
@@ -278,6 +283,7 @@ def aggregate(rows: list[dict[str, Any]], algorithms: list[str]) -> list[dict[st
             "collisions",
             "dynamic_collisions",
             "min_safety_value",
+            "safety_overrides",
             "dose_rmse",
             "over_spray_percent",
             "waypoint_count",
@@ -321,9 +327,9 @@ def write_markdown(path: Path, summary_rows: list[dict[str, Any]], seed_rows: li
         handle.write(
             "| Rank | Algorithm | Success rate (%) | Goal progress (%) | Coverage (%) | "
             "Demand satisfaction (%) | Path length (m) | Repeat spray (%) | Collisions | "
-            "Dynamic collisions | Min S_v | Waypoints |\n"
+            "Dynamic collisions | Min S_v | Safety overrides | Waypoints |\n"
         )
-        handle.write("|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+        handle.write("|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
         for index, row in enumerate(summary_rows, start=1):
             handle.write(
                 f"| {index} | {row['label']} | {row['success_rate_percent']:.1f} | "
@@ -335,6 +341,7 @@ def write_markdown(path: Path, summary_rows: list[dict[str, Any]], seed_rows: li
                 f"{fmt(row, 'collisions')} | "
                 f"{fmt(row, 'dynamic_collisions')} | "
                 f"{fmt(row, 'min_safety_value', 2)} | "
+                f"{fmt(row, 'safety_overrides')} | "
                 f"{fmt(row, 'waypoint_count')} |\n"
             )
         handle.write("\nSuccessful trials only:\n\n")
@@ -350,9 +357,9 @@ def write_markdown(path: Path, summary_rows: list[dict[str, Any]], seed_rows: li
         handle.write("\nPer-seed results:\n\n")
         handle.write(
             "| Seed | Algorithm | Goal progress (%) | Coverage (%) | Demand satisfaction (%) | "
-            "Path length (m) | Repeat spray (%) | Collisions | Dynamic collisions | Min S_v | Waypoints |\n"
+            "Path length (m) | Repeat spray (%) | Collisions | Dynamic collisions | Min S_v | Safety overrides | Waypoints |\n"
         )
-        handle.write("|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+        handle.write("|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
         for row in sorted(
             [item for item in seed_rows if "missing" not in item],
             key=lambda item: (item["seed"], item["algorithm"]),
@@ -362,7 +369,8 @@ def write_markdown(path: Path, summary_rows: list[dict[str, Any]], seed_rows: li
                 f"{row['coverage_percent']:.1f} | {row['demand_satisfaction_percent']:.1f} | "
                 f"{row['path_length_m']:.1f} | {row['repeat_spray_percent']:.1f} | "
                 f"{row['collisions']:.0f} | {row['dynamic_collisions']:.0f} | "
-                f"{row['min_safety_value']:.2f} | {row['waypoint_count']:.0f} |\n"
+                f"{row['min_safety_value']:.2f} | {row['safety_overrides']:.0f} | "
+                f"{row['waypoint_count']:.0f} |\n"
             )
 
 
@@ -417,6 +425,8 @@ def main() -> None:
     parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
     parser.add_argument("--intelligent-irrigation", action="store_true")
     parser.add_argument("--spray-control", action="store_true")
+    parser.add_argument("--auto-spray-control", action="store_true")
+    parser.add_argument("--safety-controller", action="store_true")
     parser.add_argument("--output-dir", default=str(default_output_dir() / "multiseed_20260513_top5"))
     parser.add_argument("--aggregate-only", action="store_true")
     parser.add_argument("--force", action="store_true")
@@ -446,6 +456,8 @@ def main() -> None:
                 "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
                 "intelligent_irrigation": args.intelligent_irrigation,
                 "spray_control": args.spray_control,
+                "auto_spray_control": args.auto_spray_control,
+                "safety_controller": args.safety_controller,
                 "summary": summary_rows,
                 "per_seed": seed_rows,
             },

@@ -22,6 +22,8 @@ def env_kwargs(args) -> dict:
         "irrigation_seed": args.seed,
         "goal_metric": args.goal_metric,
         "spray_control": args.spray_control,
+        "auto_spray_control": args.auto_spray_control,
+        "safety_controller": args.safety_controller,
     }
 
 
@@ -40,6 +42,8 @@ def main() -> None:
     parser.add_argument("--dynamic-obstacle-mode", choices=["random", "corridor"], default="random")
     parser.add_argument("--intelligent-irrigation", action="store_true")
     parser.add_argument("--spray-control", action="store_true")
+    parser.add_argument("--auto-spray-control", action="store_true")
+    parser.add_argument("--safety-controller", action="store_true")
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "dqn_apple_orchard"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "train_summary.json"))
     args = parser.parse_args()
@@ -95,6 +99,8 @@ def main() -> None:
         "dynamic_obstacle_mode": args.dynamic_obstacle_mode,
         "intelligent_irrigation": args.intelligent_irrigation,
         "spray_control": args.spray_control,
+        "auto_spray_control": args.auto_spray_control,
+        "safety_controller": args.safety_controller,
         "grid": eval_env.grid.active_target_summary(),
         "final_metrics": info,
         "path": eval_env.path,
