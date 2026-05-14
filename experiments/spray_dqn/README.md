@@ -142,6 +142,26 @@ Current hierarchical 3-seed, 15k-step screening result:
 
 This short run supports the staged-control argument: compared with the 100k-step 8-action setting, hierarchical control recovers 2/3 success for DQN and DRQN with far fewer training steps. DRQN is currently the stronger candidate for the enhanced dynamic-demand task, while Dueling DQN remains the cleaner choice for the static coverage task.
 
+Run a wider RL baseline screen under the same hierarchical setting:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,drqn,ppo,a2c,maskable-ppo,sac,td3 --seeds 7,11,19 --timesteps 10000 --goal-coverage 0.90 --goal-metric demand --dynamic-obstacles 2 --dynamic-obstacle-mode corridor --auto-spray-control --safety-controller --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/hierarchical_extra_rl_3seeds_10k --force"
+```
+
+Current wider 3-seed, 10k-step result:
+
+| Algorithm | Success rate | Demand satisfaction | Coverage | Successful path length | Dynamic collisions |
+|---|---:|---:|---:|---:|---:|
+| DRQN | 66.7% | 75.1 +/- 29.2% | 77.8 +/- 30.2% | 417.5 +/- 46.0 m | 0.0 +/- 0.0 |
+| DQN | 66.7% | 70.5 +/- 37.4% | 73.0 +/- 38.5% | 425.0 +/- 49.5 m | 0.0 +/- 0.0 |
+| TD3 | 0.0% | 11.8 +/- 14.5% | 14.3 +/- 17.2% | - | 0.0 +/- 0.0 |
+| A2C | 0.0% | 11.3 +/- 6.9% | 14.3 +/- 8.2% | - | 0.0 +/- 0.0 |
+| PPO | 0.0% | 8.5 +/- 1.1% | 9.5 +/- 0.0% | - | 0.0 +/- 0.0 |
+| SAC | 0.0% | 7.7 +/- 0.7% | 9.5 +/- 0.0% | - | 0.0 +/- 0.0 |
+| Maskable PPO | skipped | `sb3-contrib` is not installed | - | - | - |
+
+This screen does not change the current recommendation: DRQN remains the best enhanced-task candidate, DQN is the strongest simple baseline, and the continuous-action SAC/TD3 wrappers are weak fits for this discrete grid-planning problem.
+
 Run only the middle intelligent-irrigation demand experiment:
 
 ```powershell

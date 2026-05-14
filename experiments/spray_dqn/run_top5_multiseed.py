@@ -16,6 +16,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 LABELS = {
     "dqn": "DQN",
     "ppo": "PPO",
+    "a2c": "A2C",
+    "sac": "SAC",
+    "td3": "TD3",
+    "maskable-ppo": "Maskable PPO",
     "double-dqn": "Double DQN",
     "dueling-dqn": "Dueling DQN",
     "rainbow-dqn-lite": "Rainbow DQN lite",
@@ -98,7 +102,10 @@ def train_seed(args, seed: int) -> None:
             args.force,
         )
 
-    sb3_algorithms = [name for name in args.algorithms if name == "ppo"]
+    sb3_algorithms = [
+        name for name in args.algorithms
+        if name in {"ppo", "a2c", "sac", "td3", "maskable-ppo"}
+    ]
     if sb3_algorithms:
         expected = [metrics_dir / f"{name}_summary.json" for name in sb3_algorithms]
         if args.force or any(not path.exists() for path in expected):
