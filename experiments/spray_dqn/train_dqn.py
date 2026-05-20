@@ -26,6 +26,7 @@ def env_kwargs(args) -> dict:
         "safety_controller": args.safety_controller,
         "target_mode": args.target_mode,
         "field_bounds": args.field_bounds,
+        "field_blocks": args.field_blocks,
         "field_spacing_m": args.field_spacing,
     }
 
@@ -47,8 +48,9 @@ def main() -> None:
     parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--auto-spray-control", action="store_true")
     parser.add_argument("--safety-controller", action="store_true")
-    parser.add_argument("--target-mode", choices=["trees", "field"], default="trees")
+    parser.add_argument("--target-mode", choices=["trees", "field", "blocks"], default="trees")
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "dqn_apple_orchard"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "train_summary.json"))
@@ -109,6 +111,7 @@ def main() -> None:
         "safety_controller": args.safety_controller,
         "target_mode": args.target_mode,
         "field_bounds": args.field_bounds,
+        "field_blocks": args.field_blocks,
         "field_spacing_m": args.field_spacing,
         "grid": eval_env.grid.active_target_summary(),
         "final_metrics": info,

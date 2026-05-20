@@ -34,8 +34,9 @@ def main() -> None:
     parser.add_argument("--benchmark-json", default=None)
     parser.add_argument("--algorithm", default=None)
     parser.add_argument("--output", required=True)
-    parser.add_argument("--target-mode", choices=["trees", "field"], default=None)
+    parser.add_argument("--target-mode", choices=["trees", "field", "blocks"], default=None)
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--speed", type=float, default=5.0)
     parser.add_argument("--takeoff-altitude", type=float, default=22.0)
@@ -56,6 +57,7 @@ def main() -> None:
         altitude_m=args.takeoff_altitude,
         target_mode=args.target_mode or payload.get("target_mode", "trees"),
         field_bounds=args.field_bounds or payload.get("field_bounds"),
+        field_blocks=args.field_blocks or payload.get("field_blocks"),
         field_spacing_m=args.field_spacing or payload.get("field_spacing_m"),
     )
     mission = mission_from_path(

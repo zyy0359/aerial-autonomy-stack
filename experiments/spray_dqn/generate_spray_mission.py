@@ -25,6 +25,7 @@ def dqn_path(
     goal_coverage: float,
     target_mode: str,
     field_bounds: str | None,
+    field_blocks: str | None,
     field_spacing: float | None,
 ) -> list[tuple[int, int]]:
     try:
@@ -38,6 +39,7 @@ def dqn_path(
         goal_coverage=goal_coverage,
         target_mode=target_mode,
         field_bounds=field_bounds,
+        field_blocks=field_blocks,
         field_spacing_m=field_spacing,
     )
     model = DQN.load(model_path, env=env)
@@ -143,8 +145,9 @@ def main() -> None:
     parser.add_argument("--policy", choices=["orchard-row", "nearest-target", "dqn"], default="orchard-row")
     parser.add_argument("--model", default=str(default_output_dir() / "models" / "dqn_apple_orchard.zip"))
     parser.add_argument("--goal-coverage", type=float, default=1.0)
-    parser.add_argument("--target-mode", choices=["trees", "field"], default="trees")
+    parser.add_argument("--target-mode", choices=["trees", "field", "blocks"], default="trees")
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--output", default=str(DEFAULT_MISSION_OUT))
     parser.add_argument("--speed", type=float, default=5.0)
@@ -160,6 +163,7 @@ def main() -> None:
         altitude_m=args.takeoff_altitude,
         target_mode=args.target_mode,
         field_bounds=args.field_bounds,
+        field_blocks=args.field_blocks,
         field_spacing_m=args.field_spacing,
     )
     if args.policy == "orchard-row":
@@ -174,6 +178,7 @@ def main() -> None:
             args.goal_coverage,
             args.target_mode,
             args.field_bounds,
+            args.field_blocks,
             args.field_spacing,
         )
     mission_path = compress_path(path, max_waypoints=args.max_waypoints)

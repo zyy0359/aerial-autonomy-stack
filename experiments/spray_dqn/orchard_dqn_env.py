@@ -55,6 +55,7 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         safety_controller: bool = False,
         target_mode: str = "trees",
         field_bounds: str | tuple[float, float, float, float] | None = None,
+        field_blocks: str | None = None,
         field_spacing_m: float | None = None,
     ):
         if gym is None or spaces is None:
@@ -65,6 +66,7 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
             cell_size_m=cell_size_m,
             target_mode=target_mode,
             field_bounds=field_bounds,
+            field_blocks=field_blocks,
             field_spacing_m=field_spacing_m,
         )
         self.target_mask = np.zeros((self.grid.rows, self.grid.cols), dtype=bool)

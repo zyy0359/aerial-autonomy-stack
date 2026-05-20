@@ -189,6 +189,18 @@ For example, a short DRQN/DQN field comparison can be started with:
 wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,drqn --seeds 7,11,19 --timesteps 30000 --goal-coverage 0.80 --goal-metric demand --target-mode field --field-bounds=-55,-105,75,-20 --field-spacing 10 --auto-spray-control --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/field_hierarchical_3seeds_30k --force"
 ```
 
+Run whole-map farmland coverage without spraying the road strips by using the multi-block mode. This preserves both earlier modes: `trees` is still the original red orchard row, and `field` is still the single blue rectangle. The whole-map mission uses `blocks`, which places targets only inside hand-defined farm parcels:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/generate_spray_mission.py --target-mode blocks --field-spacing 50 --policy orchard-row --output aircraft/aircraft_resources/missions/spray_whole_farm_blocks.yaml --speed 15.0 --takeoff-altitude 35.0 --landing-altitude 18.0 --waypoint-wait 0.0 --max-waypoints 1700"
+```
+
+The current whole-map demo mission covers 8 farm parcels, 82 spray target cells, 100.0% parcel target coverage, 7740.0 m path length, and 0 planning-grid collisions. It writes:
+
+- `aircraft/aircraft_resources/missions/spray_whole_farm_blocks.yaml`
+
+For denser paper experiments, reduce `--field-spacing` to 25 or 30 m. That gives more target points but also makes the Gazebo replay much longer.
+
 Run only the middle intelligent-irrigation demand experiment:
 
 ```powershell

@@ -1,0 +1,7763 @@
+steps:
+- action: takeoff
+  params:
+    takeoff_altitude: 35.000
+    vtol_transition_heading: 0.000
+    vtol_loiter_nord: 100.000
+    vtol_loiter_east: 100.000
+    vtol_loiter_alt: 35.000
+- action: wait
+  params:
+    duration: 3.000
+- action: speed
+  params:
+    speed: 15.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -10.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -20.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -25.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -30.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -40.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -45.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -50.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -60.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -70.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -75.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -80.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -90.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -95.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -100.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -110.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -120.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -125.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -130.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -140.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -145.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -150.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -155.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -170.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -175.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -180.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -185.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -190.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -195.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -200.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -205.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -220.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -225.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -230.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -235.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -240.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -245.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -250.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -255.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -265.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 270.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -260.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -255.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -250.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -245.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -240.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -235.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -230.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -225.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -220.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -215.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 270.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -210.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -205.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -200.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -195.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -190.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -185.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -180.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -175.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -170.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -165.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 270.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 265.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 260.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 255.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 250.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 245.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 240.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -160.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -155.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -150.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -145.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -140.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -135.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -130.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -125.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -120.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -115.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -110.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -105.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -100.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -95.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -90.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -85.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -80.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -75.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -70.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -65.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -60.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -55.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -50.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -45.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -40.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -30.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -25.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -20.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -20.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -25.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -25.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -30.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -30.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -35.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -30.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -25.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -20.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -15.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -10.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: -5.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 0.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 5.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 10.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 10.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 20.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 25.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 25.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 30.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 30.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 30.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 25.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 20.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 15.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 20.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 25.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 30.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 235.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 230.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 225.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 220.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 215.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 210.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 205.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 200.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 195.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 190.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 185.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 180.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 35.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 40.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 45.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 50.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 55.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 60.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 65.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 70.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 75.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 80.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 85.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 90.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 95.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 100.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 105.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 110.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 115.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 120.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 125.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 130.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 135.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 140.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 145.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 150.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 155.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 160.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 165.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 170.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 175.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 180.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 185.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 190.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 195.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 200.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 205.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 210.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 215.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 175.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 170.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 165.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 160.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 155.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 150.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 145.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 140.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 135.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 130.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 125.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 120.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: 0.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -5.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -10.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -15.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -20.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -25.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -30.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -35.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -40.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -45.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -50.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -55.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -60.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -65.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -70.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -75.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -80.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -85.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -90.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -95.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -100.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -105.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -110.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -115.000
+    altitude: 35.000
+- action: reposition
+  params:
+    east: 220.000
+    north: -120.000
+    altitude: 35.000
+- action: land
+  params:
+    landing_altitude: 18.000
+    vtol_transition_heading: 0.000

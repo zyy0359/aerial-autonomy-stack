@@ -35,6 +35,7 @@ def plot_result(summary: dict[str, Any], output: Path, show: bool = False) -> No
         safety_controller=bool(summary.get("safety_controller", False)),
         target_mode=str(summary.get("target_mode", "trees")),
         field_bounds=summary.get("field_bounds"),
+        field_blocks=summary.get("field_blocks"),
         field_spacing_m=summary.get("field_spacing_m"),
     )
     path = [tuple(cell) for cell in summary["path"]]

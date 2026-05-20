@@ -16,6 +16,16 @@ CONTAINER_MODELS = {"apple_grid", "birch_row"}
 OBSTACLE_MODELS = {"jeep", "subaru", "airstream", "gazebo", "person_standing"}
 DEFAULT_FIELD_BOUNDS = (-55.0, -105.0, 75.0, -20.0)
 DEFAULT_FIELD_SPACING_M = 10.0
+DEFAULT_FIELD_BLOCKS = (
+    ("west_upper_field", (-260.0, 170.0, -145.0, 285.0)),
+    ("west_mid_field", (-265.0, 55.0, -150.0, 150.0)),
+    ("west_lower_field", (-265.0, -100.0, -120.0, 35.0)),
+    ("central_main_field", (-135.0, 35.0, 105.0, 170.0)),
+    ("north_central_field", (-115.0, 185.0, 70.0, 275.0)),
+    ("south_central_field", (-105.0, -115.0, 115.0, 10.0)),
+    ("east_lower_field", (120.0, -120.0, 260.0, 45.0)),
+    ("east_upper_field", (120.0, 75.0, 250.0, 210.0)),
+)
 
 
 def parse_field_bounds(value: str | Iterable[float] | None) -> tuple[float, float, float, float] | None:
@@ -32,6 +42,30 @@ def parse_field_bounds(value: str | Iterable[float] | None) -> tuple[float, floa
             raise ValueError("field_bounds must contain four values: min_x, min_y, max_x, max_y.")
     min_x, min_y, max_x, max_y = values
     return min(min_x, max_x), min(min_y, max_y), max(min_x, max_x), max(min_y, max_y)
+
+
+def parse_field_blocks(
+    value: str | Iterable[tuple[str, tuple[float, float, float, float]]] | None,
+) -> tuple[tuple[str, tuple[float, float, float, float]], ...] | None:
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        return tuple((name, parse_field_bounds(bounds) or DEFAULT_FIELD_BOUNDS) for name, bounds in value)
+    blocks: list[tuple[str, tuple[float, float, float, float]]] = []
+    for index, raw_block in enumerate(part.strip() for part in value.split(";") if part.strip()):
+        if ":" in raw_block:
+            name, bounds_text = raw_block.split(":", 1)
+            name = name.strip() or f"field_block_{index + 1}"
+        else:
+            name = f"field_block_{index + 1}"
+            bounds_text = raw_block
+        bounds = parse_field_bounds(bounds_text)
+        if bounds is None:
+            continue
+        blocks.append((name, bounds))
+    if not blocks:
+        raise ValueError("--field-blocks must contain at least one block.")
+    return tuple(blocks)
 
 
 @dataclass(frozen=True)
@@ -177,6 +211,7 @@ class OrchardWorldGrid:
         altitude_m: float = 22.0,
         target_mode: str = "trees",
         field_bounds: str | Iterable[float] | None = None,
+        field_blocks: str | Iterable[tuple[str, tuple[float, float, float, float]]] | None = None,
         field_spacing_m: float | None = None,
     ):
         self.world_path = Path(world_path)
@@ -187,13 +222,16 @@ class OrchardWorldGrid:
         self.start_xy = start_xy
         self.altitude_m = float(altitude_m)
         self.target_mode = target_mode
-        if self.target_mode not in {"trees", "field"}:
-            raise ValueError("target_mode must be 'trees' or 'field'.")
+        if self.target_mode not in {"trees", "field", "blocks"}:
+            raise ValueError("target_mode must be 'trees', 'field', or 'blocks'.")
         self.field_bounds = parse_field_bounds(field_bounds) or DEFAULT_FIELD_BOUNDS
+        self.field_blocks = parse_field_blocks(field_blocks) or DEFAULT_FIELD_BLOCKS
         self.field_spacing_m = float(field_spacing_m or DEFAULT_FIELD_SPACING_M)
         self.entities = collect_orchard_entities(self.world_path)
         self.obstacles = [entity for entity in self.entities if entity.role == "obstacle"]
-        if self.target_mode == "field":
+        if self.target_mode == "blocks":
+            self.targets = self._build_field_block_targets()
+        elif self.target_mode == "field":
             self.targets = self._build_field_targets()
         else:
             self.targets = [entity for entity in self.entities if entity.role == "target"]
@@ -202,17 +240,31 @@ class OrchardWorldGrid:
         self._build_grid()
 
     def _build_field_targets(self) -> list[OrchardEntity]:
-        min_x, min_y, max_x, max_y = self.field_bounds
+        return self._build_rect_targets("field_cell", self.field_bounds)
+
+    def _build_field_block_targets(self) -> list[OrchardEntity]:
+        targets: list[OrchardEntity] = []
+        for block_name, bounds in self.field_blocks:
+            targets.extend(self._build_rect_targets(block_name, bounds, start_index=len(targets)))
+        return targets
+
+    def _build_rect_targets(
+        self,
+        prefix: str,
+        bounds: tuple[float, float, float, float],
+        start_index: int = 0,
+    ) -> list[OrchardEntity]:
+        min_x, min_y, max_x, max_y = bounds
         spacing = max(1.0, self.field_spacing_m)
         targets: list[OrchardEntity] = []
-        index = 0
+        index = start_index
         y = min_y
         while y <= max_y + 1e-6:
             x = min_x
             while x <= max_x + 1e-6:
                 targets.append(
                     OrchardEntity(
-                        name=f"field_cell_{index:04d}",
+                        name=f"{prefix}_{index:04d}",
                         model="field_cell",
                         x=x,
                         y=y,
@@ -244,6 +296,8 @@ class OrchardWorldGrid:
             center = self.world_to_grid(entity.x, entity.y)
             for row, col in self.cells_within(center, obstacle_radius_cells):
                 self.obstacle_cells.add((row, col))
+        if self.target_mode in {"field", "blocks"}:
+            self.target_cells.difference_update(self.obstacle_cells)
         self.start = self.nearest_free_cell(self.world_to_grid(*self.start_xy))
         self.obstacle_cells.discard(self.start)
 
@@ -290,7 +344,8 @@ class OrchardWorldGrid:
             "world": str(self.world_path),
             "target_mode": self.target_mode,
             "field_bounds": self.field_bounds if self.target_mode == "field" else None,
-            "field_spacing_m": self.field_spacing_m if self.target_mode == "field" else None,
+            "field_blocks": self.field_blocks if self.target_mode == "blocks" else None,
+            "field_spacing_m": self.field_spacing_m if self.target_mode in {"field", "blocks"} else None,
             "target_count": len(self.targets),
             "target_cell_count": len(self.target_cells),
             "obstacle_count": len(self.obstacles),
@@ -338,7 +393,7 @@ def evaluate_path(grid: OrchardWorldGrid, path: list[tuple[int, int]]) -> dict[s
 
 def orchard_row_path(grid: OrchardWorldGrid) -> list[tuple[int, int]]:
     target_cells = sorted(
-        {grid.world_to_grid(entity.x, entity.y) for entity in grid.targets},
+        grid.target_cells,
         key=lambda cell: (cell[1], cell[0]),
     )
     path = [grid.start]

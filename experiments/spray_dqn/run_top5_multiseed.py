@@ -68,6 +68,8 @@ def enhanced_flags(args) -> list[str]:
         flags.extend(["--target-mode", args.target_mode])
     if args.field_bounds:
         flags.extend(["--field-bounds", args.field_bounds])
+    if args.field_blocks:
+        flags.extend(["--field-blocks", args.field_blocks])
     if args.field_spacing is not None:
         flags.extend(["--field-spacing", str(args.field_spacing)])
     return flags
@@ -440,8 +442,9 @@ def main() -> None:
     parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--auto-spray-control", action="store_true")
     parser.add_argument("--safety-controller", action="store_true")
-    parser.add_argument("--target-mode", choices=["trees", "field"], default="trees")
+    parser.add_argument("--target-mode", choices=["trees", "field", "blocks"], default="trees")
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--output-dir", default=str(default_output_dir() / "multiseed_20260513_top5"))
     parser.add_argument("--aggregate-only", action="store_true")
@@ -461,6 +464,7 @@ def main() -> None:
         cell_size_m=args.cell_size,
         target_mode=args.target_mode,
         field_bounds=args.field_bounds,
+        field_blocks=args.field_blocks,
         field_spacing_m=args.field_spacing,
     )
     seed_rows = load_seed_rows(output_dir, seeds, args.algorithms, grid, args.goal_metric, args.goal_coverage)
@@ -482,6 +486,7 @@ def main() -> None:
                 "safety_controller": args.safety_controller,
                 "target_mode": args.target_mode,
                 "field_bounds": args.field_bounds,
+                "field_blocks": args.field_blocks,
                 "field_spacing_m": args.field_spacing,
                 "summary": summary_rows,
                 "per_seed": seed_rows,
