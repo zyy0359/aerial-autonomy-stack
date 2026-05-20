@@ -15,6 +15,7 @@ The current code implements a high-level orchard UAV spray planning system with:
 
 - SDF parsing from the original AAS `apple_orchard.sdf`; no separate hand-built orchard map is required.
 - A grid-based UAV planning environment with static obstacle avoidance and target-tree spray coverage accounting.
+- A preserved default tree-row mode (`--target-mode trees`) for the original enabled orchard row, plus an optional field mode (`--target-mode field`) for large rectangular farmland coverage.
 - DQN, Double DQN, Dueling DQN, Rainbow DQN lite, PPO, DRQN, and selected SB3 baselines.
 - Optional intelligent irrigation / variable spray demand maps.
 - Optional spray on/off control through `--spray-control`, expanding actions to movement plus spray decisions.
@@ -25,6 +26,10 @@ The current code implements a high-level orchard UAV spray planning system with:
 - Multi-seed experiment aggregation with mean/std tables and summary plots.
 - Offline path visualizations for coverage, demand heatmaps, dynamic obstacle routes, and UAV paths.
 - Mission YAML generation for replaying selected paths in AAS/Gazebo.
+
+The original red-row DRQN Gazebo replay mission has been preserved as:
+
+- `aircraft/aircraft_resources/missions/spray_drqn_hierarchical_red_row.yaml`
 
 ## Recommended Experiment Structure
 
@@ -161,6 +166,28 @@ Current wider 3-seed, 10k-step result:
 | Maskable PPO | skipped | `sb3-contrib` is not installed | - | - | - |
 
 This screen does not change the current recommendation: DRQN remains the best enhanced-task candidate, DQN is the strongest simple baseline, and the continuous-action SAC/TD3 wrappers are weak fits for this discrete grid-planning problem.
+
+Run a large field coverage mission over the blue farmland area. This does not replace the original red-row experiment; it uses `--target-mode field` to discretize a rectangular farmland area into spray targets:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/generate_spray_mission.py --target-mode field --field-bounds=-55,-105,75,-20 --field-spacing 10 --policy orchard-row --output aircraft/aircraft_resources/missions/spray_field_lawnmower.yaml --speed 6.0 --takeoff-altitude 24.0 --landing-altitude 18.0 --waypoint-wait 0.2 --max-waypoints 220"
+```
+
+The current generated field mission covers 126 field target points, reaches 100.0% abstract field coverage, has 0 planning-grid collisions, and writes:
+
+- `aircraft/aircraft_resources/missions/spray_field_lawnmower.yaml`
+
+To train RL on the same large field instead of the original red tree row, add these flags to the training or multi-seed command:
+
+```bash
+--target-mode field --field-bounds=-55,-105,75,-20 --field-spacing 10
+```
+
+For example, a short DRQN/DQN field comparison can be started with:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,drqn --seeds 7,11,19 --timesteps 30000 --goal-coverage 0.80 --goal-metric demand --target-mode field --field-bounds=-55,-105,75,-20 --field-spacing 10 --auto-spray-control --intelligent-irrigation --output-dir experiments/spray_dqn/outputs/field_hierarchical_3seeds_30k --force"
+```
 
 Run only the middle intelligent-irrigation demand experiment:
 

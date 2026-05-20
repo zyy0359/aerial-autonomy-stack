@@ -18,13 +18,28 @@ DEFAULT_MISSION_OUT = (
 )
 
 
-def dqn_path(world: str, model_path: str, cell_size: float, goal_coverage: float) -> list[tuple[int, int]]:
+def dqn_path(
+    world: str,
+    model_path: str,
+    cell_size: float,
+    goal_coverage: float,
+    target_mode: str,
+    field_bounds: str | None,
+    field_spacing: float | None,
+) -> list[tuple[int, int]]:
     try:
         from stable_baselines3 import DQN
     except ImportError as exc:
         raise SystemExit("stable-baselines3 is required for --policy dqn.") from exc
     from orchard_dqn_env import OrchardDQNEnv
-    env = OrchardDQNEnv(world_path=world, cell_size_m=cell_size, goal_coverage=goal_coverage)
+    env = OrchardDQNEnv(
+        world_path=world,
+        cell_size_m=cell_size,
+        goal_coverage=goal_coverage,
+        target_mode=target_mode,
+        field_bounds=field_bounds,
+        field_spacing_m=field_spacing,
+    )
     model = DQN.load(model_path, env=env)
     obs, _ = env.reset()
     terminated = False
@@ -128,6 +143,9 @@ def main() -> None:
     parser.add_argument("--policy", choices=["orchard-row", "nearest-target", "dqn"], default="orchard-row")
     parser.add_argument("--model", default=str(default_output_dir() / "models" / "dqn_apple_orchard.zip"))
     parser.add_argument("--goal-coverage", type=float, default=1.0)
+    parser.add_argument("--target-mode", choices=["trees", "field"], default="trees")
+    parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--output", default=str(DEFAULT_MISSION_OUT))
     parser.add_argument("--speed", type=float, default=5.0)
     parser.add_argument("--takeoff-altitude", type=float, default=22.0)
@@ -136,13 +154,28 @@ def main() -> None:
     parser.add_argument("--max-waypoints", type=int, default=120)
     args = parser.parse_args()
 
-    grid = OrchardWorldGrid(world_path=args.world, cell_size_m=args.cell_size, altitude_m=args.takeoff_altitude)
+    grid = OrchardWorldGrid(
+        world_path=args.world,
+        cell_size_m=args.cell_size,
+        altitude_m=args.takeoff_altitude,
+        target_mode=args.target_mode,
+        field_bounds=args.field_bounds,
+        field_spacing_m=args.field_spacing,
+    )
     if args.policy == "orchard-row":
         path = orchard_row_path(grid)
     elif args.policy == "nearest-target":
         path = nearest_target_path(grid)
     else:
-        path = dqn_path(args.world, args.model, args.cell_size, args.goal_coverage)
+        path = dqn_path(
+            args.world,
+            args.model,
+            args.cell_size,
+            args.goal_coverage,
+            args.target_mode,
+            args.field_bounds,
+            args.field_spacing,
+        )
     mission_path = compress_path(path, max_waypoints=args.max_waypoints)
     mission = mission_from_path(
         grid,

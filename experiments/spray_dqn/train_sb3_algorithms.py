@@ -39,6 +39,9 @@ def make_env(
             "spray_control": args.spray_control,
             "auto_spray_control": args.auto_spray_control,
             "safety_controller": args.safety_controller,
+            "target_mode": args.target_mode,
+            "field_bounds": args.field_bounds,
+            "field_spacing_m": args.field_spacing,
         }
     if algorithm in CONTINUOUS_ALGORITHMS:
         return OrchardContinuousActionEnv(
@@ -229,6 +232,9 @@ def train_one(args, algorithm: str) -> dict[str, Any]:
             "spray_control": args.spray_control,
             "auto_spray_control": args.auto_spray_control,
             "safety_controller": args.safety_controller,
+            "target_mode": args.target_mode,
+            "field_bounds": args.field_bounds,
+            "field_spacing_m": args.field_spacing,
             "model": str(model_path.with_suffix(".zip")),
             "final_metrics": eval_result["metrics"],
             "path": eval_result["path"],
@@ -275,6 +281,9 @@ def main() -> None:
     parser.add_argument("--spray-control", action="store_true")
     parser.add_argument("--auto-spray-control", action="store_true")
     parser.add_argument("--safety-controller", action="store_true")
+    parser.add_argument("--target-mode", choices=["trees", "field"], default="trees")
+    parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
+    parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     args = parser.parse_args()

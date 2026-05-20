@@ -53,11 +53,20 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
         spray_control: bool = False,
         auto_spray_control: bool = False,
         safety_controller: bool = False,
+        target_mode: str = "trees",
+        field_bounds: str | tuple[float, float, float, float] | None = None,
+        field_spacing_m: float | None = None,
     ):
         if gym is None or spaces is None:
             raise ImportError("gymnasium is required for OrchardDQNEnv.")
         super().__init__()
-        self.grid = OrchardWorldGrid(world_path=world_path, cell_size_m=cell_size_m)
+        self.grid = OrchardWorldGrid(
+            world_path=world_path,
+            cell_size_m=cell_size_m,
+            target_mode=target_mode,
+            field_bounds=field_bounds,
+            field_spacing_m=field_spacing_m,
+        )
         self.target_mask = np.zeros((self.grid.rows, self.grid.cols), dtype=bool)
         self.obstacle_mask = np.zeros((self.grid.rows, self.grid.cols), dtype=bool)
         for cell in self.grid.target_cells:
