@@ -54,6 +54,7 @@ def env_kwargs(args) -> dict[str, Any]:
     return {
         "world_path": args.world,
         "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "goal_coverage": args.goal_coverage,
         "dynamic_obstacle_count": args.dynamic_obstacles,
         "dynamic_obstacle_span": args.dynamic_obstacle_span,
@@ -300,6 +301,7 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         "implementation": config.implementation,
         "world": args.world,
         "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "timesteps": args.timesteps,
         "seed": args.seed,
         "goal_coverage": args.goal_coverage,
@@ -331,6 +333,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train custom DQN variants on the original apple_orchard-derived task.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--timesteps", type=int, default=20000)
     parser.add_argument("--seed", type=int, default=7)

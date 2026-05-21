@@ -45,6 +45,8 @@ def maybe_run(cmd: list[str], expected_summary: Path, force: bool) -> None:
 
 def enhanced_flags(args) -> list[str]:
     flags = [
+        "--max-steps",
+        str(args.max_steps),
         "--goal-metric",
         args.goal_metric,
         "--dynamic-obstacles",
@@ -428,6 +430,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run and aggregate RL algorithms over multiple random seeds.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--goal-metric", choices=["coverage", "demand"], default="coverage")
     parser.add_argument("--timesteps", type=int, default=20000)
@@ -477,6 +480,7 @@ def main() -> None:
             {
                 "seeds": seeds,
                 "goal_coverage": args.goal_coverage,
+                "max_steps": args.max_steps,
                 "goal_metric": args.goal_metric,
                 "dynamic_obstacles": args.dynamic_obstacles,
                 "dynamic_obstacle_mode": args.dynamic_obstacle_mode,

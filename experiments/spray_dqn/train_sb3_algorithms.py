@@ -28,6 +28,7 @@ def make_env(
     extras = {}
     if args is not None:
         extras = {
+            "max_steps": args.max_steps,
             "dynamic_obstacle_count": args.dynamic_obstacles,
             "dynamic_obstacle_span": args.dynamic_obstacle_span,
             "dynamic_safety_radius_cells": args.dynamic_safety_radius,
@@ -223,6 +224,7 @@ def train_one(args, algorithm: str) -> dict[str, Any]:
             "implementation": implementation_note(algorithm),
             "world": args.world,
             "cell_size_m": args.cell_size,
+            "max_steps": args.max_steps,
             "timesteps": args.timesteps,
             "seed": args.seed,
             "goal_coverage": args.goal_coverage,
@@ -269,6 +271,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train SB3 RL baselines on the original apple_orchard-derived task.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--goal-coverage", type=float, default=1.0)
     parser.add_argument("--timesteps", type=int, default=20000)
     parser.add_argument("--seed", type=int, default=7)

@@ -12,6 +12,7 @@ def env_kwargs(args) -> dict:
     return {
         "world_path": args.world,
         "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "goal_coverage": args.goal_coverage,
         "dynamic_obstacle_count": args.dynamic_obstacles,
         "dynamic_obstacle_span": args.dynamic_obstacle_span,
@@ -35,6 +36,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train DQN on a map derived from the existing apple_orchard SDF.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--timesteps", type=int, default=50000)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", default="cpu")
@@ -99,6 +101,8 @@ def main() -> None:
         "implementation": "Stable-Baselines3 DQN on the discrete orchard grid.",
         "world": args.world,
         "model": str(model_out.with_suffix(".zip")),
+        "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "timesteps": args.timesteps,
         "seed": args.seed,
         "goal_coverage": args.goal_coverage,

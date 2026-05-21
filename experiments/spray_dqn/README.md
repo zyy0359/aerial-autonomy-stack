@@ -201,6 +201,20 @@ The current whole-map demo mission covers 8 farm parcels, 82 spray target cells,
 
 For denser paper experiments, reduce `--field-spacing` to 25 or 30 m. That gives more target points but also makes the Gazebo replay much longer.
 
+Whole-map RL training needs a larger episode budget than the original red-row experiments. The original default `max_steps=500` is not enough because the whole-farm block route can require more than 1500 grid moves. Use `--max-steps 2000` or higher:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7,11,19 --timesteps 60000 --max-steps 2200 --goal-coverage 0.70 --goal-metric coverage --target-mode blocks --field-spacing 50 --auto-spray-control --output-dir experiments/spray_dqn/outputs/whole_farm_blocks_rl_3seeds_60k --force"
+```
+
+A short 1-seed smoke run can verify the pipeline, but it is not paper quality:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7 --timesteps 8000 --max-steps 2000 --goal-coverage 0.80 --goal-metric coverage --target-mode blocks --field-spacing 50 --auto-spray-control --output-dir experiments/spray_dqn/outputs/whole_farm_blocks_rl_smoke_1seed_8k --force"
+```
+
+The initial 8k-step smoke result reached only 15.9% coverage at best, which shows that whole-map parcel coverage is a harder task than the original red-row setup and should be treated as an extended experiment with longer training or curriculum learning.
+
 Run only the middle intelligent-irrigation demand experiment:
 
 ```powershell
@@ -215,6 +229,45 @@ Key outputs for each multi-seed run are:
 - `<output-dir>/summary/multiseed_summary.png`
 
 The terminal log is useful for training progress, but the paper-ready numbers come from the summary directory.
+
+Plot grid action matrices for paper figures. The gray cells are non-spray / road / other map areas, green cells are sprayed targets, yellow cells are transit steps outside target cells, and each subplot title reports the Up/Down/Left/Right action counts:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/multiseed_5seeds_top5 --output-dir experiments/spray_dqn/outputs/action_matrix_top5_static --algorithms dqn,double-dqn,dueling-dqn,rainbow-dqn-lite,ppo --max-arrows 180"
+```
+
+For a single square overlay figure similar to paper trajectory matrices, add `--style square-overlay`:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/multiseed_5seeds_top5 --output-dir experiments/spray_dqn/outputs/action_matrix_square_top5_static --algorithms dqn,double-dqn,dueling-dqn,rainbow-dqn-lite,ppo --style square-overlay --max-arrows 220"
+```
+
+For the enhanced DRQN/DQN/continuous-baseline comparison:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/hierarchical_extra_rl_3seeds_10k --output-dir experiments/spray_dqn/outputs/action_matrix_extra_rl --algorithms dqn,drqn,ppo,a2c,sac,td3 --max-arrows 160"
+```
+
+For the whole-map parcel mode, the same plot can be generated for rule baselines before running a long RL training job:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/does_not_exist --output-dir experiments/spray_dqn/outputs/action_matrix_whole_farm_blocks --include-baselines --target-mode blocks --field-spacing 50 --algorithms orchard-row,nearest-target --max-arrows 220"
+```
+
+For a square whole-farm block overlay:
+
+```powershell
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/does_not_exist --output-dir experiments/spray_dqn/outputs/action_matrix_square_whole_farm_blocks --include-baselines --target-mode blocks --field-spacing 50 --algorithms orchard-row,nearest-target --style square-overlay --max-arrows 260"
+```
+
+The script writes:
+
+- `<output-dir>/action_matrix_paths.png`
+- `<output-dir>/action_matrix_square_overlay.png` when `--style square-overlay` is used
+- `<output-dir>/action_matrix_summary.csv`
+- `<output-dir>/action_matrix_summary.md`
+
+QGroundControl shows the full UAV flight trace, including transit between farm parcels. The target grid and these action matrices distinguish transit from actual spray coverage, so roads can be excluded from the coverage target even when the vehicle flies over them between disconnected parcels.
 
 Build the paper-ready RL comparison table and plots:
 

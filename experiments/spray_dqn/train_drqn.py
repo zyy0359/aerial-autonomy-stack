@@ -16,6 +16,7 @@ def env_kwargs(args) -> dict[str, Any]:
     return {
         "world_path": args.world,
         "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "goal_coverage": args.goal_coverage,
         "dynamic_obstacle_count": args.dynamic_obstacles,
         "dynamic_obstacle_span": args.dynamic_obstacle_span,
@@ -232,6 +233,7 @@ def train(args) -> dict[str, Any]:
         "implementation": "Custom PyTorch DRQN with a GRU memory layer for partially observable dynamic orchard planning.",
         "world": args.world,
         "cell_size_m": args.cell_size,
+        "max_steps": args.max_steps,
         "timesteps": args.timesteps,
         "seed": args.seed,
         "goal_coverage": args.goal_coverage,
@@ -257,6 +259,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train DRQN on the enhanced apple_orchard spray planning task.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
     parser.add_argument("--cell-size", type=float, default=5.0)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--goal-coverage", type=float, default=0.97)
     parser.add_argument("--goal-metric", choices=["coverage", "demand"], default=None)
     parser.add_argument("--timesteps", type=int, default=30000)
