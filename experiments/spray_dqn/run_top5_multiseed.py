@@ -74,6 +74,15 @@ def enhanced_flags(args) -> list[str]:
         flags.extend(["--field-blocks", args.field_blocks])
     if args.field_spacing is not None:
         flags.extend(["--field-spacing", str(args.field_spacing)])
+    if args.guided_exploration > 0.0:
+        flags.extend(
+            [
+                "--guided-exploration",
+                str(args.guided_exploration),
+                "--guided-exploration-fraction",
+                str(args.guided_exploration_fraction),
+            ]
+        )
     return flags
 
 
@@ -449,6 +458,8 @@ def main() -> None:
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
     parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
+    parser.add_argument("--guided-exploration", type=float, default=0.0, help="Use shortest-path expert actions early in custom DQN/DRQN training.")
+    parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Fraction of training over which guided exploration decays to zero.")
     parser.add_argument("--output-dir", default=str(default_output_dir() / "multiseed_20260513_top5"))
     parser.add_argument("--aggregate-only", action="store_true")
     parser.add_argument("--force", action="store_true")
@@ -492,6 +503,8 @@ def main() -> None:
                 "field_bounds": args.field_bounds,
                 "field_blocks": args.field_blocks,
                 "field_spacing_m": args.field_spacing,
+                "guided_exploration": args.guided_exploration,
+                "guided_exploration_fraction": args.guided_exploration_fraction,
                 "summary": summary_rows,
                 "per_seed": seed_rows,
             },

@@ -84,6 +84,13 @@ def linear_schedule(start: float, end: float, progress: float) -> float:
     return start + clipped * (end - start)
 
 
+def guided_probability(args, step: int) -> float:
+    if args.guided_exploration <= 0.0:
+        return 0.0
+    guided_steps = max(1, int(args.timesteps * args.guided_exploration_fraction))
+    return max(0.0, float(args.guided_exploration) * (1.0 - step / guided_steps))
+
+
 def evaluate_policy(model, env: OrchardDQNEnv, seed: int, device) -> dict[str, Any]:
     import torch
 
@@ -160,7 +167,10 @@ def train(args) -> dict[str, Any]:
             args.exploration_final_eps,
             step / max(1, int(args.timesteps * args.exploration_fraction)),
         )
-        if random.random() < epsilon:
+        if random.random() < guided_probability(args, step):
+            action = env.expert_action()
+            hidden = None
+        elif random.random() < epsilon:
             valid_actions = np.flatnonzero(env.action_masks())
             action = int(np.random.choice(valid_actions)) if valid_actions.size else int(env.action_space.sample())
         else:
@@ -248,6 +258,8 @@ def train(args) -> dict[str, Any]:
         "field_bounds": args.field_bounds,
         "field_blocks": args.field_blocks,
         "field_spacing_m": args.field_spacing,
+        "guided_exploration": args.guided_exploration,
+        "guided_exploration_fraction": args.guided_exploration_fraction,
         "model": str(model_out),
         "final_metrics": eval_result["metrics"],
         "path": eval_result["path"],
@@ -277,6 +289,8 @@ def main() -> None:
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
     parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
+    parser.add_argument("--guided-exploration", type=float, default=0.0, help="Probability of using shortest-path expert actions early in training.")
+    parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Fraction of training over which expert guidance decays to zero.")
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "drqn.pt"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "drqn_summary.json"))
     parser.add_argument("--hidden-size", type=int, default=128)

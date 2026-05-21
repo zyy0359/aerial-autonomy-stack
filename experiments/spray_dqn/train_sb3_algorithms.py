@@ -239,6 +239,8 @@ def train_one(args, algorithm: str) -> dict[str, Any]:
             "field_bounds": args.field_bounds,
             "field_blocks": args.field_blocks,
             "field_spacing_m": args.field_spacing,
+            "guided_exploration": args.guided_exploration,
+            "guided_exploration_fraction": args.guided_exploration_fraction,
             "model": str(model_path.with_suffix(".zip")),
             "final_metrics": eval_result["metrics"],
             "path": eval_result["path"],
@@ -290,6 +292,8 @@ def main() -> None:
     parser.add_argument("--field-bounds", default=None, help="Field mode bounds: min_x,min_y,max_x,max_y")
     parser.add_argument("--field-blocks", default=None, help="Blocks mode rectangles: name:min_x,min_y,max_x,max_y;...")
     parser.add_argument("--field-spacing", type=float, default=None)
+    parser.add_argument("--guided-exploration", type=float, default=0.0, help="Accepted for CLI compatibility; SB3 algorithms do not use expert guided exploration.")
+    parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Accepted for CLI compatibility.")
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     args = parser.parse_args()

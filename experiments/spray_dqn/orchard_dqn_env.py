@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 
-from orchard_world import DEFAULT_WORLD, OrchardWorldGrid
+from orchard_world import DEFAULT_WORLD, OrchardWorldGrid, shortest_grid_path
 
 try:
     import gymnasium as gym
@@ -225,6 +225,41 @@ class OrchardDQNEnv(gym.Env if gym is not None else object):
 
     def valid_action_mask(self) -> np.ndarray:
         return self.action_masks()
+
+    def expert_action(self) -> int:
+        """Return a shortest-path action toward the nearest unsatisfied target cell."""
+        nearest = self._nearest_uncovered_cell()
+        valid_actions = np.flatnonzero(self.action_masks())
+        if nearest is None or valid_actions.size == 0:
+            return int(valid_actions[0]) if valid_actions.size else 0
+
+        route = shortest_grid_path(self.grid, self.pos, nearest)
+        preferred_action: int | None = None
+        if len(route) >= 2:
+            row_delta = route[1][0] - self.pos[0]
+            col_delta = route[1][1] - self.pos[1]
+            for action, delta in ACTION_DELTAS.items():
+                if delta == (row_delta, col_delta):
+                    preferred_action = action
+                    break
+
+        if preferred_action is None or preferred_action not in valid_actions:
+            row, col = self.pos
+            candidates = []
+            for action in valid_actions:
+                move_action = int(action) % 4
+                row_delta, col_delta = ACTION_DELTAS[move_action]
+                candidate = (row + row_delta, col + col_delta)
+                distance = abs(candidate[0] - nearest[0]) + abs(candidate[1] - nearest[1])
+                spray_bonus = -2 if self._should_auto_spray(candidate) else 0
+                candidates.append((distance + spray_bonus, int(action)))
+            return min(candidates, key=lambda item: item[0])[1]
+
+        if self.spray_control and not self._should_auto_spray(route[1]):
+            no_spray_action = preferred_action + 4
+            if no_spray_action in valid_actions:
+                return no_spray_action
+        return int(preferred_action)
 
     @property
     def coverage(self) -> float:

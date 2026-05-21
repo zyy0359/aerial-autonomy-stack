@@ -43,6 +43,14 @@ COLORS = {
     "maskable-ppo": "#c2255c",
 }
 
+BACKGROUND_COLORS = {
+    "non_spray": "#c9ced6",
+    "target": "#f8f9fa",
+    "sprayed": "#111111",
+    "obstacle": "#ff922b",
+    "transit": "#ffe066",
+}
+
 
 def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
@@ -242,7 +250,14 @@ def plot_square_overlay(results: dict[str, dict[str, Any]], output_dir: Path, ma
         layers[cell] = 3
 
     square, row_offset, col_offset = pad_to_square(layers)
-    cmap = ListedColormap(["#c9ced6", "#f8f9fa", "#b2f2bb", "#343a40"])
+    cmap = ListedColormap(
+        [
+            BACKGROUND_COLORS["non_spray"],
+            BACKGROUND_COLORS["target"],
+            BACKGROUND_COLORS["sprayed"],
+            BACKGROUND_COLORS["obstacle"],
+        ]
+    )
     fig, ax = plt.subplots(figsize=(9.5, 9.5))
     ax.imshow(square, cmap=cmap, origin="upper", interpolation="nearest", vmin=0, vmax=3)
     side = square.shape[0]
@@ -275,10 +290,10 @@ def plot_square_overlay(results: dict[str, dict[str, Any]], output_dir: Path, ma
         ax.scatter([x[-1]], [y[-1]], marker="P", s=80, color=color, edgecolors="#212529", linewidths=0.4, zorder=5)
 
     legend_items = [
-        Patch(facecolor="#c9ced6", label="Non-spray / road / other"),
-        Patch(facecolor="#f8f9fa", label="Target field cell"),
-        Patch(facecolor="#b2f2bb", label="Sprayed target cell"),
-        Patch(facecolor="#343a40", label="Static obstacle"),
+        Patch(facecolor=BACKGROUND_COLORS["non_spray"], label="Non-spray / road / other"),
+        Patch(facecolor=BACKGROUND_COLORS["target"], label="Target field cell"),
+        Patch(facecolor=BACKGROUND_COLORS["sprayed"], label="Sprayed target cell"),
+        Patch(facecolor=BACKGROUND_COLORS["obstacle"], label="Static obstacle"),
         Line2D([0], [0], color="#212529", marker="*", linestyle="", label="Start"),
     ]
     path_items = [
@@ -303,7 +318,15 @@ def plot_matrix(results: dict[str, dict[str, Any]], output_dir: Path, max_arrows
     cols = min(3, max(1, len(ordered)))
     rows_n = math.ceil(len(ordered) / cols)
     fig, axes = plt.subplots(rows_n, cols, figsize=(6.2 * cols, 6.2 * rows_n), squeeze=False)
-    cmap = ListedColormap(["#c9ced6", "#f8f9fa", "#b2f2bb", "#343a40", "#ffe066"])
+    cmap = ListedColormap(
+        [
+            BACKGROUND_COLORS["non_spray"],
+            BACKGROUND_COLORS["target"],
+            BACKGROUND_COLORS["sprayed"],
+            BACKGROUND_COLORS["obstacle"],
+            BACKGROUND_COLORS["transit"],
+        ]
+    )
     table_rows: list[dict[str, Any]] = []
 
     for ax, (name, payload) in zip(axes.flatten(), ordered):
@@ -358,11 +381,11 @@ def plot_matrix(results: dict[str, dict[str, Any]], output_dir: Path, max_arrows
         ax.axis("off")
 
     legend_items = [
-        Patch(facecolor="#c9ced6", label="Non-spray / road / other"),
-        Patch(facecolor="#f8f9fa", label="Target field cell"),
-        Patch(facecolor="#b2f2bb", label="Sprayed target cell"),
-        Patch(facecolor="#343a40", label="Static obstacle"),
-        Patch(facecolor="#ffe066", label="Transit outside target"),
+        Patch(facecolor=BACKGROUND_COLORS["non_spray"], label="Non-spray / road / other"),
+        Patch(facecolor=BACKGROUND_COLORS["target"], label="Target field cell"),
+        Patch(facecolor=BACKGROUND_COLORS["sprayed"], label="Sprayed target cell"),
+        Patch(facecolor=BACKGROUND_COLORS["obstacle"], label="Static obstacle"),
+        Patch(facecolor=BACKGROUND_COLORS["transit"], label="Transit outside target"),
         Line2D([0], [0], color="#212529", marker="*", linestyle="", label="Start"),
         Line2D([0], [0], color="#f08c00", marker="P", linestyle="", label="End"),
     ]

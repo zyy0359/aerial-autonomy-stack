@@ -462,7 +462,7 @@ SAC & 0.0 & $7.7 \pm 0.7$ & $9.5 \pm 0.0$ & $2500.0 \pm 0.0$ & $11.1 \pm 19.2$ &
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth]{outputs/action_matrix_square_whole_farm_blocks/action_matrix_square_overlay.png}
-\caption{整图多区块覆盖任务的方形动作矩阵可视化。白色为农田目标格，灰色为道路或非喷洒区域，绿色为已覆盖目标格，黑色为静态障碍，彩色折线表示不同覆盖策略的上、下、左、右动作轨迹。}
+\caption{整图多区块覆盖任务的方形动作矩阵可视化。白色为农田目标格，灰色为道路或非喷洒区域，黑色为已覆盖喷洒目标格，橙色为静态障碍，彩色折线表示不同覆盖策略的上、下、左、右动作轨迹。}
 \label{fig:whole_farm_blocks_matrix}
 \end{figure}
 
@@ -540,9 +540,37 @@ DQN & 0.0 & 0.0 & 0.0 & 10000.0 & 999 & 996 & 0 & 5 \\
 
 因此，当前阶段不应将论文主线写成“DQN 完美解决所有农业喷洒任务”，而应表述为：本文在 AAS 果园环境中构建了可运行、可视化、可对比的无人机喷洒路径规划框架；静态树行覆盖任务中 Dueling DQN 表现最稳定；动态障碍与智能灌溉增强任务中 DRQN 是最有潜力的主算法；整图多区块任务已经完成接口、道路排除掩膜和可视化，但直接端到端强化学习仍存在收敛困难，后续需要课程学习、模仿学习或分层规划。
 
+\subsection{课程引导探索后的整图覆盖优化}
+
+针对整图多区块任务中强化学习难以跑满的问题，本文进一步加入课程式专家引导探索。具体做法是在训练早期以一定概率采用最短路径专家动作，将无人机引导至最近的未覆盖目标格；该引导概率随后线性衰减为 0，使后期策略仍由 DRQN 自身价值网络决策。该机制只在显式设置 \texttt{--guided-exploration} 时启用，因此不会改变前述静态树行实验和未引导整图短训实验。
+
+本轮优化采用 DRQN、\texttt{blocks} 整图多区块目标、\texttt{field-spacing=50}、自动喷洒控制、最大步数 1500、目标覆盖率 97\%，训练步数为 20000，并在 3 个随机种子（7、11、19）上验证。结果表明，引导探索显著改善了整图覆盖稳定性：DRQN 在 3 个随机种子上均达到 97.56\% 覆盖率，碰撞次数为 0，重复喷洒率为 0。平均路径长度为 $4425.0\pm81.9$ m，平均航点数为 $886.0\pm16.4$。这说明整图任务的主要瓶颈并非地图接口或目标掩膜错误，而是长距离稀疏目标场景下的探索效率不足。
+
+\begin{table}[H]
+\centering
+\caption{课程引导探索后 DRQN 在整图多区块任务中的结果（3 个随机种子，20000 步）}
+\label{tab:guided_drqn_whole_farm}
+\begin{tabular}{lrrrrrr}
+\toprule
+算法 & 成功率(\%) & 覆盖率(\%) & 路径长度(m) & 重复喷洒率(\%) & 碰撞 & 航点数 \\
+\midrule
+DRQN + 引导探索 & 100.0 & $97.56\pm0.00$ & $4425.0\pm81.9$ & $0.0\pm0.0$ & $0.0\pm0.0$ & $886.0\pm16.4$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{outputs/action_matrix_square_whole_farm_guided_drqn_3seeds_20k/action_matrix_square_overlay.png}
+\caption{课程引导探索后 DRQN 在整图多区块任务中的代表性方形动作矩阵。黑色为已覆盖喷洒目标格，橙色为静态障碍，绿色折线为 DRQN 最终轨迹。}
+\label{fig:guided_drqn_whole_farm_matrix}
+\end{figure}
+
+与未引导短训相比，该结果将整图覆盖率从最高 15.9\% 提升至 97.56\%，并将最大步数耗尽的局部游走轨迹转化为跨区块覆盖轨迹。该结果进一步支持本文的分层结论：复杂农业喷洒任务需要全局先验或课程引导来解决长距离探索问题，而 DRQN 更适合作为引入历史记忆和局部避障能力的在线策略模块。
+
 \subsection{当前代码状态与复现实验指令}
 
-截至当前阶段，代码已经保留并支持三类任务：原始树行喷洒任务 \texttt{trees}、矩形大田覆盖任务 \texttt{field}、整图多区块覆盖任务 \texttt{blocks}。其中 \texttt{trees} 用于复现红框果园树行实验，\texttt{field} 用于蓝框矩形农田演示，\texttt{blocks} 用于接近整张地图的多地块覆盖实验。系统还实现了变量需求图、喷洒开关、动态障碍、移动障碍安全值 $S_v$、DRQN、分层自动喷洒控制、多算法对比和方形动作矩阵可视化。
+截至当前阶段，代码已经保留并支持三类任务：原始树行喷洒任务 \texttt{trees}、矩形大田覆盖任务 \texttt{field}、整图多区块覆盖任务 \texttt{blocks}。其中 \texttt{trees} 用于复现红框果园树行实验，\texttt{field} 用于蓝框矩形农田演示，\texttt{blocks} 用于接近整张地图的多地块覆盖实验。系统还实现了变量需求图、喷洒开关、动态障碍、移动障碍安全值 $S_v$、DRQN、分层自动喷洒控制、课程式专家引导探索、多算法对比和方形动作矩阵可视化。
 
 常用复现实验命令如下。静态树行多算法对比：
 \begin{verbatim}
@@ -559,9 +587,14 @@ wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv
 wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --seeds 7 --timesteps 8000 --max-steps 2000 --goal-coverage 0.80 --goal-metric coverage --target-mode blocks --field-spacing 50 --auto-spray-control --output-dir experiments/spray_dqn/outputs/whole_farm_blocks_rl_smoke_1seed_8k --force"
 \end{verbatim}
 
+整图多区块 DRQN 课程引导优化实验：
+\begin{verbatim}
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms drqn --seeds 7,11,19 --timesteps 20000 --max-steps 1500 --goal-coverage 0.97 --goal-metric coverage --target-mode blocks --field-spacing 50 --auto-spray-control --guided-exploration 0.85 --guided-exploration-fraction 0.75 --output-dir experiments/spray_dqn/outputs/whole_farm_blocks_guided_drqn_3seeds_20k --force"
+\end{verbatim}
+
 若要生成论文中的方形动作矩阵图，可运行：
 \begin{verbatim}
-wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/whole_farm_blocks_rl_smoke_1seed_8k --output-dir experiments/spray_dqn/outputs/action_matrix_square_whole_farm_rl_smoke_1seed_8k --algorithms dqn,dueling-dqn,rainbow-dqn-lite,drqn --style square-overlay --max-arrows 260"
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/plot_action_matrix.py --input-dir experiments/spray_dqn/outputs/whole_farm_blocks_guided_drqn_3seeds_20k --output-dir experiments/spray_dqn/outputs/action_matrix_square_whole_farm_guided_drqn_3seeds_20k --algorithms drqn --style square-overlay --max-arrows 360"
 \end{verbatim}
 
 \section{Gazebo 任务生成}
@@ -580,8 +613,8 @@ wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv
 
 \section{结论与展望}
 
-本文基于 AAS 原有 Gazebo 果园仿真环境，构建了无人机喷洒路径规划强化学习实验框架，并对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO 和 DRQN 进行了对比。静态覆盖实验表明，Dueling DQN 在三随机种子实验中表现最稳定，具有较高成功率、较高平均覆盖率和较短成功路径，更适合作为基础静态果园喷洒路径规划系统的主算法。进一步的动态障碍与智能灌溉增强实验表明，Rainbow DQN lite 和 DRQN 在部分随机种子下能够达到 97\% 需求满足率和 0 碰撞，但 5 随机种子成功率均为 20.0\%。在加入喷洒开关和走廊动态障碍后，100000 步训练仍未稳定收敛，说明当前增强任务已经实现，但完整任务仍需要更强的训练策略和分阶段实验设计。本文还补充了大田矩形区域、整图多区块覆盖、道路排除掩膜、Gazebo mission 回放和方形动作矩阵可视化，使实验从“单排树行覆盖”扩展为可讨论整张农业地图覆盖能力的系统框架。
+本文基于 AAS 原有 Gazebo 果园仿真环境，构建了无人机喷洒路径规划强化学习实验框架，并对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO 和 DRQN 进行了对比。静态覆盖实验表明，Dueling DQN 在三随机种子实验中表现最稳定，具有较高成功率、较高平均覆盖率和较短成功路径，更适合作为基础静态果园喷洒路径规划系统的主算法。进一步的动态障碍与智能灌溉增强实验表明，Rainbow DQN lite 和 DRQN 在部分随机种子下能够达到 97\% 需求满足率和 0 碰撞，但 5 随机种子成功率均为 20.0\%。在加入喷洒开关和走廊动态障碍后，100000 步训练仍未稳定收敛，说明当前增强任务已经实现，但完整任务仍需要更强的训练策略和分阶段实验设计。本文还补充了大田矩形区域、整图多区块覆盖、道路排除掩膜、Gazebo mission 回放和方形动作矩阵可视化，使实验从“单排树行覆盖”扩展为可讨论整张农业地图覆盖能力的系统框架。在整图多区块任务中，未引导强化学习短训最高仅达到 15.9\% 覆盖率；加入课程式专家引导探索后，DRQN 在 3 个随机种子上达到 100.0\% 成功率和 $97.56\%\pm0.00\%$ 覆盖率，说明该任务需要全局先验或课程引导来突破长距离探索瓶颈。
 
-当前研究仍存在一定局限。首先，动态障碍和智能灌溉目前实现于 Python 高层规划环境中，Gazebo 内尚未生成真实移动行人或车辆，也尚未模拟真实药液雾化、风场漂移和沉积分布。其次，增强实验的 97\% 需求满足目标仅在部分随机种子下达到，喷洒开关虽然提高了任务真实性，但显著扩大了探索空间。再次，整图多区块强化学习短训结果显示，直接把树行任务策略扩展到整张地图会出现覆盖率低、轨迹局部化和最大步数耗尽的问题，说明复杂农业喷洒任务不宜完全依赖端到端 DQN 一次性学习。后续应采用课程学习、模仿学习、全局覆盖规划与局部 DRQN/Dueling DQN 避障控制相结合的分层策略，以提升多随机种子稳定性和整图覆盖能力。最后，当前 Rainbow DQN lite 尚未包含 C51 分布式价值学习和 NoisyNet 探索，后续可补充完整 Rainbow 结构，并进一步验证其在动态喷洒任务中的泛化能力。
+当前研究仍存在一定局限。首先，动态障碍和智能灌溉目前实现于 Python 高层规划环境中，Gazebo 内尚未生成真实移动行人或车辆，也尚未模拟真实药液雾化、风场漂移和沉积分布。其次，增强实验的 97\% 需求满足目标仅在部分随机种子下达到，喷洒开关虽然提高了任务真实性，但显著扩大了探索空间。再次，整图多区块任务虽然在课程引导后取得了稳定覆盖结果，但该结果仍依赖最短路径专家在训练早期提供示范，因此更适合被解释为“全局规划先验 + DRQN 局部策略”的分层框架，而不是纯端到端 DQN 独立解决整图喷洒。后续应采用更系统的课程学习、模仿学习、全局覆盖规划与局部 DRQN/Dueling DQN 避障控制相结合的分层策略，以提升动态增强任务中的多随机种子稳定性和真实 Gazebo 场景泛化能力。最后，当前 Rainbow DQN lite 尚未包含 C51 分布式价值学习和 NoisyNet 探索，后续可补充完整 Rainbow 结构，并进一步验证其在动态喷洒任务中的泛化能力。
 
 \end{document}
