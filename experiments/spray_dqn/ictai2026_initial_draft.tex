@@ -129,6 +129,9 @@ We report success rate, coverage, demand satisfaction, path length, repeated spr
 \subsection{Statistical Protocol}
 The main hierarchical enhanced experiment uses seeds 7, 11, 19, 23, and 31, 15k training steps, 2 corridor-mode dynamic obstacles, auto-spray, safety control, and intelligent irrigation. Ablations use the same five seeds and 10k training steps. Whole-farm guided DRQN uses three seeds and 20k training steps. Results are reported as mean $\pm$ sample standard deviation across completed seeds.
 
+\subsection{Implementation Environment}
+Experiments were run on a Windows workstation with WSL2. The CPU is a 13th Gen Intel Core i7-13650HX with 20 logical processors, and the GPU is an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB memory and driver version 596.21. The Python environment uses Python 3.12.3, PyTorch 2.11.0, Gymnasium 1.2.3, Stable-Baselines3 2.8.0, NumPy 2.4.4, and Matplotlib 3.10.8. The implementation is based on the AAS repository revision \texttt{2dcfc26}. For double-blind submission, local usernames, absolute paths, and repository-specific personal identifiers are omitted.
+
 \section{Results}
 \subsection{Hierarchical Enhanced Task}
 Table~\ref{tab:main5seed} shows the five-seed enhanced-task results. DQN achieves the highest success rate, while DRQN obtains the highest average demand satisfaction and lower variance. All four algorithms report zero planning and dynamic collisions.
