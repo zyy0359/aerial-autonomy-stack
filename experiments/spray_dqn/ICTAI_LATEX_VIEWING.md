@@ -5,6 +5,14 @@ This project currently contains the ICTAI draft at:
 - `experiments/spray_dqn/ictai2026_initial_draft.tex`
 - `experiments/spray_dqn/ictai2026_refs.bib`
 
+## Immediate Preview
+
+If LaTeX is not installed yet, open this generated reading preview first:
+
+- `experiments/spray_dqn/ictai2026_readable_preview.pdf`
+
+This preview is only for reading the content. It is not the official IEEE two-column PDF and should not be submitted.
+
 ## Recommended Setup
 
 1. Install a LaTeX distribution:
@@ -64,4 +72,3 @@ For ICTAI 2026 full-paper submission, keep the draft anonymous:
 - Use IEEE two-column, 10pt format.
 - Keep the full paper within 8 pages.
 - Supplementary material can be submitted separately, but the main PDF must stand on its own.
-
