@@ -17,14 +17,18 @@ The paper should not claim that plain DQN solves every spraying scenario. The st
 
 1. **Gazebo replay evidence**
    - Add one screenshot of the apple-orchard Gazebo world.
-   - Add QGroundControl or mission log evidence for takeoff, waypoint following, and landing/completion.
+   - Add QGroundControl mission/vehicle loaded screenshot.
+   - Add takeoff, waypoint-following, and landing/completion logs.
    - Add ROS 2 position topic trace or trajectory plot.
+   - Add no-collision screenshot or trajectory audit.
+   - Add a "grid path vs Gazebo replay trajectory" comparison figure.
    - Keep the claim precise: grid planner result + generated AAS mission + replay evidence.
 
 2. **Main learning curves**
    - Current ablation curves are full 5 seeds.
    - Main enhanced table is 5 seeds, but main learning curves only have newly logged seeds 23 and 31.
    - Rerun main enhanced experiment with `--force --learning-curves` for all 5 seeds if the curve is used as a main figure.
+   - The ICTAI draft now avoids claiming a main five-seed learning curve until this is done.
 
 3. **Tighten the contribution claims**
    - Emphasize hierarchical safe RL and ablation-backed design.
@@ -34,6 +38,11 @@ The paper should not claim that plain DQN solves every spraying scenario. The st
 4. **Clean references**
    - Fill missing DOI, venue, volume, issue, and pages in `ictai2026_refs.bib`.
    - Replace `misc` entries with proper `article` or `inproceedings` entries where possible.
+
+5. **Traditional baseline coverage**
+   - Existing draft now includes greedy nearest-target and row-wise/lawnmower whole-farm results.
+   - Add A* + target ordering if time allows, because it is the clearest graph-search baseline for reviewers.
+   - Add a same-task heuristic auto-spray baseline under the enhanced 21-target demand setting if a stronger non-learning comparison is needed.
 
 ## Strongly Recommended
 
@@ -69,4 +78,3 @@ The paper should not claim that plain DQN solves every spraying scenario. The st
 3. **Add one replay video or supplementary material**
    - ICTAI allows supplementary files.
    - Keep the main PDF self-contained, but put replay video/logs in supplementary material.
-
