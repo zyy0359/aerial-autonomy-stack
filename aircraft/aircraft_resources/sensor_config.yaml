@@ -1,0 +1,39 @@
+sensors:
+
+  camera_intrinsics:
+    diagonal_fov_deg: 100.0
+    width: 320
+    height: 240
+    update_rate: 8
+    near_clip: 0.1
+    far_clip: 2000
+
+  lidar_intrinsics:
+    horizontal_samples: 240
+    h_min_angle_deg: -180.0
+    h_max_angle_deg: 180.0
+    vertical_samples: 40
+    v_min_angle_deg: 7.0
+    v_max_angle_deg: 52.0
+    min_range: 0.1
+    max_range: 70.0
+    range_resolution: 0.01
+    update_rate: 4
+
+aircraft_models:
+
+  alti_transition_quad:
+    camera_extrinsics: "0.86 0 -0.05 0 20 0"
+    lidar_extrinsics: "0 0 -0.125 180 0 0"
+
+  iris_with_ardupilot:
+    camera_extrinsics: ".155 0 0 0 -25 0"
+    lidar_extrinsics: "0 0 .08 0 15 0"
+
+  standard_vtol:
+    camera_extrinsics: ".535 0 0 0 20 0"
+    lidar_extrinsics: "0 0 -0.08 180 0 0"
+
+  x500:
+    camera_extrinsics: ".175 0 0 0 -25 0"
+    lidar_extrinsics: "0 0 .08 0 15 0"
