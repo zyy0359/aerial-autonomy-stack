@@ -9,6 +9,7 @@ from typing import Any
 
 import numpy as np
 
+from learning_curve_utils import curve_row, write_learning_curve
 from orchard_dqn_env import OrchardDQNEnv
 from orchard_world import DEFAULT_WORLD, default_output_dir, evaluate_path
 
@@ -186,6 +187,8 @@ def evaluate_policy(q_net: QNetwork, env: OrchardDQNEnv, seed: int) -> dict[str,
     obs, _ = env.reset(seed=seed)
     terminated = False
     truncated = False
+    episode_reward = 0.0
+    episode_steps = 0
     info: dict[str, Any] = {}
     while not (terminated or truncated):
         with torch.no_grad():
@@ -194,12 +197,16 @@ def evaluate_policy(q_net: QNetwork, env: OrchardDQNEnv, seed: int) -> dict[str,
             mask = torch.as_tensor(env.action_masks(), dtype=torch.bool, device=q_net.device)
             q_values = q_values.masked_fill(~mask, -1e9)
             action = int(q_values.argmax(dim=0).item())
-        obs, _, terminated, truncated, info = env.step(action)
+        obs, reward, terminated, truncated, info = env.step(action)
+        episode_reward += float(reward)
+        episode_steps += 1
     metrics = evaluate_path(env.grid, env.path)
     metrics.update(info)
     return {
         "metrics": metrics,
         "path": env.path,
+        "episode_reward": episode_reward,
+        "episode_steps": episode_steps,
     }
 
 
@@ -225,6 +232,7 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
     obs, _ = env.reset(seed=args.seed)
     episode_rewards = []
     episode_reward = 0.0
+    curve_rows: list[dict[str, Any]] = []
 
     for step in range(1, args.timesteps + 1):
         epsilon = linear_schedule(
@@ -288,8 +296,39 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         if step % args.target_update_interval == 0:
             target_net.load_state_dict(q_net.state_dict())
 
+        if args.eval_freq > 0 and args.curve_dir and step % args.eval_freq == 0:
+            eval_env = OrchardDQNEnv(**env_kwargs(args))
+            curve_eval = evaluate_policy(q_net, eval_env, args.seed)
+            curve_rows.append(
+                curve_row(
+                    timesteps=step,
+                    algorithm=config.name,
+                    seed=args.seed,
+                    metrics=curve_eval["metrics"],
+                    goal_metric=args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+                    goal_coverage=args.goal_coverage,
+                    episode_reward=curve_eval["episode_reward"],
+                    episode_steps=curve_eval["episode_steps"],
+                )
+            )
+
     eval_env = OrchardDQNEnv(**env_kwargs(args))
     eval_result = evaluate_policy(q_net, eval_env, args.seed)
+    if args.curve_dir and (not curve_rows or curve_rows[-1]["timesteps"] != args.timesteps):
+        curve_rows.append(
+            curve_row(
+                timesteps=args.timesteps,
+                algorithm=config.name,
+                seed=args.seed,
+                metrics=eval_result["metrics"],
+                goal_metric=args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+                goal_coverage=args.goal_coverage,
+                episode_reward=eval_result["episode_reward"],
+                episode_steps=eval_result["episode_steps"],
+            )
+        )
+    if args.curve_dir:
+        write_learning_curve(curve_rows, Path(args.curve_dir) / f"{config.name}_learning_curve.csv")
     model_dir = Path(args.model_dir)
     model_dir.mkdir(parents=True, exist_ok=True)
     model_path = model_dir / f"{config.name}.pt"
@@ -330,6 +369,7 @@ def train_variant(args, config: VariantConfig) -> dict[str, Any]:
         "model": str(model_path),
         "final_metrics": eval_result["metrics"],
         "path": eval_result["path"],
+        "episode_reward": eval_result["episode_reward"],
         "episode_rewards_tail": episode_rewards[-10:],
     }
 
@@ -365,6 +405,8 @@ def main() -> None:
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--guided-exploration", type=float, default=0.0, help="Probability of using shortest-path expert actions early in training.")
     parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Fraction of training over which expert guidance decays to zero.")
+    parser.add_argument("--eval-freq", type=int, default=0, help="Evaluate every N training timesteps and save learning curves when --curve-dir is set.")
+    parser.add_argument("--curve-dir", default=None, help="Optional directory for per-algorithm learning curve CSV/JSON files.")
     parser.add_argument("--model-dir", default=str(default_output_dir() / "models"))
     parser.add_argument("--metrics-dir", default=str(default_output_dir() / "metrics"))
     parser.add_argument("--learning-rate", type=float, default=1e-3)

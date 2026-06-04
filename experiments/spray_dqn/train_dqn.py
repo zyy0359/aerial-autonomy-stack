@@ -4,8 +4,9 @@ import argparse
 import json
 from pathlib import Path
 
+from learning_curve_utils import curve_row, write_learning_curve
 from orchard_dqn_env import OrchardDQNEnv
-from orchard_world import DEFAULT_WORLD, default_output_dir
+from orchard_world import DEFAULT_WORLD, default_output_dir, evaluate_path
 
 
 def env_kwargs(args) -> dict:
@@ -32,6 +33,76 @@ def env_kwargs(args) -> dict:
     }
 
 
+def evaluate_model(model, args, seed: int) -> dict:
+    eval_env = OrchardDQNEnv(**env_kwargs(args))
+    obs, _ = eval_env.reset(seed=seed)
+    terminated = False
+    truncated = False
+    episode_reward = 0.0
+    episode_steps = 0
+    info = {}
+    while not (terminated or truncated):
+        action, _ = model.predict(obs, deterministic=True)
+        obs, reward, terminated, truncated, info = eval_env.step(int(action))
+        episode_reward += float(reward)
+        episode_steps += 1
+    metrics = evaluate_path(eval_env.grid, eval_env.path)
+    metrics.update(info)
+    return {
+        "metrics": metrics,
+        "path": eval_env.path,
+        "episode_reward": episode_reward,
+        "episode_steps": episode_steps,
+        "grid": eval_env.grid.active_target_summary(),
+    }
+
+
+class LearningCurveCallback:
+    def __init__(self, args):
+        from stable_baselines3.common.callbacks import BaseCallback
+
+        class Callback(BaseCallback):
+            def __init__(self, outer_args):
+                super().__init__()
+                self.outer_args = outer_args
+                self.rows = []
+
+            def _on_step(self) -> bool:
+                if self.outer_args.eval_freq <= 0 or not self.outer_args.curve_out:
+                    return True
+                if self.num_timesteps % self.outer_args.eval_freq != 0:
+                    return True
+                self._append_row(self.num_timesteps)
+                return True
+
+            def _on_training_end(self) -> None:
+                if not self.outer_args.curve_out:
+                    return
+                if self.outer_args.eval_freq > 0 and (
+                    not self.rows or self.rows[-1]["timesteps"] != self.num_timesteps
+                ):
+                    self._append_row(self.num_timesteps)
+                write_learning_curve(self.rows, self.outer_args.curve_out)
+
+            def _append_row(self, timesteps: int) -> None:
+                result = evaluate_model(self.model, self.outer_args, seed=self.outer_args.seed)
+                self.rows.append(
+                    curve_row(
+                        timesteps=timesteps,
+                        algorithm="dqn",
+                        seed=self.outer_args.seed,
+                        metrics=result["metrics"],
+                        goal_metric=self.outer_args.goal_metric
+                        or ("demand" if self.outer_args.intelligent_irrigation else "coverage"),
+                        goal_coverage=self.outer_args.goal_coverage,
+                        episode_reward=result["episode_reward"],
+                        episode_steps=result["episode_steps"],
+                    )
+                )
+
+        self.callback = Callback(args)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train DQN on a map derived from the existing apple_orchard SDF.")
     parser.add_argument("--world", default=str(DEFAULT_WORLD))
@@ -56,6 +127,8 @@ def main() -> None:
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--guided-exploration", type=float, default=0.0, help="Accepted for CLI compatibility; SB3 DQN does not use expert guided exploration.")
     parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Accepted for CLI compatibility.")
+    parser.add_argument("--eval-freq", type=int, default=0, help="Evaluate every N training timesteps and save a learning curve when --curve-out is set.")
+    parser.add_argument("--curve-out", default=None, help="Optional CSV/JSON learning curve output path.")
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "dqn_apple_orchard"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "train_summary.json"))
     args = parser.parse_args()
@@ -83,19 +156,15 @@ def main() -> None:
         seed=args.seed,
         device=args.device,
     )
-    model.learn(total_timesteps=args.timesteps)
+    curve_callback = LearningCurveCallback(args).callback if args.curve_out else None
+    model.learn(total_timesteps=args.timesteps, callback=curve_callback)
 
     model_out = Path(args.model_out)
     model_out.parent.mkdir(parents=True, exist_ok=True)
     model.save(model_out)
 
-    eval_env = OrchardDQNEnv(**env_kwargs(args))
-    obs, _ = eval_env.reset(seed=args.seed)
-    terminated = False
-    truncated = False
-    while not (terminated or truncated):
-        action, _ = model.predict(obs, deterministic=True)
-        obs, _, terminated, truncated, info = eval_env.step(int(action))
+    eval_result = evaluate_model(model, args, seed=args.seed)
+    info = eval_result["metrics"]
 
     summary = {
         "algorithm": "dqn",
@@ -121,9 +190,10 @@ def main() -> None:
         "field_spacing_m": args.field_spacing,
         "guided_exploration": args.guided_exploration,
         "guided_exploration_fraction": args.guided_exploration_fraction,
-        "grid": eval_env.grid.active_target_summary(),
+        "grid": eval_result["grid"],
         "final_metrics": info,
-        "path": eval_env.path,
+        "path": eval_result["path"],
+        "episode_reward": eval_result["episode_reward"],
     }
     summary_out = Path(args.summary_out)
     summary_out.parent.mkdir(parents=True, exist_ok=True)

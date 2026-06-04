@@ -86,6 +86,17 @@ def enhanced_flags(args) -> list[str]:
     return flags
 
 
+def curve_args(args, metrics_dir: Path, algorithm: str) -> list[str]:
+    if not args.learning_curves:
+        return []
+    return [
+        "--eval-freq",
+        str(args.eval_freq),
+        "--curve-out",
+        str(metrics_dir / f"{algorithm}_learning_curve.csv"),
+    ]
+
+
 def train_seed(args, seed: int) -> None:
     seed_dir = Path(args.output_dir) / f"seed_{seed}"
     model_dir = seed_dir / "models"
@@ -95,28 +106,28 @@ def train_seed(args, seed: int) -> None:
 
     algorithms = set(args.algorithms)
     if "dqn" in algorithms:
+        dqn_cmd = [
+            sys.executable,
+            "experiments/spray_dqn/train_dqn.py",
+            "--world",
+            args.world,
+            "--cell-size",
+            str(args.cell_size),
+            "--goal-coverage",
+            str(args.goal_coverage),
+            "--timesteps",
+            str(args.timesteps),
+            "--seed",
+            str(seed),
+            "--device",
+            args.device,
+            "--model-out",
+            str(model_dir / "dqn"),
+            "--summary-out",
+            str(metrics_dir / "dqn_summary.json"),
+        ]
         maybe_run(
-            [
-                sys.executable,
-                "experiments/spray_dqn/train_dqn.py",
-                "--world",
-                args.world,
-                "--cell-size",
-                str(args.cell_size),
-                "--goal-coverage",
-                str(args.goal_coverage),
-                "--timesteps",
-                str(args.timesteps),
-                "--seed",
-                str(seed),
-                "--device",
-                args.device,
-                "--model-out",
-                str(model_dir / "dqn"),
-                "--summary-out",
-                str(metrics_dir / "dqn_summary.json"),
-            ]
-            + enhanced_flags(args),
+            dqn_cmd + enhanced_flags(args) + curve_args(args, metrics_dir, "dqn"),
             metrics_dir / "dqn_summary.json",
             args.force,
         )
@@ -187,33 +198,43 @@ def train_seed(args, seed: int) -> None:
                     str(metrics_dir),
                 ]
                 + enhanced_flags(args)
+                + (
+                    [
+                        "--eval-freq",
+                        str(args.eval_freq),
+                        "--curve-dir",
+                        str(metrics_dir),
+                    ]
+                    if args.learning_curves
+                    else []
+                )
             )
         else:
             print(f"skip existing {', '.join(str(path) for path in expected)}", flush=True)
 
     if "drqn" in algorithms:
+        drqn_cmd = [
+            sys.executable,
+            "experiments/spray_dqn/train_drqn.py",
+            "--world",
+            args.world,
+            "--cell-size",
+            str(args.cell_size),
+            "--goal-coverage",
+            str(args.goal_coverage),
+            "--timesteps",
+            str(args.timesteps),
+            "--seed",
+            str(seed),
+            "--device",
+            args.device,
+            "--model-out",
+            str(model_dir / "drqn.pt"),
+            "--summary-out",
+            str(metrics_dir / "drqn_summary.json"),
+        ]
         maybe_run(
-            [
-                sys.executable,
-                "experiments/spray_dqn/train_drqn.py",
-                "--world",
-                args.world,
-                "--cell-size",
-                str(args.cell_size),
-                "--goal-coverage",
-                str(args.goal_coverage),
-                "--timesteps",
-                str(args.timesteps),
-                "--seed",
-                str(seed),
-                "--device",
-                args.device,
-                "--model-out",
-                str(model_dir / "drqn.pt"),
-                "--summary-out",
-                str(metrics_dir / "drqn_summary.json"),
-            ]
-            + enhanced_flags(args),
+            drqn_cmd + enhanced_flags(args) + curve_args(args, metrics_dir, "drqn"),
             metrics_dir / "drqn_summary.json",
             args.force,
         )
@@ -460,6 +481,8 @@ def main() -> None:
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--guided-exploration", type=float, default=0.0, help="Use shortest-path expert actions early in custom DQN/DRQN training.")
     parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Fraction of training over which guided exploration decays to zero.")
+    parser.add_argument("--learning-curves", action="store_true", help="Save periodic evaluation curves for reward, coverage, and demand satisfaction.")
+    parser.add_argument("--eval-freq", type=int, default=5000, help="Evaluation interval used with --learning-curves.")
     parser.add_argument("--output-dir", default=str(default_output_dir() / "multiseed_20260513_top5"))
     parser.add_argument("--aggregate-only", action="store_true")
     parser.add_argument("--force", action="store_true")

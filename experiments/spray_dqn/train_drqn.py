@@ -8,6 +8,7 @@ from typing import Any
 
 import numpy as np
 
+from learning_curve_utils import curve_row, write_learning_curve
 from orchard_dqn_env import OrchardDQNEnv
 from orchard_world import DEFAULT_WORLD, default_output_dir, evaluate_path
 
@@ -99,6 +100,8 @@ def evaluate_policy(model, env: OrchardDQNEnv, seed: int, device) -> dict[str, A
     hidden = None
     terminated = False
     truncated = False
+    episode_reward = 0.0
+    episode_steps = 0
     info: dict[str, Any] = {}
     while not (terminated or truncated):
         with torch.no_grad():
@@ -108,10 +111,17 @@ def evaluate_policy(model, env: OrchardDQNEnv, seed: int, device) -> dict[str, A
             mask = torch.as_tensor(env.action_masks(), dtype=torch.bool, device=device)
             q_values = q_values.masked_fill(~mask, -1e9)
             action = int(q_values.argmax(dim=0).item())
-        obs, _, terminated, truncated, info = env.step(action)
+        obs, reward, terminated, truncated, info = env.step(action)
+        episode_reward += float(reward)
+        episode_steps += 1
     metrics = evaluate_path(env.grid, env.path)
     metrics.update(info)
-    return {"metrics": metrics, "path": env.path}
+    return {
+        "metrics": metrics,
+        "path": env.path,
+        "episode_reward": episode_reward,
+        "episode_steps": episode_steps,
+    }
 
 
 def train(args) -> dict[str, Any]:
@@ -160,6 +170,7 @@ def train(args) -> dict[str, Any]:
     episode: list[tuple[np.ndarray, int, float, np.ndarray, bool]] = []
     episode_rewards: list[float] = []
     episode_reward = 0.0
+    curve_rows: list[dict[str, Any]] = []
 
     for step in range(1, args.timesteps + 1):
         epsilon = linear_schedule(
@@ -222,8 +233,39 @@ def train(args) -> dict[str, Any]:
         if step % args.target_update_interval == 0:
             target_net.load_state_dict(q_net.state_dict())
 
+        if args.eval_freq > 0 and args.curve_out and step % args.eval_freq == 0:
+            eval_env = OrchardDQNEnv(**env_kwargs(args))
+            curve_eval = evaluate_policy(q_net, eval_env, args.seed, device)
+            curve_rows.append(
+                curve_row(
+                    timesteps=step,
+                    algorithm="drqn",
+                    seed=args.seed,
+                    metrics=curve_eval["metrics"],
+                    goal_metric=args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+                    goal_coverage=args.goal_coverage,
+                    episode_reward=curve_eval["episode_reward"],
+                    episode_steps=curve_eval["episode_steps"],
+                )
+            )
+
     eval_env = OrchardDQNEnv(**env_kwargs(args))
     eval_result = evaluate_policy(q_net, eval_env, args.seed, device)
+    if args.curve_out and (not curve_rows or curve_rows[-1]["timesteps"] != args.timesteps):
+        curve_rows.append(
+            curve_row(
+                timesteps=args.timesteps,
+                algorithm="drqn",
+                seed=args.seed,
+                metrics=eval_result["metrics"],
+                goal_metric=args.goal_metric or ("demand" if args.intelligent_irrigation else "coverage"),
+                goal_coverage=args.goal_coverage,
+                episode_reward=eval_result["episode_reward"],
+                episode_steps=eval_result["episode_steps"],
+            )
+        )
+    if args.curve_out:
+        write_learning_curve(curve_rows, args.curve_out)
 
     model_out = Path(args.model_out)
     model_out.parent.mkdir(parents=True, exist_ok=True)
@@ -263,6 +305,7 @@ def train(args) -> dict[str, Any]:
         "model": str(model_out),
         "final_metrics": eval_result["metrics"],
         "path": eval_result["path"],
+        "episode_reward": eval_result["episode_reward"],
         "episode_rewards_tail": episode_rewards[-10:],
     }
 
@@ -291,6 +334,8 @@ def main() -> None:
     parser.add_argument("--field-spacing", type=float, default=None)
     parser.add_argument("--guided-exploration", type=float, default=0.0, help="Probability of using shortest-path expert actions early in training.")
     parser.add_argument("--guided-exploration-fraction", type=float, default=0.5, help="Fraction of training over which expert guidance decays to zero.")
+    parser.add_argument("--eval-freq", type=int, default=0, help="Evaluate every N training timesteps and save a learning curve when --curve-out is set.")
+    parser.add_argument("--curve-out", default=None, help="Optional CSV/JSON learning curve output path.")
     parser.add_argument("--model-out", default=str(default_output_dir() / "models" / "drqn.pt"))
     parser.add_argument("--summary-out", default=str(default_output_dir() / "metrics" / "drqn_summary.json"))
     parser.add_argument("--hidden-size", type=int, default=128)
