@@ -10,6 +10,7 @@ This project currently contains the ICTAI draft at:
 If LaTeX is not installed yet, open this generated reading preview first:
 
 - `experiments/spray_dqn/ictai2026_readable_preview.pdf`
+- `experiments/spray_dqn/ictai2026_readable_preview_merged.pdf`
 
 This preview is only for reading the content. It is not the official IEEE two-column PDF and should not be submitted.
 

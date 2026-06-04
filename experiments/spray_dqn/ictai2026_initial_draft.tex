@@ -17,7 +17,7 @@
 \maketitle
 
 \begin{abstract}
-Autonomous agricultural spraying requires a planner that can cover target crops, satisfy variable-rate application demands, avoid static and moving obstacles, and generate missions that remain executable in a robotic simulator. This paper presents a deep reinforcement learning framework for UAV spraying path planning in an orchard scenario derived from the Aerial Autonomy Stack (AAS). Rather than manually creating an abstract grid map, the framework parses the existing Gazebo orchard world, extracts trees, field regions, and obstacles, and converts them into a grid-based Markov decision process. We compare DQN-family methods, including DQN, Dueling DQN, Rainbow DQN lite, and DRQN, under static coverage, variable-rate spraying, dynamic-obstacle, and whole-farm coverage settings. To reduce exploration difficulty, we introduce a hierarchical controller that decouples motion planning from automatic spraying and local safety overrides. In the five-seed hierarchical enhanced task, DQN achieves the highest success rate of 80.0\%, while DRQN obtains the highest mean demand satisfaction of $80.9\%\pm14.7\%$; all compared DQN-family methods report zero planning and dynamic collisions. Ablation experiments show that auto-spray is the main contributor to success and demand satisfaction, while the safety controller removes collision failures. For larger sparse whole-farm coverage, unguided reinforcement learning reaches only 15.9\% coverage, whereas curriculum-guided DRQN reaches 100.0\% success and $97.56\%\pm0.00\%$ coverage over three seeds. Finally, a successful RL path is exported as an AAS mission YAML for Gazebo replay. These results suggest that safe orchard spraying is better addressed as a hierarchical planning-and-control problem than as a purely end-to-end DQN task.
+Autonomous agricultural spraying requires a planner that can cover target crops, satisfy variable-rate application demands, avoid static and moving obstacles, and generate missions that remain executable in a robotic simulator. This paper presents a deep reinforcement learning framework for UAV spraying path planning in an orchard scenario derived from the Aerial Autonomy Stack (AAS). Rather than manually creating an abstract grid map, the framework parses the existing Gazebo orchard world, extracts trees, field regions, and obstacles, and converts them into a grid-based Markov decision process. We compare DQN-family methods, including DQN, Double DQN, Dueling DQN, Rainbow DQN lite, and DRQN, under static coverage, variable-rate spraying, dynamic-obstacle, and whole-farm coverage settings. The static tree-row experiments show that Dueling DQN is a stable baseline, while early enhanced experiments reveal that explicit spray switching greatly increases exploration difficulty. To reduce this difficulty, we introduce a hierarchical controller that decouples motion planning from automatic spraying and local safety overrides. In the five-seed hierarchical enhanced task, DQN achieves the highest success rate of 80.0\%, while DRQN obtains the highest mean demand satisfaction of $80.9\%\pm14.7\%$; all compared DQN-family methods report zero planning and dynamic collisions. Ablation experiments show that auto-spray is the main contributor to success and demand satisfaction, while the safety controller removes collision failures. For larger sparse whole-farm coverage, unguided reinforcement learning reaches only 15.9\% coverage, whereas curriculum-guided DRQN reaches 100.0\% success and $97.56\%\pm0.00\%$ coverage over three seeds. Finally, a successful RL path is exported as an AAS mission YAML for Gazebo replay. These results suggest that safe orchard spraying is better addressed as a hierarchical planning-and-control problem than as a purely end-to-end DQN task.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -61,6 +61,25 @@ Compared with optimization-based pesticide irrigation \cite{gao2021aco}, crop an
 \subsection{Environment Model}
 The environment is derived from an AAS orchard world. The parser extracts enabled tree-row models, static obstacle models, and optional field-region targets from the simulator assets. The planning layer discretizes the environment into a grid. Each target tree or field cell becomes a spraying target, while obstacle-inflated cells are marked as invalid. The default local tree-row task contains 21 target trees and 8 static obstacles with a 5 m grid resolution.
 
+Table~\ref{tab:env_stats} summarizes the default local tree-row environment. The task uses the enabled \texttt{birch\_row\_1} model in the AAS orchard scene; larger field and block modes reuse the same Gazebo world but change the target mask.
+
+\begin{table}[t]
+\centering
+\caption{Default AAS orchard grid environment.}
+\label{tab:env_stats}
+\begin{tabular}{lr}
+\toprule
+Property & Value \\
+\midrule
+Spraying targets & 21 \\
+Static obstacles & 8 \\
+Grid resolution & 5 m \\
+Start grid position & $(29,7)$ \\
+Reference successful waypoints & 73 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{MDP Definition}
 We formulate spraying path planning as a Markov decision process
 \begin{equation}
@@ -88,6 +107,8 @@ R_t = r_{\mathrm{step}} + r_{\mathrm{new}} + r_{\mathrm{demand}} + r_{\mathrm{re
 \end{equation}
 Newly covered or newly satisfied targets receive positive reward, while repeated spraying and invalid movement are penalized. In dynamic-obstacle settings, a normalized safety value $S_v\in[0,1]$ is computed from the UAV's distance to moving obstacles. Higher $S_v$ indicates safer motion.
 
+For the basic coverage experiments, the main reward coefficients are $r_{\mathrm{step}}=-0.01$, $r_{\mathrm{new}}=5.0N_{\mathrm{new}}$, $r_{\mathrm{repeat}}=-0.15N_{\mathrm{repeat}}$, $r_{\mathrm{collision}}=-2.0$, and $r_{\mathrm{finish}}=50.0$. In variable-rate spraying, the coverage term is augmented with demand satisfaction so that progress is measured by satisfied dose rather than only by visiting a tree once.
+
 \section{Hierarchical Spraying Architecture}
 \subsection{Motivation}
 Initial experiments showed that directly learning both movement and spray switching in the 8-action enhanced task is unstable. Increasing training steps alone did not resolve the issue. We therefore introduce a hierarchical design that separates three responsibilities: RL path selection, demand-aware spray activation, and local safety override.
@@ -113,7 +134,7 @@ and then gradually transitions to its own value policy. The expert is used only 
 
 \section{Experimental Setup}
 \subsection{Algorithms}
-We evaluate DQN, Dueling DQN, Rainbow DQN lite, and DRQN as the main DQN-family methods. DQN is the simplest value baseline. Dueling DQN is a strong static-coverage baseline. Rainbow DQN lite combines selected DQN improvements, but does not include the full Rainbow set such as distributional value learning and NoisyNet exploration. DRQN is used to test whether recurrent memory improves dynamic and partially observable spraying tasks.
+We evaluate DQN, Double DQN, Dueling DQN, Rainbow DQN lite, PPO, and DRQN in the staged experiments. DQN is the simplest value baseline. Double DQN is used to test whether separating action selection and target-value estimation helps static coverage. Dueling DQN is a strong static-coverage baseline. Rainbow DQN lite combines selected DQN improvements, but does not include the full Rainbow set such as distributional value learning and NoisyNet exploration. PPO is included as a policy-gradient reference in the static screening stage. DRQN is used to test whether recurrent memory improves dynamic and partially observable spraying tasks.
 
 \subsection{Tasks and Metrics}
 The experiments are organized into four levels:
@@ -124,6 +145,8 @@ The experiments are organized into four levels:
   \item Whole-farm multi-block coverage with sparse targets and curriculum guidance.
 \end{enumerate}
 
+This staged design follows the diagnostic structure of the full study. The static task verifies whether value-based policies can learn basic coverage and static obstacle avoidance. The variable-rate task tests whether dose demand can be represented in the reward and observation. The dynamic enhanced task adds moving obstacles and $S_v$ safety values. The whole-farm task expands the target mask from a single tree row to multiple sparse agricultural blocks.
+
 We report success rate, coverage, demand satisfaction, path length, repeated spraying, planning collisions, dynamic collisions, minimum $S_v$, and waypoint count. In intelligent-irrigation tasks, success is defined by demand satisfaction. In the current enhanced-task protocol, the threshold is 90\% demand satisfaction with zero planning collisions. Unless otherwise stated, enhanced-task episodes have a maximum of 500 steps.
 
 \subsection{Statistical Protocol}
@@ -133,6 +156,33 @@ The main hierarchical enhanced experiment uses seeds 7, 11, 19, 23, and 31, 15k 
 Experiments were run on a Windows workstation with WSL2. The CPU is a 13th Gen Intel Core i7-13650HX with 20 logical processors, and the GPU is an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB memory and driver version 596.21. The Python environment uses Python 3.12.3, PyTorch 2.11.0, Gymnasium 1.2.3, Stable-Baselines3 2.8.0, NumPy 2.4.4, and Matplotlib 3.10.8. The implementation is based on the AAS repository revision \texttt{2dcfc26}. For double-blind submission, local usernames, absolute paths, and repository-specific personal identifiers are omitted.
 
 \section{Results}
+\subsection{Static Tree-Row Coverage}
+The first experiment evaluates whether DQN-family algorithms can solve the local tree-row spraying task before adding demand and dynamic obstacles. Table~\ref{tab:static_tree} reports three-seed results for five RL algorithms. Dueling DQN, Double DQN, DQN, and Rainbow DQN lite all reach 66.7\% success, while PPO reaches 33.3\%. Dueling DQN and Double DQN obtain the highest average coverage, indicating that DQN variants are suitable static baselines before the enhanced task is introduced.
+
+\begin{table}[t]
+\centering
+\caption{Static tree-row coverage results over three seeds.}
+\label{tab:static_tree}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lrrrr}
+\toprule
+Algorithm & Success & Coverage & Path (m) & Coll. \\
+\midrule
+Dueling DQN & 66.7 & $92.1\pm13.7$ & $1093.3\pm1218.6$ & $0.0\pm0.0$ \\
+Double DQN & 66.7 & $92.1\pm13.7$ & $1110.0\pm1203.8$ & $0.0\pm0.0$ \\
+DQN & 66.7 & $84.1\pm27.5$ & $1106.7\pm1206.7$ & $0.0\pm0.0$ \\
+Rainbow lite & 66.7 & $81.0\pm33.0$ & $1090.0\pm1221.4$ & $0.0\pm0.0$ \\
+PPO & 33.3 & $54.0\pm39.9$ & $1793.3\pm1224.0$ & $0.0\pm0.0$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Successful episodes have much shorter paths than the aggregate averages because failed seeds run until the step limit. In successful episodes, Dueling DQN has $390.0\pm42.4$ m path length, Double DQN has $415.0\pm7.1$ m, DQN has $410.0\pm0.0$ m, and Rainbow DQN lite has $385.0\pm35.4$ m. This motivated using Dueling DQN as the static strong baseline and using DQN as the simplest interpretable value baseline.
+
+\subsection{Enhanced Task Before Hierarchical Control}
+The next experiments add variable-rate demand, dynamic obstacles, and explicit spray switching. Under a 97\% demand threshold with 30k training steps, Rainbow DQN lite and DRQN each succeed in only one of five seeds, while DQN and Dueling DQN do not reach the threshold. A stricter 100k-step 8-action corridor-obstacle configuration also fails to stabilize: DRQN obtains $41.7\%\pm35.4\%$ demand satisfaction and Rainbow DQN lite obtains only $10.1\%\pm14.9\%$, with all episodes reaching the maximum path length. These failed-but-diagnostic results show that simply increasing the action space and training budget is not enough; spray switching makes exploration substantially harder. This diagnosis motivates the hierarchical auto-spray and safety design evaluated next.
+
 \subsection{Hierarchical Enhanced Task}
 Table~\ref{tab:main5seed} shows the five-seed enhanced-task results. DQN achieves the highest success rate, while DRQN obtains the highest average demand satisfaction and lower variance. All four algorithms report zero planning and dynamic collisions.
 
@@ -192,22 +242,30 @@ We log periodic deterministic evaluations during training. Fig.~\ref{fig:learnin
 \end{figure}
 
 \subsection{Whole-Farm Multi-Block Coverage}
-When DQN-family methods are directly applied to the larger \texttt{blocks} target mode without guidance, exploration fails. In a short smoke test, the best coverage is only 15.9\%. After adding curriculum-guided exploration, DRQN reaches 100.0\% success and $97.56\%\pm0.00\%$ coverage over three seeds, with $4425.0\pm81.9$ m average path length, zero collisions, zero repeated spraying, and $886.0\pm16.4$ waypoints.
+The AAS orchard world is not limited to the enabled tree row. We also define a rectangular field mode and a multi-block mode using target masks in the same world. In field mode, \texttt{field-bounds=(-55,-105,75,-20)} and 10 m spacing generate 126 abstract field targets; a lawnmower mission covers 100.0\% of these field targets with about 1333.6 m path length and zero collisions. In block mode, roads, parking regions, buildings, and non-farm textures are excluded from the spraying target mask, but the UAV may still fly over non-target areas when transferring between separated blocks.
+
+Before applying RL to the whole-farm setting, we verify the target mask with two rule baselines. A nearest-target baseline covers 100.0\% of target cells with a 4640.0 m path, while a row-wise lawnmower baseline also covers 100.0\% but requires 7740.0 m. This confirms that block order and traversal pattern strongly affect path efficiency.
+
+When DQN-family methods are directly applied to the larger \texttt{blocks} target mode without guidance, exploration fails. In a short smoke test, the best coverage is only 15.9\% by Rainbow DQN lite, followed by 13.4\% by Dueling DQN; DRQN and DQN remain near local regions. After adding curriculum-guided exploration, DRQN reaches 100.0\% success and $97.56\%\pm0.00\%$ coverage over three seeds, with $4425.0\pm81.9$ m average path length, zero collisions, zero repeated spraying, and $886.0\pm16.4$ waypoints.
 
 This result does not imply that pure end-to-end RL solves whole-farm spraying. Rather, it supports a hierarchical interpretation: a global prior or curriculum is needed to handle sparse long-distance exploration, while DRQN provides the local sequential decision module.
 
+We visualize learned and rule-based trajectories using square action-matrix plots. These plots are generated directly from path summary files and show targets, covered cells, obstacles, start position, and discrete motion directions. The visualization helps separate simulator-scale limitations from task-definition limitations: in the local tree-row task, policies remain local because only the enabled tree row is marked as the target, not because the Gazebo world is small.
+
 \section{Gazebo Mission Export}
-To connect the offline grid planner to the robotics simulator, we export successful RL paths into AAS mission YAML files. The current paper replay case is generated from a DRQN run in the hierarchical enhanced task. The path achieves 95.2\% coverage, 90.9\% demand satisfaction, 410.0 m path length, zero planning collisions, zero dynamic collisions, minimum $S_v=0.33$, and 83 mission waypoints. The generated mission is \texttt{spray\_paper\_replay.yaml}.
+To connect the offline grid planner to the robotics simulator, we export successful RL paths into AAS mission YAML files. A generated mission contains takeoff, wait, speed-setting, waypoint reposition, and landing commands that can be executed by the AAS mission node. The current system has produced missions for static DQN/Rainbow examples, hierarchical DRQN tree-row spraying, rectangular field lawnmower coverage, whole-farm block coverage, and the paper replay case.
+
+The current paper replay case is generated from a DRQN run in the hierarchical enhanced task. The path achieves 95.2\% coverage, 90.9\% demand satisfaction, 410.0 m path length, zero planning collisions, zero dynamic collisions, minimum $S_v=0.33$, and 83 mission waypoints. The generated mission is \texttt{spray\_paper\_replay.yaml}.
 
 At the current stage, the mission artifact and replay command are ready. Before final submission, we will add Gazebo/QGroundControl evidence, including launch screenshot, takeoff and waypoint logs, ROS 2 position-topic traces, mission completion or landing logs, and visual confirmation of no crash. This distinction is important: the present result proves path-to-mission conversion and planning-level feasibility, while live Gazebo execution evidence remains an additional validation step.
 
 \section{Discussion}
-The experiments support three observations. First, DQN remains a strong baseline when the task is hierarchically simplified; therefore it should not be dismissed. Second, DRQN is better suited to settings that contain partial observability, explicit spray switching, or sparse whole-farm exploration. Third, auto-spray and safety control are not minor engineering details: they change the learning problem by separating spraying and safety from motion selection.
+The experiments support four observations. First, DQN remains a strong baseline when the task is hierarchically simplified; therefore it should not be dismissed. Second, Dueling DQN is a stable static tree-row baseline, but its advantage does not automatically transfer to the dynamic demand-aware setting. Third, DRQN is better suited to settings that contain partial observability, explicit spray switching, or sparse whole-farm exploration. Fourth, auto-spray and safety control are not minor engineering details: they change the learning problem by separating spraying and safety from motion selection.
 
-The main limitation is that dynamic obstacles and variable-rate demand are modeled in the high-level Python planning environment rather than as full physical entities in Gazebo. The current spray model also does not simulate droplet physics, wind drift, deposition, or tank constraints. In addition, the enhanced-task success threshold is currently 90\% demand satisfaction; stronger claims about high-precision spraying would require longer training or curriculum experiments at a 97\% demand threshold.
+The main limitation is that dynamic obstacles and variable-rate demand are modeled in the high-level Python planning environment rather than as full physical entities in Gazebo. The current spray model also does not simulate droplet physics, wind drift, deposition, or tank constraints. In addition, the enhanced-task success threshold is currently 90\% demand satisfaction; stronger claims about high-precision spraying would require longer training or curriculum experiments at a 97\% demand threshold. Finally, the whole-farm guided result depends on early expert actions, and should be interpreted as evidence for a global-prior-plus-local-RL architecture rather than as pure end-to-end reinforcement learning.
 
 \section{Conclusion}
-We presented a hierarchical DQN-family framework for safe variable-rate UAV spraying in an AAS orchard simulator. By parsing an existing Gazebo orchard world, constructing a grid MDP, comparing DQN-family algorithms, and exporting learned paths to AAS mission YAML, the framework connects learning-based planning with simulator-level deployment. The current evidence shows that auto-spray and safety control substantially improve enhanced-task learnability and safety, while curriculum-guided DRQN is necessary for sparse whole-farm coverage. The next step is to complete full Gazebo replay evidence and rerun main-task learning curves for all five seeds.
+We presented a hierarchical DQN-family framework for safe variable-rate UAV spraying in an AAS orchard simulator. By parsing an existing Gazebo orchard world, constructing a grid MDP, comparing DQN-family algorithms, and exporting learned paths to AAS mission YAML, the framework connects learning-based planning with simulator-level deployment. The complete set of experiments shows a progression: Dueling DQN is a stable static baseline; explicit 8-action spraying is difficult to train; auto-spray and safety control substantially improve enhanced-task learnability and safety; and curriculum-guided DRQN is needed for sparse whole-farm coverage. The next step is to complete full Gazebo replay evidence and rerun main-task learning curves for all five seeds.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ictai2026_refs}
