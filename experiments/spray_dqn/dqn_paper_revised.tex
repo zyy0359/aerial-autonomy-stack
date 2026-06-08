@@ -25,7 +25,7 @@
 
 本文将喷洒路径规划建模为马尔可夫决策过程，设计了包含无人机位置、最近未覆盖目标、覆盖进度、局部障碍状态、变量需求和动态安全值的状态表示；动作空间由上下左右离散移动构成，并在增强任务中引入喷洒开关和自动喷洒控制；奖励函数综合考虑新增覆盖、剂量满足、重复喷洒、路径长度、碰撞惩罚、动态障碍安全值 $S_v$ 和任务完成奖励。为分析不同强化学习算法的适用性，本文对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO、A2C、SAC、TD3 和 DRQN 进行了分阶段对比，并设置静态树行覆盖、智能灌溉需求、动态障碍增强和整图多区块覆盖四类实验。
 
-实验结果表明，普通 DQN 可以作为基础价值函数强基线，但并不适合作为最终完整系统的唯一主体算法。在原始树行静态覆盖任务中，Dueling DQN 表现最稳定，适合作为静态果园喷洒路径规划的强基线；在分层自动喷洒和安全控制增强任务中，本文将 DQN、DRQN、Dueling DQN 和 Rainbow DQN lite 补充到 5 个随机种子，DQN 达到 80.0\% 成功率，DRQN 的平均需求满足率最高，为 $80.9\%\pm14.7\%$，四种算法的规划碰撞和动态碰撞均为 0。消融实验进一步表明，自动喷洒控制是提升任务成功率的关键因素，安全控制器能够将碰撞次数降为 0。在整图多区块覆盖任务中，未引导强化学习短训最高仅达到 15.9\% 覆盖率；引入课程式专家引导探索后，DRQN 在 3 个随机种子上达到 100.0\% 成功率和 $97.56\%\pm0.00\%$ 覆盖率，平均路径长度为 $4425.0\pm81.9$ m，碰撞次数和重复喷洒率均为 0。实验表明，复杂农业喷洒任务更适合采用“全局规划先验/课程引导 + DRQN 局部决策”的分层强化学习框架，而非依赖普通 DQN 独立完成全部任务。
+实验结果表明，普通 DQN 可以作为基础价值函数强基线，但并不适合作为最终完整系统的唯一主体算法。在原始树行静态覆盖任务中，Dueling DQN 表现最稳定，适合作为静态果园喷洒路径规划的强基线；在分层自动喷洒和安全控制增强任务中，本文将 DQN、DRQN、Dueling DQN 和 Rainbow DQN lite 补充到 5 个随机种子并完整记录学习曲线，Dueling DQN 达到 100.0\% 成功率和 $92.2\%\pm0.9\%$ 需求满足率，DQN 达到 80.0\% 成功率，四种算法的规划碰撞和动态碰撞均为 0。消融实验进一步表明，自动喷洒控制是提升任务成功率的关键因素，安全控制器能够将碰撞次数降为 0。在整图多区块覆盖任务中，未引导强化学习短训最高仅达到 15.9\% 覆盖率；引入课程式专家引导探索后，DRQN 在 3 个随机种子上达到 100.0\% 成功率和 $97.56\%\pm0.00\%$ 覆盖率，平均路径长度为 $4425.0\pm81.9$ m，碰撞次数和重复喷洒率均为 0。实验表明，复杂农业喷洒任务更适合采用“全局规划先验/课程引导 + 局部强化学习决策”的分层强化学习框架，而非依赖普通 DQN 独立完成全部任务。
 
 \textbf{关键词：} 深度强化学习；DQN；Dueling DQN；DRQN；课程学习；无人机喷洒；路径规划；精准农业；Gazebo 仿真
 \end{abstract}
@@ -409,9 +409,9 @@ Rainbow DQN lite & 0.0 & $10.1 \pm 14.9$ & $11.4 \pm 15.6$ & $2500.0 \pm 0.0$ & 
 算法 & 成功率(\%) & 需求满足率(\%) & 覆盖率(\%) & 路径长度(m) & 重复喷洒率(\%) & 动态碰撞 & 最小 $S_v$ \\
 \midrule
 DQN & 80.0 & $78.7 \pm 29.3$ & $82.9 \pm 30.4$ & $844.0 \pm 926.5$ & $53.1 \pm 5.4$ & $0.0 \pm 0.0$ & $0.33 \pm 0.00$ \\
-DRQN & 60.0 & $80.9 \pm 14.7$ & $83.8 \pm 15.6$ & $1270.0 \pm 1123.2$ & $57.5 \pm 3.5$ & $0.0 \pm 0.0$ & $0.33 \pm 0.00$ \\
-Dueling DQN & 60.0 & $55.0 \pm 50.2$ & $57.1 \pm 52.2$ & $1244.0 \pm 1147.1$ & $34.4 \pm 31.5$ & $0.0 \pm 0.0$ & $0.60 \pm 0.37$ \\
-Rainbow DQN lite & 20.0 & $60.2 \pm 24.4$ & $63.8 \pm 23.7$ & $2092.0 \pm 912.3$ & $56.7 \pm 4.3$ & $0.0 \pm 0.0$ & $0.33 \pm 0.00$ \\
+DRQN & 60.0 & $68.1 \pm 39.9$ & $70.5 \pm 41.3$ & $1277.0 \pm 1117.0$ & $47.1 \pm 26.5$ & $0.0 \pm 0.0$ & $0.47 \pm 0.30$ \\
+Dueling DQN & 100.0 & $92.2 \pm 0.9$ & $95.2 \pm 0.0$ & $422.0 \pm 59.6$ & $56.4 \pm 4.0$ & $0.0 \pm 0.0$ & $0.33 \pm 0.00$ \\
+Rainbow DQN lite & 20.0 & $56.7 \pm 23.7$ & $61.9 \pm 21.6$ & $2092.0 \pm 912.3$ & $48.9 \pm 13.3$ & $0.0 \pm 0.0$ & $0.33 \pm 0.00$ \\
 \bottomrule
 \end{tabular}
 }
@@ -419,7 +419,7 @@ Rainbow DQN lite & 20.0 & $60.2 \pm 24.4$ & $63.8 \pm 23.7$ & $2092.0 \pm 912.3$
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{outputs/hierarchical_autospray_3seeds_15k/summary/multiseed_summary.png}
+\includegraphics[width=0.95\textwidth]{outputs/hierarchical_autospray_5seeds_15k_curves/summary/multiseed_summary.png}
 \caption{分层喷洒控制增强实验的 5 随机种子多算法结果}
 \label{fig:hierarchical_autospray}
 \end{figure}
@@ -431,9 +431,9 @@ Rainbow DQN lite & 20.0 & $60.2 \pm 24.4$ & $63.8 \pm 23.7$ & $2092.0 \pm 912.3$
 \label{fig:hierarchical_drqn_path}
 \end{figure}
 
-从结果可以看出，分层控制相比 8 动作喷洒开关配置明显改善了增强任务的可学习性。在仅训练 15000 步的条件下，DQN 达到 80.0\% 成功率，是当前 5 随机种子短训设置下成功率最高的算法；DRQN 的平均需求满足率最高，为 $80.9\%\pm14.7\%$，且方差低于 DQN，说明循环记忆结构对变量需求和动态障碍具有一定稳定性优势。Dueling DQN 的成功率为 60.0\%，成功回合路径较短，但整体方差较大；Rainbow DQN lite 当前仅达到 20.0\% 成功率，说明轻量 Rainbow 结构在该短训配置下尚不稳定。四种算法的静态碰撞和动态碰撞均为 0，表明自动喷洒与安全控制组合可以在保证安全的同时提高增强任务可学习性。
+从结果可以看出，分层控制相比 8 动作喷洒开关配置明显改善了增强任务的可学习性。在仅训练 15000 步的条件下，Dueling DQN 达到 100.0\% 成功率和 $92.2\%\pm0.9\%$ 需求满足率，是当前 5 随机种子短训设置下最稳定的算法；DQN 达到 80.0\% 成功率，说明当喷洒控制和安全控制由规则层承担时，简单价值函数仍然是强基线。DRQN 和 Rainbow DQN lite 在本轮同协议重跑中方差较大，分别达到 60.0\% 和 20.0\% 成功率，说明循环记忆或 Rainbow 组件并不自动保证短训稳定性。四种算法的静态碰撞和动态碰撞均为 0，表明自动喷洒与安全控制组合可以在保证安全的同时提高增强任务可学习性。
 
-成功回合单独统计显示，DQN、DRQN、Dueling DQN 和 Rainbow DQN lite 的成功回合平均路径长度分别为 $430.0\pm43.2$ m、$450.0\pm40.0$ m、$406.7\pm50.3$ m 和 $460.0\pm0.0$ m。该结果支持本文的核心改进方向：复杂农业喷洒任务不宜简单扩大动作空间并依赖强化学习一次性学习全部决策，而更适合采用“强化学习路径规划 + 规则喷洒控制 + 局部安全覆盖”的分层框架。后续若继续追求 97\% 稳定成功率，应在该分层框架上增加训练步数、采用课程学习，并进一步降低重复喷洒率。
+成功回合单独统计显示，DQN、DRQN、Dueling DQN 和 Rainbow DQN lite 的成功回合平均路径长度分别为 $430.0\pm43.2$ m、$461.7\pm48.6$ m、$422.0\pm59.6$ m 和 $460.0\pm0.0$ m。该结果支持本文的核心改进方向：复杂农业喷洒任务不宜简单扩大动作空间并依赖强化学习一次性学习全部决策，而更适合采用“强化学习路径规划 + 规则喷洒控制 + 局部安全覆盖”的分层框架。后续若继续追求 97\% 稳定成功率，应在该分层框架上增加训练步数、采用课程学习，并进一步降低重复喷洒率。
 
 \subsection{自动喷洒、安全控制与动作空间消融实验}
 
@@ -465,16 +465,16 @@ Explicit spray, safety & 8 动作 & 学习开关 & 开启 & DRQN & 60.0 & $72.1 
 
 \subsection{训练学习曲线}
 
-除最终评估表外，本文补充训练过程学习曲线，以观察 reward、覆盖率和需求满足率随训练步数变化的趋势。图 \ref{fig:learning_curve_ablation_autospray_safety} 给出了 4 动作 auto-spray safety 消融配置下的 5 随机种子学习曲线，曲线为均值，阴影为标准差。该配置与表 \ref{tab:ablation_autospray_safety} 中成功率最高的 4 动作分层配置对应，因此可用于展示分层控制在训练过程中的收敛趋势。
+除最终评估表外，本文补充主任务训练过程学习曲线，以观察 reward、覆盖率和需求满足率随训练步数变化的趋势。图 \ref{fig:learning_curve_main_hierarchical} 给出了分层增强主实验在 5 个随机种子（7、11、19、23、31）上的学习曲线，曲线为均值，阴影为标准差。该图与表 \ref{tab:hierarchical_autospray} 使用同一批训练结果，因而可以直接作为主任务收敛趋势证据。
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{outputs/paper_required_experiments/ablation_autospray_safety/summary/learning_curves.png}
-\caption{分层增强任务中 auto-spray + safety 配置的训练学习曲线，包括 episode reward、覆盖率和需求满足率。}
-\label{fig:learning_curve_ablation_autospray_safety}
+\includegraphics[width=0.95\textwidth]{outputs/hierarchical_autospray_5seeds_15k_curves/summary/learning_curves.png}
+\caption{分层增强主任务的 5 随机种子训练学习曲线，包括 episode reward、覆盖率和需求满足率。}
+\label{fig:learning_curve_main_hierarchical}
 \end{figure}
 
-当前消融实验已具备完整 5 随机种子学习曲线；分层增强主实验的最终结果表已补足 5 随机种子，但由于其中 7、11、19 三个随机种子来自较早训练结果，训练时尚未记录学习曲线，因此主实验学习曲线目前仅包含新增随机种子 23 和 31。若最终论文需要严格对应表 \ref{tab:hierarchical_autospray} 的 5 随机种子曲线，应重新以 \texttt{--force --learning-curves} 运行该主实验。
+从曲线可以看出，Dueling DQN 在 15000 步时达到最高覆盖率和需求满足率，且方差较小；DQN 前期提升较快，但仍存在一个失败随机种子导致均值和方差受影响；DRQN 与 Rainbow DQN lite 的曲线波动更明显，说明在当前短训预算下并非所有 DQN 变体都能稳定受益。消融实验的 auto-spray + safety 学习曲线仍可作为附录或补充材料使用，但正式主图建议优先采用图 \ref{fig:learning_curve_main_hierarchical}。
 
 \subsection{扩展强化学习基线筛选}
 
@@ -699,7 +699,7 @@ wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv
 
 分层增强任务 5 随机种子主实验：
 \begin{verbatim}
-wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,drqn,dueling-dqn,rainbow-dqn-lite --seeds 7,11,19,23,31 --timesteps 15000 --max-steps 500 --goal-coverage 0.90 --goal-metric demand --dynamic-obstacles 2 --dynamic-obstacle-mode corridor --intelligent-irrigation --auto-spray-control --safety-controller --learning-curves --eval-freq 5000 --output-dir experiments/spray_dqn/outputs/hierarchical_autospray_3seeds_15k"
+wsl --cd /mnt/c/Users/zyy/Documents/GitHub/aerial-autonomy-stack bash -lc ".venv/bin/python experiments/spray_dqn/run_top5_multiseed.py --algorithms dqn,drqn,dueling-dqn,rainbow-dqn-lite --seeds 7,11,19,23,31 --timesteps 15000 --max-steps 500 --goal-coverage 0.90 --goal-metric demand --dynamic-obstacles 2 --dynamic-obstacle-mode corridor --intelligent-irrigation --auto-spray-control --safety-controller --learning-curves --eval-freq 5000 --output-dir experiments/spray_dqn/outputs/hierarchical_autospray_5seeds_15k_curves --force"
 \end{verbatim}
 
 分层增强任务消融实验：
@@ -765,12 +765,21 @@ Mission 航点数 & 83 \\
 \end{tabular}
 \end{table}
 
-当前工作已经完成从 RL 规划路径到 AAS mission YAML 的转换，并生成了 Gazebo replay 命令与验证清单。正式论文提交前，还应补充 Gazebo/QGroundControl 实际执行证据，包括仿真世界启动截图、无人机起飞与航点执行日志、ROS 2 位置话题记录、任务完成或降落日志，以及无可见碰撞的画面证据。这样可以将“规划层可行路径”进一步闭环为“三维仿真可执行任务”。
+在此基础上，本文进一步完成了一条实际 Gazebo/QGroundControl 回放验证。回放过程中，\texttt{apple\_orchard} Gazebo 世界成功启动，QGroundControl 显示无人机连接并进入 Ready To Fly 状态；执行 \texttt{spray\_paper\_replay.yaml} 后，mission node 日志记录了起飞、连续 reposition 航点执行、降落动作接受、动作成功以及 Mission Complete。ROS 2 话题 \texttt{/Drone1/fmu/out/vehicle\_local\_position} 共记录 23862 条位置样本，生成的轨迹提取文件为 \texttt{04\_vehicle\_local\_position\_extracted.csv}。Gazebo 与 QGroundControl 截图显示无人机在执行过程中未出现可见碰撞，任务结束后回到地面并处于 Ready To Fly 状态。
+
+图 \ref{fig:gazebo_replay_trajectory} 给出了导出的网格 mission 路径与 Gazebo 回放轨迹的对比。该图表明，离线强化学习路径不仅能够转换为 AAS mission YAML，而且能够在 AAS/Gazebo 中形成可执行的三维飞行任务。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{outputs/gazebo_replay/08_grid_path_vs_gazebo_replay_trajectory.png}
+\caption{导出网格路径与 Gazebo 回放轨迹对比}
+\label{fig:gazebo_replay_trajectory}
+\end{figure}
 
 \section{结论与展望}
 
-本文基于 AAS 原有 Gazebo 果园仿真环境，构建了无人机喷洒路径规划强化学习实验框架，并对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO 和 DRQN 等算法进行了分阶段对比。静态覆盖实验表明，Dueling DQN 在基础树行任务中表现稳定，适合作为静态覆盖强基线。进一步的动态障碍与智能灌溉增强实验表明，显式 8 动作喷洒开关会显著增加探索难度，即使延长训练步数也难以稳定收敛；采用自动喷洒控制和安全控制器后，分层增强任务在 5 个随机种子上明显改善，其中 DQN 达到 80.0\% 成功率，DRQN 达到最高平均需求满足率 $80.9\%\pm14.7\%$，四种 DQN 族算法的规划碰撞和动态碰撞均为 0。消融实验进一步证明，自动喷洒控制是提升需求满足率和成功率的关键模块，安全控制器则主要负责消除碰撞风险。本文还补充了大田矩形区域、整图多区块覆盖、道路排除掩膜、Gazebo mission 回放和方形动作矩阵可视化，使实验从“单排树行覆盖”扩展为可讨论整张农业地图覆盖能力的系统框架。在整图多区块任务中，未引导强化学习短训最高仅达到 15.9\% 覆盖率；加入课程式专家引导探索后，DRQN 在 3 个随机种子上达到 100.0\% 成功率和 $97.56\%\pm0.00\%$ 覆盖率，说明该任务需要全局先验或课程引导来突破长距离探索瓶颈。
+本文基于 AAS 原有 Gazebo 果园仿真环境，构建了无人机喷洒路径规划强化学习实验框架，并对 DQN、Double DQN、Dueling DQN、Rainbow DQN lite、PPO 和 DRQN 等算法进行了分阶段对比。静态覆盖实验表明，Dueling DQN 在基础树行任务中表现稳定，适合作为静态覆盖强基线。进一步的动态障碍与智能灌溉增强实验表明，显式 8 动作喷洒开关会显著增加探索难度，即使延长训练步数也难以稳定收敛；采用自动喷洒控制和安全控制器后，分层增强任务在 5 个随机种子上明显改善，其中 Dueling DQN 达到 100.0\% 成功率和 $92.2\%\pm0.9\%$ 需求满足率，DQN 达到 80.0\% 成功率，四种 DQN 族算法的规划碰撞和动态碰撞均为 0。消融实验进一步证明，自动喷洒控制是提升需求满足率和成功率的关键模块，安全控制器则主要负责消除碰撞风险。本文还补充了大田矩形区域、整图多区块覆盖、道路排除掩膜、Gazebo mission 回放和方形动作矩阵可视化，使实验从“单排树行覆盖”扩展为可讨论整张农业地图覆盖能力的系统框架。在整图多区块任务中，未引导强化学习短训最高仅达到 15.9\% 覆盖率；加入课程式专家引导探索后，DRQN 在 3 个随机种子上达到 100.0\% 成功率和 $97.56\%\pm0.00\%$ 覆盖率，说明该任务需要全局先验或课程引导来突破长距离探索瓶颈。
 
-当前研究仍存在一定局限。首先，动态障碍和智能灌溉目前实现于 Python 高层规划环境中，Gazebo 内尚未生成真实移动行人或车辆，也尚未模拟真实药液雾化、风场漂移和沉积分布。其次，分层增强实验目前采用 90\% 需求满足率作为阶段性成功阈值，虽然已能证明 auto-spray 与 safety-controller 的有效性，但若要支撑更强的“高精度需求满足”结论，仍需补充 97\% 阈值下的更长训练或课程学习实验。再次，整图多区块任务虽然在课程引导后取得了稳定覆盖结果，但该结果仍依赖最短路径专家在训练早期提供示范，因此更适合被解释为“全局规划先验 + DRQN 局部策略”的分层框架，而不是纯端到端 DQN 独立解决整图喷洒。最后，当前已经生成由成功 RL 路径转换得到的 \texttt{spray\_paper\_replay.yaml} mission，但正式论文提交前仍应补充实际 Gazebo/QGroundControl 回放截图与日志证据。后续应采用更系统的课程学习、模仿学习、全局覆盖规划与局部 DRQN/Dueling DQN 避障控制相结合的分层策略，以提升动态增强任务中的多随机种子稳定性和真实 Gazebo 场景泛化能力。
+当前研究仍存在一定局限。首先，动态障碍和智能灌溉目前实现于 Python 高层规划环境中，虽然本文已完成一条由 RL 路径导出的 Gazebo/QGroundControl mission 回放，但 Gazebo 内尚未生成真实移动行人或车辆，也尚未模拟真实药液雾化、风场漂移和沉积分布。其次，分层增强实验目前采用 90\% 需求满足率作为阶段性成功阈值，虽然已能证明 auto-spray 与 safety-controller 的有效性，但若要支撑更强的“高精度需求满足”结论，仍需补充 97\% 阈值下的更长训练或课程学习实验。再次，整图多区块任务虽然在课程引导后取得了稳定覆盖结果，但该结果仍依赖最短路径专家在训练早期提供示范，因此更适合被解释为“全局规划先验 + DRQN 局部策略”的分层框架，而不是纯端到端 DQN 独立解决整图喷洒。后续应采用更系统的课程学习、模仿学习、全局覆盖规划与局部 DRQN/Dueling DQN 避障控制相结合的分层策略，以提升动态增强任务中的多随机种子稳定性和真实 Gazebo 场景泛化能力。
 
 \end{document}
